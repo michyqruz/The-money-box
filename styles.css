@@ -9,7 +9,7 @@ body {
 /* Top Ad Styles */
 .top-ad {
   position: fixed;
-  top: 0;
+  top: -100px; /* Start hidden above the viewport */
   left: 0;
   width: 100%;
   background-color: #ff6f61;
@@ -21,6 +21,7 @@ body {
   justify-content: space-between;
   align-items: center;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  transition: top 0.5s ease-in-out; /* Smooth slide-in and slide-out effect */
 }
 
 .ad-content {
@@ -65,3 +66,13 @@ p {
   font-size: 1rem;
   line-height: 1.6;
 }
+
+/* Hidden Class for Animation */
+.hidden {
+  top: -100px; /* Position above the viewport */
+}
+
+.visible {
+  top: 0; /* Position at the top of the viewport */
+}
+
