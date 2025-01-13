@@ -65,7 +65,7 @@ p {
 
 /* Hidden and Visible States for Content */
 .hidden-content {
-  transform: translateY(-150%);
+  transform: translateY(-100%);
 }
 
 .visible-content {
