@@ -3,149 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PDF Viewer with Navigation</title>
+    <title>Responsive PDF Viewer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
+            overflow-x: hidden;
+        }
+        #pdf-container {
+            width: 90%;
+            margin: 20px auto;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        #navigation-bar {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: #333;
-            color: white;
-            padding: 10px;
+        .pdf-page {
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             width: 100%;
         }
-        #navigation-bar button, #navigation-bar input {
-            margin: 0 5px;
-            padding: 8px 12px;
-            font-size: 16px;
-            border: none;
-            border-radius: 4px;
-        }
-        #navigation-bar button {
-            background-color: #007bff;
-            color: white;
-            cursor: pointer;
-        }
-        #navigation-bar button:disabled {
-            background-color: #aaa;
-            cursor: not-allowed;
-        }
-        #navigation-bar input {
-            width: 50px;
-            text-align: center;
-        }
-        #pdf-container {
-            margin: 20px auto;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            width: 90%;
-        }
-        .pdf-page {
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-            border: 1px solid #ccc;
+        @media (max-width: 768px) {
+            #pdf-container {
+                width: 95%;
+            }
         }
     </style>
 </head>
 <body>
-    <div id="navigation-bar">
-        <button id="prev-button">Previous</button>
-        <span>Page <input type="number" id="page-number" min="1"> of <span id="total-pages"></span></span>
-        <button id="next-button">Next</button>
-    </div>
-    <div id="pdf-container">
-        <canvas id="pdf-canvas" class="pdf-page"></canvas>
-    </div>
+    <div id="pdf-container"></div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
+        const pdfContainer = document.getElementById("pdf-container");
         const pdfUrl = "moneybox.pdf"; // Replace with the path to your PDF file
+
+        // Configure PDF.js
         const pdfjsLib = window["pdfjs-dist/build/pdf"];
         pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-        let pdfDocument = null;
-        let currentPage = 1;
-        let totalPages = 0;
-        const scale = 1.5;
+        let pdfDocument = null; // Store the loaded PDF
+        const scale = 1.5; // Fixed scale for clear rendering
 
-        const canvas = document.getElementById("pdf-canvas");
-        const context = canvas.getContext("2d");
-        const prevButton = document.getElementById("prev-button");
-        const nextButton = document.getElementById("next-button");
-        const pageNumberInput = document.getElementById("page-number");
-        const totalPagesSpan = document.getElementById("total-pages");
-
-        // Load the PDF and initialize the viewer
-        async function loadPDF() {
-            try {
-                pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
-                totalPages = pdfDocument.numPages;
-                totalPagesSpan.textContent = totalPages;
-                renderPage(currentPage);
-            } catch (error) {
-                console.error("Error loading PDF:", error);
-            }
-        }
-
-        // Render a specific page
+        // Function to render a specific page
         async function renderPage(pageNumber) {
             const page = await pdfDocument.getPage(pageNumber);
+
+            const canvas = document.createElement("canvas");
+            canvas.className = "pdf-page";
+            pdfContainer.appendChild(canvas);
+
             const viewport = page.getViewport({ scale });
             canvas.width = viewport.width;
             canvas.height = viewport.height;
 
+            const context = canvas.getContext("2d");
             await page.render({
                 canvasContext: context,
                 viewport: viewport,
             }).promise;
-
-            updateNavigation();
         }
 
-        // Update navigation buttons and page number input
-        function updateNavigation() {
-            pageNumberInput.value = currentPage;
-            prevButton.disabled = currentPage === 1;
-            nextButton.disabled = currentPage === totalPages;
+        // Load and render all pages
+        async function renderPDF() {
+            try {
+                pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
+                const totalPages = pdfDocument.numPages;
+
+                // Render all pages
+                for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+                    await renderPage(pageNumber);
+                }
+            } catch (error) {
+                console.error("Error rendering PDF:", error);
+                pdfContainer.innerHTML = "<p>Failed to load the PDF file. Please check the file path.</p>";
+            }
         }
 
-        // Event listeners for navigation
-        prevButton.addEventListener("click", () => {
-            if (currentPage > 1) {
-                currentPage--;
-                renderPage(currentPage);
-            }
-        });
-
-        nextButton.addEventListener("click", () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                renderPage(currentPage);
-            }
-        });
-
-        pageNumberInput.addEventListener("change", () => {
-            const page = parseInt(pageNumberInput.value, 10);
-            if (page >= 1 && page <= totalPages) {
-                currentPage = page;
-                renderPage(currentPage);
-            } else {
-                pageNumberInput.value = currentPage; // Reset to current page if input is invalid
-            }
-        });
-
-        // Load the PDF when the page loads
-        loadPDF();
+        renderPDF();
     </script>
 </body>
 </html>
