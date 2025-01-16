@@ -64,7 +64,12 @@
     <div id="pdf-container">
         <canvas id="pdf-canvas"></canvas>
     </div>
-
+    <script> 
+        const item = localStorage.getItem("status");
+        if (item === null) {
+        window.location.href = "redirect-page.html";
+        }
+    </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
         const pdfUrl = "moneybox.pdf"; // Replace with your PDF file URL
