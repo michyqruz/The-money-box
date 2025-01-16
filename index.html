@@ -10,79 +10,127 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
-            overflow-x: hidden;
-        }
-        #pdf-container {
-            width: 90%;
-            margin: 20px auto;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        .pdf-page {
-            margin: 10px 0;
+        #navigation {
+            margin: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+        }
+        #navigation button {
+            padding: 10px 15px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        #navigation button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        #navigation span {
+            font-size: 16px;
+        }
+        #pdf-container {
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            width: 90%;
+        }
+        canvas {
             border: 1px solid #ccc;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             width: 100%;
         }
-        @media (max-width: 768px) {
-            #pdf-container {
-                width: 95%;
-            }
-        }
     </style>
 </head>
 <body>
-    <div id="pdf-container"></div>
+    <div id="navigation">
+        <button id="prev">Previous</button>
+        <span>Page <span id="currentPage">1</span> of <span id="totalPages">1</span></span>
+        <button id="next">Next</button>
+    </div>
+    <div id="pdf-container">
+        <canvas id="pdf-canvas"></canvas>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
-        const pdfContainer = document.getElementById("pdf-container");
-        const pdfUrl = "moneybox.pdf"; // Replace with the path to your PDF file
-
-        // Configure PDF.js
+        const pdfUrl = "moneybox.pdf"; // Replace with your PDF file URL
         const pdfjsLib = window["pdfjs-dist/build/pdf"];
         pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-        let pdfDocument = null; // Store the loaded PDF
-        const scale = 1.5; // Fixed scale for clear rendering
+        let pdfDocument = null;
+        let currentPage = 1;
+        let totalPages = 0;
+        const scale = 1.5;
 
-        // Function to render a specific page
+        const canvas = document.getElementById("pdf-canvas");
+        const context = canvas.getContext("2d");
+        const prevButton = document.getElementById("prev");
+        const nextButton = document.getElementById("next");
+        const currentPageSpan = document.getElementById("currentPage");
+        const totalPagesSpan = document.getElementById("totalPages");
+
+        // Load PDF and initialize
+        async function loadPDF() {
+            try {
+                pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
+                totalPages = pdfDocument.numPages;
+                totalPagesSpan.textContent = totalPages;
+                renderPage(currentPage);
+            } catch (error) {
+                console.error("Error loading PDF:", error);
+                alert("Failed to load PDF. Please check the file path.");
+            }
+        }
+
+        // Render a specific page
         async function renderPage(pageNumber) {
             const page = await pdfDocument.getPage(pageNumber);
-
-            const canvas = document.createElement("canvas");
-            canvas.className = "pdf-page";
-            pdfContainer.appendChild(canvas);
-
             const viewport = page.getViewport({ scale });
+
+            // Resize canvas to match the page size
             canvas.width = viewport.width;
             canvas.height = viewport.height;
 
-            const context = canvas.getContext("2d");
+            // Render the page
             await page.render({
                 canvasContext: context,
                 viewport: viewport,
             }).promise;
+
+            // Update navigation
+            currentPageSpan.textContent = currentPage;
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === totalPages;
         }
 
-        // Load and render all pages
-        async function renderPDF() {
-            try {
-                pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
-                const totalPages = pdfDocument.numPages;
-
-                // Render all pages
-                for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-                    await renderPage(pageNumber);
-                }
-            } catch (error) {
-                console.error("Error rendering PDF:", error);
-                pdfContainer.innerHTML = "<p>Failed to load the PDF file. Please check the file path.</p>";
+        // Navigation event listeners
+        prevButton.addEventListener("click", () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
             }
-        }
+        });
 
-        renderPDF();
+        nextButton.addEventListener("click", () => {
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderPage(currentPage);
+            }
+        });
+
+        // Load the PDF when the page is loaded
+        loadPDF();
     </script>
 </body>
 </html>
