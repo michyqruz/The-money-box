@@ -43,41 +43,15 @@
         const pdfjsLib = window["pdfjs-dist/build/pdf"];
         pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-        // Dynamically scale canvas based on screen size
-        function calculateScale() {
-            const viewportWidth = window.innerWidth;
-            if (viewportWidth < 768) {
-                return 1; // Smaller scale for mobile devices
-            } else if (viewportWidth < 1200) {
-                return 1.2; // Medium scale for tablets
-            } else {
-                return 1.5; // Larger scale for desktops
-            }
-        }
-
         // Load and render the PDF
         async function renderPDF() {
             try {
                 const pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
                 const totalPages = pdfDocument.numPages;
-                const scale = calculateScale();
 
+                // Render each page
                 for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-                    const page = await pdfDocument.getPage(pageNumber);
-
-                    const canvas = document.createElement("canvas");
-                    canvas.className = "pdf-page";
-                    pdfContainer.appendChild(canvas);
-
-                    const viewport = page.getViewport({ scale });
-                    canvas.width = viewport.width;
-                    canvas.height = viewport.height;
-
-                    const context = canvas.getContext("2d");
-                    await page.render({
-                        canvasContext: context,
-                        viewport: viewport,
-                    }).promise;
+                    renderPage(pdfDocument, pageNumber);
                 }
             } catch (error) {
                 console.error("Error rendering PDF:", error);
@@ -85,13 +59,43 @@
             }
         }
 
-        // Re-render the PDF on window resize for responsiveness
-        window.addEventListener("resize", () => {
-            pdfContainer.innerHTML = ""; // Clear the container
-            renderPDF(); // Re-render the PDF with updated scale
-        });
+        // Render a single page
+        async function renderPage(pdfDocument, pageNumber) {
+            const page = await pdfDocument.getPage(pageNumber);
+
+            const canvas = document.createElement("canvas");
+            canvas.className = "pdf-page";
+            pdfContainer.appendChild(canvas);
+
+            const context = canvas.getContext("2d");
+
+            // Calculate scale based on container width
+            const viewport = page.getViewport({ scale: 1 });
+            const scale = pdfContainer.clientWidth / viewport.width;
+            const scaledViewport = page.getViewport({ scale });
+
+            // Set canvas dimensions
+            canvas.width = scaledViewport.width;
+            canvas.height = scaledViewport.height;
+
+            // Render the page
+            await page.render({
+                canvasContext: context,
+                viewport: scaledViewport,
+            }).promise;
+        }
 
         renderPDF();
+
+        // Resize handling
+        let resizeTimeout;
+        window.addEventListener("resize", () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                pdfContainer.innerHTML = ""; // Clear the container
+                renderPDF(); // Re-render the PDF with updated scale
+            }, 300); // Delay to prevent excessive re-renders during resizing
+        });
     </script>
 </body>
 </html>
