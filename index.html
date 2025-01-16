@@ -3,32 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display PDF on Web Page</title>
+    <title>Display All Pages of a PDF</title>
     <style>
         body {
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
             background-color: #f4f4f9;
-            font-family: Arial, sans-serif;
         }
-        .pdf-container {
+        #pdf-container {
             width: 90%;
+            margin: 20px auto;
+        }
+        .pdf-page {
             border: 1px solid #ccc;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 10px 0;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
-    <div class="pdf-container">
-        <!-- Option 1: Using <embed> -->
-        <embed src="Forex_Trading_Strategy.pdf" type="application/pdf" width="100%">
+    <div id="pdf-container"></div>
 
-        <!-- Option 2: Using <iframe> -->
-        <!-- Uncomment the line below if you want to use iframe instead -->
-        <iframe src="Forex_Trading_Strategy.pdf" width="100%" height="100%" frameborder="0"></iframe>
-    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script>
+        const pdfContainer = document.getElementById("pdf-container");
+        const pdfUrl = ""; // Replace with the path to your PDF file
+
+        // Configure PDF.js
+        const pdfjsLib = window["pdfjs-dist/build/pdf"];
+        pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+
+        // Load and render the PDF
+        async function renderPDF() {
+            try {
+                const pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
+                const totalPages = pdfDocument.numPages;
+
+                for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
+                    const page = await pdfDocument.getPage(pageNumber);
+
+                    const canvas = document.createElement("canvas");
+                    canvas.className = "pdf-page";
+                    pdfContainer.appendChild(canvas);
+
+                    const viewport = page.getViewport({ scale: 1.5 });
+                    canvas.width = viewport.width;
+                    canvas.height = viewport.height;
+
+                    const context = canvas.getContext("2d");
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport,
+                    }).promise;
+                }
+            } catch (error) {
+                console.error("Error rendering PDF:", error);
+                pdfContainer.innerHTML = "<p>Failed to load the PDF file. Please check the file path.</p>";
+            }
+        }
+
+        renderPDF();
+    </script>
 </body>
 </html>
