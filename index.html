@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
             background-color: #f4f4f9;
+            overflow-x: hidden;
         }
         #pdf-container {
             width: 90%;
@@ -22,11 +23,11 @@
             margin: 10px 0;
             border: 1px solid #ccc;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+            width: 100%;
         }
         @media (max-width: 768px) {
-            .pdf-page {
-                width: 100% !important; /* Ensure the canvas adapts to smaller screens */
-                height: auto !important;
+            #pdf-container {
+                width: 95%;
             }
         }
     </style>
@@ -43,15 +44,37 @@
         const pdfjsLib = window["pdfjs-dist/build/pdf"];
         pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
-        // Load and render the PDF
+        let pdfDocument = null; // Store the loaded PDF
+        const scale = 1.5; // Fixed scale for clear rendering
+
+        // Function to render a specific page
+        async function renderPage(pageNumber) {
+            const page = await pdfDocument.getPage(pageNumber);
+
+            const canvas = document.createElement("canvas");
+            canvas.className = "pdf-page";
+            pdfContainer.appendChild(canvas);
+
+            const viewport = page.getViewport({ scale });
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+
+            const context = canvas.getContext("2d");
+            await page.render({
+                canvasContext: context,
+                viewport: viewport,
+            }).promise;
+        }
+
+        // Load and render all pages
         async function renderPDF() {
             try {
-                const pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
+                pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
                 const totalPages = pdfDocument.numPages;
 
-                // Render each page
+                // Render all pages
                 for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
-                    renderPage(pdfDocument, pageNumber);
+                    await renderPage(pageNumber);
                 }
             } catch (error) {
                 console.error("Error rendering PDF:", error);
@@ -59,43 +82,8 @@
             }
         }
 
-        // Render a single page
-        async function renderPage(pdfDocument, pageNumber) {
-            const page = await pdfDocument.getPage(pageNumber);
-
-            const canvas = document.createElement("canvas");
-            canvas.className = "pdf-page";
-            pdfContainer.appendChild(canvas);
-
-            const context = canvas.getContext("2d");
-
-            // Calculate scale based on container width
-            const viewport = page.getViewport({ scale: 1 });
-            const scale = pdfContainer.clientWidth / viewport.width;
-            const scaledViewport = page.getViewport({ scale });
-
-            // Set canvas dimensions
-            canvas.width = scaledViewport.width;
-            canvas.height = scaledViewport.height;
-
-            // Render the page
-            await page.render({
-                canvasContext: context,
-                viewport: scaledViewport,
-            }).promise;
-        }
-
         renderPDF();
-
-        // Resize handling
-        let resizeTimeout;
-        window.addEventListener("resize", () => {
-            clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => {
-                pdfContainer.innerHTML = ""; // Clear the container
-                renderPDF(); // Re-render the PDF with updated scale
-            }, 300); // Delay to prevent excessive re-renders during resizing
-        });
     </script>
 </body>
 </html>
+
