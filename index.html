@@ -3,18 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Money Box</title>
+    <title>Display PDF on Web Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+            font-family: Arial, sans-serif;
+        }
+        .pdf-container {
+            width: 80%;
+            height: 90%;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+    </style>
 </head>
 <body>
-    <h1>View the PDF Document</h1>
+    <div class="pdf-container">
+        <!-- Option 1: Using <embed> -->
+        <embed src="moneybox.pdf" type="application/pdf" width="100%" height="100%">
 
-    <!-- Using the <embed> tag -->
-    <embed src="moneybox.pdf" width="100%" height="600px" type="application/pdf">
-    
-    <br><br>
-
-    <!-- Using the <iframe> tag -->
-    <iframe src="path/to/your/file.pdf" width="100%" height="600px"></iframe>
-    
+        <!-- Option 2: Using <iframe> -->
+        <!-- Uncomment the line below if you want to use iframe instead -->
+        <!-- <iframe src="your-pdf-file.pdf" width="100%" height="100%" frameborder="0"></iframe> -->
+    </div>
 </body>
 </html>
