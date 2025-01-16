@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Display All Pages of a PDF</title>
+    <title>Responsive PDF Viewer</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,11 +14,20 @@
         #pdf-container {
             width: 90%;
             margin: 20px auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         .pdf-page {
-            border: 1px solid #ccc;
             margin: 10px 0;
+            border: 1px solid #ccc;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+        @media (max-width: 768px) {
+            .pdf-page {
+                width: 100% !important; /* Ensure the canvas adapts to smaller screens */
+                height: auto !important;
+            }
         }
     </style>
 </head>
@@ -28,17 +37,30 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
         const pdfContainer = document.getElementById("pdf-container");
-        const pdfUrl = "Forex_Trading_Strategy.pdf"; // Replace with the path to your PDF file
+        const pdfUrl = "your-pdf-file.pdf"; // Replace with the path to your PDF file
 
         // Configure PDF.js
         const pdfjsLib = window["pdfjs-dist/build/pdf"];
         pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+
+        // Dynamically scale canvas based on screen size
+        function calculateScale() {
+            const viewportWidth = window.innerWidth;
+            if (viewportWidth < 768) {
+                return 1; // Smaller scale for mobile devices
+            } else if (viewportWidth < 1200) {
+                return 1.2; // Medium scale for tablets
+            } else {
+                return 1.5; // Larger scale for desktops
+            }
+        }
 
         // Load and render the PDF
         async function renderPDF() {
             try {
                 const pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
                 const totalPages = pdfDocument.numPages;
+                const scale = calculateScale();
 
                 for (let pageNumber = 1; pageNumber <= totalPages; pageNumber++) {
                     const page = await pdfDocument.getPage(pageNumber);
@@ -47,7 +69,7 @@
                     canvas.className = "pdf-page";
                     pdfContainer.appendChild(canvas);
 
-                    const viewport = page.getViewport({ scale: 1.5 });
+                    const viewport = page.getViewport({ scale });
                     canvas.width = viewport.width;
                     canvas.height = viewport.height;
 
@@ -62,6 +84,12 @@
                 pdfContainer.innerHTML = "<p>Failed to load the PDF file. Please check the file path.</p>";
             }
         }
+
+        // Re-render the PDF on window resize for responsiveness
+        window.addEventListener("resize", () => {
+            pdfContainer.innerHTML = ""; // Clear the container
+            renderPDF(); // Re-render the PDF with updated scale
+        });
 
         renderPDF();
     </script>
