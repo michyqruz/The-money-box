@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="description" content="Unlock the secrets to financial freedom and wealth management.">
-  <meta name="keywords" content="Money Box, Forex Ebook, PDF strategy">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, user-scalable=0">
-  <link href="moneybox.jpeg" rel="icon" type="images/png">
-  <title>The Money Box - Secret to financial freedom</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive PDF Viewer with Page Jump</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -67,15 +64,10 @@
     <div id="pdf-container">
         <canvas id="pdf-canvas"></canvas>
     </div>
-    <script> 
-        const item = localStorage.getItem("status");
-        if (item === null) {
-        window.location.href = "https://michyqruz.github.io/TMB.com-special-fiesta-bookpurchase/";
-        }
-    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
-        const pdfUrl = "moneybox.pdf"; // Replace with your PDF file URL
+        const pdfUrl = "moneybox"; // Replace with your PDF file URL
         const pdfjsLib = window["pdfjs-dist/build/pdf"];
         pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
 
@@ -147,7 +139,7 @@
                 renderPage(currentPage);
             } else {
                 pageInput.value = currentPage; // Reset to current page if input is invalid
-                alert(Please enter a number between 1 and ${totalPages}.);
+                alert(`Please enter a number between 1 and ${totalPages}.`);
             }
         });
 
@@ -156,4 +148,3 @@
     </script>
 </body>
 </html>
-
