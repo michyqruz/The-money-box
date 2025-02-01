@@ -142,35 +142,43 @@
                 alert(`Please enter a number between 1 and ${totalPages}.`);
             }
         });
-     // Enable internal links
-    const annotations = await page.getAnnotations();
-    annotations.forEach(annotation => {
-        if (annotation.subtype === 'Link' && annotation.dest) {
-            const [x1, y1, x2, y2] = annotation.rect;
-            const rect = viewport.convertToViewportRectangle([x1, y1, x2, y2]);
-            const [left, top, right, bottom] = rect;
-
-            const link = document.createElement('button');
-            link.className = 'pdf-link';
-            link.style.left = `${left}px`;
-            link.style.top = `${top}px`;
-            link.style.width = `${right - left}px`;
-            link.style.height = `${bottom - top}px`;
-            link.onclick = async (event) => {
-                event.preventDefault();
-                const dest = await pdfDocument.getDestination(annotation.dest);
-                if (dest) {
-                    const [destRef] = dest;
-                    const pageIndex = pdfDocument._cachedPageMap.get(destRef.num);
-                    if (pageIndex !== undefined) {
-                        currentPage = pageIndex + 1;
-                        renderPage(currentPage);
-                    }
+// Enable internal links
+            const annotations = await page.getAnnotations();
+            annotations.forEach(annotation => {
+                if (annotation.subtype === 'Link' && annotation.dest) {
+                    const link = document.createElement('a');
+                    link.href = '';
+                    link.style.position = 'absolute';
+                    link.style.left = `${annotation.rect[0]}px`;
+                    link.style.top = `${annotation.rect[1]}px`;
+                    link.style.width = `${annotation.rect[2] - annotation.rect[0]}px`;
+                    link.style.height = `${annotation.rect[3] - annotation.rect[1]}px`;
+                    link.onclick = (event) => {
+                        event.preventDefault();
+                        const dest = annotation.dest;
+                        if (typeof dest === 'string') {
+                            pdfDocument.getDestination(dest).then(destArray => {
+                                const pageIndex = destArray[0];
+                                const pageNumber = pageIndex + 1;
+                                currentPage = pageNumber;
+                                renderPage(currentPage);
+                            });
+                        } else if (Array.isArray(dest)) {
+                            const pageIndex = dest[0];
+                            const pageNumber = pageIndex + 1;
+                            currentPage = pageNumber;
+                            renderPage(currentPage);
+                        }
+                    };
+                    document.body.appendChild(link);
                 }
-            };
-            pdfContainer.appendChild(link);
+            });
+
+            // Update navigation
+            pageInput.value = currentPage;
+            prevButton.disabled = currentPage === 1;
+            nextButton.disabled = currentPage === totalPages;
         }
-    });
 
         // Load the PDF when the page is loaded
         loadPDF();
