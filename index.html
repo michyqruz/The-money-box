@@ -142,6 +142,35 @@
                 alert(`Please enter a number between 1 and ${totalPages}.`);
             }
         });
+     // Enable internal links
+    const annotations = await page.getAnnotations();
+    annotations.forEach(annotation => {
+        if (annotation.subtype === 'Link' && annotation.dest) {
+            const [x1, y1, x2, y2] = annotation.rect;
+            const rect = viewport.convertToViewportRectangle([x1, y1, x2, y2]);
+            const [left, top, right, bottom] = rect;
+
+            const link = document.createElement('button');
+            link.className = 'pdf-link';
+            link.style.left = `${left}px`;
+            link.style.top = `${top}px`;
+            link.style.width = `${right - left}px`;
+            link.style.height = `${bottom - top}px`;
+            link.onclick = async (event) => {
+                event.preventDefault();
+                const dest = await pdfDocument.getDestination(annotation.dest);
+                if (dest) {
+                    const [destRef] = dest;
+                    const pageIndex = pdfDocument._cachedPageMap.get(destRef.num);
+                    if (pageIndex !== undefined) {
+                        currentPage = pageIndex + 1;
+                        renderPage(currentPage);
+                    }
+                }
+            };
+            pdfContainer.appendChild(link);
+        }
+    });
 
         // Load the PDF when the page is loaded
         loadPDF();
