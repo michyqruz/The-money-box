@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive PDF Viewer with Page Jump</title>
+    <title>Responsive PDF Viewer with Functional Internal Links</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -83,20 +83,12 @@
         const pageInput = document.getElementById("page-input");
         const totalPagesSpan = document.getElementById("total-pages");
 
-        // Function to get the page number from the URL
-        function getPageFromURL() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const page = parseInt(urlParams.get('page'), 10);
-            return isNaN(page) ? 1 : page;
-        }
-
         // Load PDF and initialize
         async function loadPDF() {
             try {
                 pdfDocument = await pdfjsLib.getDocument(pdfUrl).promise;
                 totalPages = pdfDocument.numPages;
                 totalPagesSpan.textContent = totalPages;
-                currentPage = getPageFromURL();
                 renderPage(currentPage);
             } catch (error) {
                 console.error("Error loading PDF:", error);
@@ -119,6 +111,38 @@
                 viewport: viewport,
             }).promise;
 
+            // Enable internal links
+            const annotations = await page.getAnnotations();
+            annotations.forEach(annotation => {
+                if (annotation.subtype === 'Link' && annotation.dest) {
+                    const link = document.createElement('a');
+                    link.href = '';
+                    link.style.position = 'absolute';
+                    link.style.left = `${annotation.rect[0]}px`;
+                    link.style.top = `${annotation.rect[1]}px`;
+                    link.style.width = `${annotation.rect[2] - annotation.rect[0]}px`;
+                    link.style.height = `${annotation.rect[3] - annotation.rect[1]}px`;
+                    link.onclick = (event) => {
+                        event.preventDefault();
+                        const dest = annotation.dest;
+                        if (typeof dest === 'string') {
+                            pdfDocument.getDestination(dest).then(destArray => {
+                                const pageIndex = destArray[0];
+                                const pageNumber = pageIndex + 1;
+                                currentPage = pageNumber;
+                                renderPage(currentPage);
+                            });
+                        } else if (Array.isArray(dest)) {
+                            const pageIndex = dest[0];
+                            const pageNumber = pageIndex + 1;
+                            currentPage = pageNumber;
+                            renderPage(currentPage);
+                        }
+                    };
+                    document.body.appendChild(link);
+                }
+            });
+
             // Update navigation
             pageInput.value = currentPage;
             prevButton.disabled = currentPage === 1;
@@ -130,7 +154,6 @@
             if (currentPage > 1) {
                 currentPage--;
                 renderPage(currentPage);
-                updateURL(currentPage);
             }
         });
 
@@ -138,7 +161,6 @@
             if (currentPage < totalPages) {
                 currentPage++;
                 renderPage(currentPage);
-                updateURL(currentPage);
             }
         });
 
@@ -147,19 +169,11 @@
             if (page >= 1 && page <= totalPages) {
                 currentPage = page;
                 renderPage(currentPage);
-                updateURL(currentPage);
             } else {
                 pageInput.value = currentPage; // Reset to current page if input is invalid
                 alert(`Please enter a number between 1 and ${totalPages}.`);
             }
         });
-
-        // Function to update the URL with the current page number
-        function updateURL(page) {
-            const url = new URL(window.location);
-            url.searchParams.set('page', page);
-            window.history.pushState({}, '', url);
-        }
 
         // Load the PDF when the page is loaded
         loadPDF();
