@@ -174,12 +174,6 @@
                 }
             });
 
-            // Update navigation
-            pageInput.value = currentPage;
-            prevButton.disabled = currentPage === 1;
-            nextButton.disabled = currentPage === totalPages;
-        }
-
         // Load the PDF when the page is loaded
         loadPDF();
     </script>
