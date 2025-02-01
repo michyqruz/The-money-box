@@ -3,9 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Unlock the secrets to financial freedom and wealth management.">
-    <meta name="keywords" content="Money Box, Forex Ebook, PDF strategy"> 
-    <title>Money Box</title></title>
+    <title>Responsive PDF Viewer with Functional Internal Links</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -97,10 +95,6 @@
                 alert("Failed to load PDF. Please check the file path.");
             }
         }
-        const loadingTask = pdfjsLib.getDocument({
-    url: pdfUrl,
-    renderInteractiveForms: true,
-        });
 
         // Render a specific page
         async function renderPage(pageNumber) {
@@ -116,6 +110,38 @@
                 canvasContext: context,
                 viewport: viewport,
             }).promise;
+
+            // Enable internal links
+            const annotations = await page.getAnnotations();
+            annotations.forEach(annotation => {
+                if (annotation.subtype === 'Link' && annotation.dest) {
+                    const link = document.createElement('a');
+                    link.href = '';
+                    link.style.position = 'absolute';
+                    link.style.left = `${annotation.rect[0]}px`;
+                    link.style.top = `${annotation.rect[1]}px`;
+                    link.style.width = `${annotation.rect[2] - annotation.rect[0]}px`;
+                    link.style.height = `${annotation.rect[3] - annotation.rect[1]}px`;
+                    link.onclick = (event) => {
+                        event.preventDefault();
+                        const dest = annotation.dest;
+                        if (typeof dest === 'string') {
+                            pdfDocument.getDestination(dest).then(destArray => {
+                                const pageIndex = destArray[0];
+                                const pageNumber = pageIndex + 1;
+                                currentPage = pageNumber;
+                                renderPage(currentPage);
+                            });
+                        } else if (Array.isArray(dest)) {
+                            const pageIndex = dest[0];
+                            const pageNumber = pageIndex + 1;
+                            currentPage = pageNumber;
+                            renderPage(currentPage);
+                        }
+                    };
+                    document.body.appendChild(link);
+                }
+            });
 
             // Update navigation
             pageInput.value = currentPage;
