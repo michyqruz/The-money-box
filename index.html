@@ -142,38 +142,7 @@
                 alert(`Please enter a number between 1 and ${totalPages}.`);
             }
         });
-// Enable internal links
-            const annotations = await page.getAnnotations();
-            annotations.forEach(annotation => {
-                if (annotation.subtype === 'Link' && annotation.dest) {
-                    const link = document.createElement('a');
-                    link.href = '';
-                    link.style.position = 'absolute';
-                    link.style.left = `${annotation.rect[0]}px`;
-                    link.style.top = `${annotation.rect[1]}px`;
-                    link.style.width = `${annotation.rect[2] - annotation.rect[0]}px`;
-                    link.style.height = `${annotation.rect[3] - annotation.rect[1]}px`;
-                    link.onclick = (event) => {
-                        event.preventDefault();
-                        const dest = annotation.dest;
-                        if (typeof dest === 'string') {
-                            pdfDocument.getDestination(dest).then(destArray => {
-                                const pageIndex = destArray[0];
-                                const pageNumber = pageIndex + 1;
-                                currentPage = pageNumber;
-                                renderPage(currentPage);
-                            });
-                        } else if (Array.isArray(dest)) {
-                            const pageIndex = dest[0];
-                            const pageNumber = pageIndex + 1;
-                            currentPage = pageNumber;
-                            renderPage(currentPage);
-                        }
-                    };
-                    document.body.appendChild(link);
-                }
-            });
-
+        
         // Load the PDF when the page is loaded
         loadPDF();
     </script>
