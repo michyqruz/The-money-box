@@ -148,6 +148,15 @@
 
         // Load the PDF when the page is loaded
         loadPDF();
+      
+      // Get the item from local storage
+const item = localStorage.getItem("status");
+
+// Check if the item exists
+if (item === null) {
+  // Redirect to another page if the item doesn't exist
+  window.location.href = "https://michyqruz.github.io/TMB.com-special-fiesta-bookpurchase/";
+}
     </script>
 </body>
 </html>
