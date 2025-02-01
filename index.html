@@ -67,9 +67,17 @@
     <div id="pdf-container">
         <canvas id="pdf-canvas"></canvas>
     </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
     <script>
+      // Get the item from local storage
+const item = localStorage.getItem("status");
+
+// Check if the item exists
+if (item === null) {
+  // Redirect to another page if the item doesn't exist
+  window.location.href = "https://michyqruz.github.io/TMB.com-special-fiesta-bookpurchase/";
+}
+      
         const pdfUrl = "moneybox.pdf"; // Replace with your PDF file URL
         const pdfjsLib = window["pdfjs-dist/build/pdf"];
         pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
@@ -148,15 +156,6 @@
 
         // Load the PDF when the page is loaded
         loadPDF();
-      
-      // Get the item from local storage
-const item = localStorage.getItem("status");
-
-// Check if the item exists
-if (item === null) {
-  // Redirect to another page if the item doesn't exist
-  window.location.href = "https://michyqruz.github.io/TMB.com-special-fiesta-bookpurchase/";
-}
     </script>
 </body>
 </html>
