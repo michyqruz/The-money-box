@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Responsive PDF Viewer with Functional Internal Links</title>
+    <title>Responsive PDF Viewer with Page Jump</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -41,7 +41,6 @@
             cursor: not-allowed;
         }
         #pdf-container {
-            position: relative;
             margin: 20px auto;
             display: flex;
             justify-content: center;
@@ -53,14 +52,6 @@
             border: 1px solid #ccc;
             box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
             width: 100%;
-        }
-        .pdf-link {
-            position: absolute;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            padding: 0;
-            margin: 0;
         }
     </style>
 </head>
@@ -91,7 +82,6 @@
         const nextButton = document.getElementById("next");
         const pageInput = document.getElementById("page-input");
         const totalPagesSpan = document.getElementById("total-pages");
-        const pdfContainer = document.getElementById("pdf-container");
 
         // Load PDF and initialize
         async function loadPDF() {
@@ -121,40 +111,6 @@
                 viewport: viewport,
             }).promise;
 
-            // Clear existing links
-            const existingLinks = document.querySelectorAll('.pdf-link');
-            existingLinks.forEach(link => link.remove());
-
-            // Enable internal links
-            const annotations = await page.getAnnotations();
-            annotations.forEach(annotation => {
-                if (annotation.subtype === 'Link' && annotation.dest) {
-                    const [x1, y1, x2, y2] = annotation.rect;
-                    const rect = viewport.convertToViewportRectangle([x1, y1, x2, y2]);
-                    const [left, top, right, bottom] = rect;
-
-                    const link = document.createElement('button');
-                    link.className = 'pdf-link';
-                    link.style.left = `${left}px`;
-                    link.style.top = `${top}px`;
-                    link.style.width = `${right - left}px`;
-                    link.style.height = `${bottom - top}px`;
-                    link.onclick = async (event) => {
-                        event.preventDefault();
-                        const dest = await pdfDocument.getDestination(annotation.dest);
-                        if (dest) {
-                            const [destRef] = dest;
-                            const pageIndex = pdfDocument._cachedPageMap.get(destRef.num);
-                            if (pageIndex !== undefined) {
-                                currentPage = pageIndex + 1;
-                                renderPage(currentPage);
-                            }
-                        }
-                    };
-                    pdfContainer.appendChild(link);
-                }
-            });
-
             // Update navigation
             pageInput.value = currentPage;
             prevButton.disabled = currentPage === 1;
@@ -182,11 +138,12 @@
                 currentPage = page;
                 renderPage(currentPage);
             } else {
-                pageInput.value = currentPage;
+                pageInput.value = currentPage; // Reset to current page if input is invalid
+                alert(`Please enter a number between 1 and ${totalPages}.`);
             }
         });
 
-        // Load the PDF
+        // Load the PDF when the page is loaded
         loadPDF();
     </script>
 </body>
