@@ -315,6 +315,7 @@
             top: 0;
             left: 0;
             width: 95%;
+            margin:auto;
             height: 100%;
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 1000;
@@ -405,7 +406,7 @@
 
         .btn:hover {
             background-color: var(--primary-dark);
-            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+            box-shadow: 0 4px 20px #4CAF50;
         }
 
         .btn-block {
@@ -804,7 +805,7 @@
                 const addressInput = document.getElementById('walletAddress');
                 addressInput.select();
                 document.execCommand('copy');
-                copyAddressBtn.textContent = 'Copied!';
+                copyAddressBtn.textContent = 'Done!';
                 setTimeout(() => copyAddressBtn.textContent = 'Copy', 2000);
             });
             
