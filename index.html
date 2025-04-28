@@ -483,6 +483,10 @@
                 font-size: 32px;
             }
 
+            .balance-hidden {
+                font-size: 28px;
+            }
+
             .modal-content {
                 padding: 24px;
             }
@@ -558,7 +562,8 @@
                                 <span>Hide</span>
                             </button>
                         </div>
-                        <div class="balance-amount" id="btcBalance">$ 143.22 USD</div>
+                        <div class="balance-amount" id="btcBalance">0.02450000 BTC</div>
+                        <div class="balance-equivalent" id="usdBalance">≈ $1,029.00 USD</div>
                         <div class="action-buttons">
                             <button class="action-btn" id="sendBtn">Send</button>
                             <button class="action-btn" id="depositBtn">Deposit</button>
@@ -691,6 +696,7 @@
         const transactionsLink = document.getElementById('transactionsLink');
         const toggleBalance = document.getElementById('toggleBalance');
         const btcBalance = document.getElementById('btcBalance');
+        const usdBalance = document.getElementById('usdBalance');
         const sendModal = document.getElementById('sendModal');
         const receiveModal = document.getElementById('receiveModal');
         const depositModal = document.getElementById('depositModal');
@@ -764,12 +770,14 @@
                 if (btcBalance.classList.contains('balance-hidden')) {
                     // Show balance
                     btcBalance.classList.remove('balance-hidden');
+                    usdBalance.style.opacity = '0.9';
                     icon.classList.remove('fa-eye-slash');
                     icon.classList.add('fa-eye');
                     text.textContent = 'Hide';
                 } else {
                     // Hide balance
                     btcBalance.classList.add('balance-hidden');
+                    usdBalance.style.opacity = '0';
                     icon.classList.remove('fa-eye');
                     icon.classList.add('fa-eye-slash');
                     text.textContent = 'Show';
