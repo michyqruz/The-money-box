@@ -3,7 +3,7 @@
   "short_name": "PWAOnly",
   "description": "This app requires installation to function",
   "start_url": "",
-  "scope": "",
+  "scope": ".",
   "display": "standalone",
   "background_color": "#f8f9fa",
   "theme_color": "#4a6bff",
