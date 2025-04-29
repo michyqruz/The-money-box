@@ -1,6 +1,5 @@
 const CACHE_NAME = 'pwa-exclusive-v1';
 const urlsToCache = [
-    '',
     'index.html',
     'app.js',
     'manifest.json',
@@ -17,11 +16,10 @@ self.addEventListener('install', event => {
 });
 
 self.addEventListener('fetch', event => {
-    // Network-first strategy for HTML, cache-first for assets
     if (event.request.mode === 'navigate') {
         event.respondWith(
             fetch(event.request)
-                .catch(() => caches.match(''))
+                .catch(() => caches.match('index.html'))  
         );
     } else {
         event.respondWith(
