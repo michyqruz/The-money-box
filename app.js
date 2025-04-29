@@ -1,3 +1,39 @@
+let installPrompt;
+
+// Listen for the browser's "you can install this app" event
+window.addEventListener('beforeinstallprompt', (e) => {
+  // Prevent the automatic prompt
+  e.preventDefault();
+  // Save the event for later
+  installPrompt = e;
+  // Show our install button
+  document.getElementById('installButton').style.display = 'block';
+});
+
+// When install button is clicked
+document.getElementById('installButton').addEventListener('click', async () => {
+  if (!installPrompt) return;
+  
+  // Show the installation prompt
+  installPrompt.prompt();
+  
+  // Wait for user to respond
+  const { outcome } = await installPrompt.userChoice;
+  
+  // Hide our button after install
+  if (outcome === 'accepted') {
+    document.getElementById('installButton').style.display = 'none';
+  }
+  
+  // Clear the saved prompt
+  installPrompt = null;
+});
+
+// Hide button if already installed
+window.addEventListener('appinstalled', () => {
+  document.getElementById('installButton').style.display = 'none';
+});
+
 // Check if the app is running as a PWA
 function isRunningAsPWA() {
     return window.matchMedia('(display-mode: standalone)').matches || 
