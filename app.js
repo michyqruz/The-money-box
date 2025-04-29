@@ -1,85 +1,103 @@
-// Check if running as PWA
-function isRunningAsPWA() {
-  return window.matchMedia('(display-mode: standalone)').matches || 
-         window.navigator.standalone ||
-         document.referrer.includes('android-app://');
-}
+// Enhanced device detection
+const isIOS = () => {
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
+           (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+};
 
-// Install PWA functionality
+const isSafari = () => {
+    return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+};
+
+const isStandalone = () => {
+    return window.matchMedia('(display-mode: standalone)').matches || 
+           window.navigator.standalone ||
+           document.referrer.includes('android-app://');
+};
+
+// DOM elements
+const elements = {
+    installPrompt: document.getElementById('installPrompt'),
+    postInstall: document.getElementById('postInstall'),
+    appContent: document.getElementById('appContent'),
+    androidInstall: document.getElementById('androidInstall'),
+    iosInstall: document.getElementById('iosInstall'),
+    installButton: document.getElementById('installButton'),
+    showSafariHelp: document.getElementById('showSafariHelp'),
+    safariOverlay: document.getElementById('safariOverlay')
+};
+
+// Initialize the UI based on device and installation status
+const initApp = () => {
+    if (isStandalone()) {
+        // Running as installed PWA - show content
+        elements.installPrompt.classList.add('hidden');
+        elements.appContent.classList.remove('hidden');
+    } else if (new URLSearchParams(window.location.search).has('installed')) {
+        // Just installed - show post-install message
+        elements.installPrompt.classList.add('hidden');
+        elements.postInstall.classList.remove('hidden');
+    } else {
+        // Not installed - show install prompt
+        if (isIOS()) {
+            elements.androidInstall.classList.add('hidden');
+            elements.iosInstall.classList.remove('hidden');
+            
+            // Special handling for Safari
+            if (isSafari()) {
+                // Could add additional Safari-specific instructions
+            }
+        }
+    }
+};
+
+// Android PWA installation
 let deferredPrompt;
-const installButton = document.getElementById('installButton');
-const pwaWarning = document.getElementById('pwaWarning');
-const appFunctionality = document.getElementById('appFunctionality');
-
-// Check on load
-window.addEventListener('load', () => {
-  if (isRunningAsPWA()) {
-    // Running as PWA - show app content
-    pwaWarning.style.display = 'none';
-    appFunctionality.innerHTML = `
-      <h2>App Content</h2>
-      <p>Welcome to the installed PWA version!</p>
-      <p>This content only appears when installed.</p>
-    `;
-  } else {
-    // Not installed - show warning
-    pwaWarning.style.display = 'block';
-  }
-});
-
-// Listen for beforeinstallprompt event
 window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent the mini-infobar from appearing on mobile
-  e.preventDefault();
-  // Stash the event so it can be triggered later
-  deferredPrompt = e;
-  // Show the install button
-  installButton.style.display = 'inline-block';
+    if (!isIOS()) {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        elements.installButton.addEventListener('click', async () => {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+                if (outcome === 'accepted') {
+                    window.location.href = '/?installed=true';
+                }
+                deferredPrompt = null;
+            }
+        });
+    }
 });
 
-// Install button click handler
-installButton.addEventListener('click', async () => {
-  if (!deferredPrompt) return;
-  
-  // Show the install prompt
-  deferredPrompt.prompt();
-  
-  // Wait for the user to respond to the prompt
-  const { outcome } = await deferredPrompt.userChoice;
-  
-  if (outcome === 'accepted') {
-    console.log('User accepted the install prompt');
-  } else {
-    console.log('User dismissed the install prompt');
-  }
-  
-  // We've used the prompt, and can't use it again, throw it away
-  deferredPrompt = null;
+// iOS Help Overlay
+elements.showSafariHelp?.addEventListener('click', () => {
+    elements.safariOverlay.classList.remove('hidden');
 });
 
-// Track when PWA is successfully installed
-window.addEventListener('appinstalled', () => {
-  console.log('PWA was installed');
-  // Hide the install button
-  installButton.style.display = 'none';
-  // Show the app content
-  pwaWarning.style.display = 'none';
-  appFunctionality.innerHTML = `
-    <h2>App Content</h2>
-    <p>Thank you for installing!</p>
-    <p>This content only appears when installed.</p>
-  `;
+document.querySelector('.close-overlay')?.addEventListener('click', () => {
+    elements.safariOverlay.classList.add('hidden');
 });
 
-// Register service worker
+// Check for PWA installation on iOS
+window.addEventListener('DOMContentLoaded', initApp);
+
+// Additional check when page is shown from back/forward cache
+window.addEventListener('pageshow', (event) => {
+    if (event.persisted) {
+        initApp();
+    }
+});
+
+// Service Worker Registration
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('sw.js')
-      .then(registration => {
-        console.log('ServiceWorker registration successful');
-      })
-      .catch(err => {
-        console.log('ServiceWorker registration failed: ', err);
-      });
-  });
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js')
+            .then(registration => {
+                console.log('ServiceWorker registered');
+            })
+            .catch(err => {
+                console.log('ServiceWorker registration failed: ', err);
+            });
+    });
 }
