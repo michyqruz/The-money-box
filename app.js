@@ -38,7 +38,6 @@ const initApp = () => {
             elements.androidInstall.classList.add('hidden');
             elements.iosInstall.classList.remove('hidden');
         } else {
-            // Ensure Android UI is visible
             elements.androidInstall.classList.remove('hidden');
             elements.iosInstall.classList.add('hidden');
         }
@@ -46,49 +45,73 @@ const initApp = () => {
 };
 
 // Android PWA installation handling
-let deferredPrompt;
+let deferredPrompt = null;
 
+const setupAndroidInstall = () => {
+    // Only proceed if we're not on iOS
+    if (isIOS()) return;
+
+    elements.installButton.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+            console.log('No deferred prompt available');
+            return;
+        }
+
+        try {
+            // Show the install prompt
+            deferredPrompt.prompt();
+            
+            // Wait for the user to respond to the prompt
+            const { outcome } = await deferredPrompt.userChoice;
+            
+            if (outcome === 'accepted') {
+                console.log('User accepted the install prompt');
+                // Store installation status in localStorage
+                localStorage.setItem('pwaInstalled', 'true');
+                // Redirect to post-install message
+                window.location.href = '/?installed=true';
+            } else {
+                console.log('User dismissed the install prompt');
+            }
+        } catch (err) {
+            console.error('Error during installation:', err);
+        } finally {
+            // Clear the deferredPrompt so it can be garbage collected
+            deferredPrompt = null;
+        }
+    });
+};
+
+// Listen for beforeinstallprompt event
 window.addEventListener('beforeinstallprompt', (e) => {
     // Prevent the mini-infobar from appearing on mobile
     e.preventDefault();
     // Stash the event so it can be triggered later
     deferredPrompt = e;
     
-    // Only show Android install button if we're not on iOS
-    if (!isIOS()) {
+    // Update UI to show install is available
+    if (!isIOS() && elements.installButton) {
         elements.installButton.style.display = 'block';
-        
-        elements.installButton.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                // Show the install prompt
-                deferredPrompt.prompt();
-                
-                // Wait for the user to respond to the prompt
-                const { outcome } = await deferredPrompt.userChoice;
-                
-                if (outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                    // Redirect to post-install message
-                    window.location.href = '/?installed=true';
-                } else {
-                    console.log('User dismissed the install prompt');
-                }
-                
-                // Clear the deferredPrompt so it can be garbage collected
-                deferredPrompt = null;
-            }
-        });
     }
 });
 
 // Listen for app installation
 window.addEventListener('appinstalled', () => {
     console.log('PWA was installed');
+    // Store installation status
+    localStorage.setItem('pwaInstalled', 'true');
     // Redirect to post-install message if not already there
     if (!window.location.href.includes('installed=true')) {
         window.location.href = '/?installed=true';
     }
 });
+
+// Check for existing installation
+const checkExistingInstallation = () => {
+    if (localStorage.getItem('pwaInstalled') {
+        window.location.href = '/?installed=true';
+    }
+};
 
 // iOS Help Overlay functionality
 if (elements.showSafariHelp) {
@@ -104,7 +127,11 @@ if (document.querySelector('.close-overlay')) {
 }
 
 // Initialize the app
-window.addEventListener('DOMContentLoaded', initApp);
+window.addEventListener('DOMContentLoaded', () => {
+    checkExistingInstallation();
+    initApp();
+    setupAndroidInstall();
+});
 
 // Additional check when page is shown from back/forward cache
 window.addEventListener('pageshow', (event) => {
@@ -116,7 +143,7 @@ window.addEventListener('pageshow', (event) => {
 // Service Worker Registration
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('sw.js')
+        navigator.serviceWorker.register('/sw.js')
             .then(registration => {
                 console.log('ServiceWorker registered with scope:', registration.scope);
                 
