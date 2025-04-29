@@ -1,58 +1,86 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My PWA-Only App</title>
-    <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#4285f4">
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 20px;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        #installContainer {
-            display: block;
-        }
-        #appContent, #postInstallMessage {
-            display: none;
-        }
-        button {
-            background: #4285f4;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA Only App</title>
+  <meta name="theme-color" content="#2d3e50">
+  <meta name="description" content="A PWA that only works when installed">
+  
+  <!-- iOS meta tags -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="PWA Only">
+  
+  <!-- Manifest -->
+  <link rel="manifest" href="manifest.json">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+    }
+    
+    #app-content {
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+    
+    #installContainer {
+      text-align: center;
+      margin: 20px 0;
+    }
+    
+    #installButton {
+      background-color: #2d3e50;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      display: none;
+    }
+    
+    #pwaWarning {
+      background-color: #ffe6e6;
+      border: 1px solid #ff9999;
+      padding: 15px;
+      border-radius: 4px;
+      margin: 20px 0;
+      display: none;
+    }
+  </style>
 </head>
 <body>
+  <div id="app-content">
+    <h1>Welcome to PWA Only App</h1>
+    <p>This application only works when installed as a PWA.</p>
+    
     <div id="installContainer">
-        <h1>Install Our App</h1>
-        <p>This website only works as an installed Progressive Web App.</p>
-        <button id="installButton" style="display:none;">Install App</button>
+      <button id="installButton">Install App</button>
     </div>
-
-    <div id="postInstallMessage">
-        <h1>App Installed Successfully!</h1>
-        <p>Please open the app from your home screen to access the content.</p>
+    
+    <div id="pwaWarning">
+      <h2>⚠️ App Not Installed</h2>
+      <p>For the best experience, please install this app by clicking the Install button above.</p>
+      <p>If the button isn't visible, look for the "Add to Home Screen" option in your browser's menu.</p>
     </div>
-
-    <div id="appContent">
-        <!-- Your form would go here -->
-        <h1>Welcome to the App</h1>
-        <form>
-            <input type="password">
-            <input type="sumbit">
-        </form>
+    
+    <div id="appFunctionality">
+        <input type="password">
     </div>
+  </div>
 
-    <script src="app.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
