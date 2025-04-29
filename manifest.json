@@ -1,27 +1,38 @@
 {
-  "name": "PWA Exclusive App",
-  "short_name": "PWAOnly",
-  "description": "This app requires installation to function",
+  "name": "Gwallet",
+  "short_name": "Gwallet",
+  "description": "Secure Transactions",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
-  "background_color": "#f8f9fa",
-  "theme_color": "#4a6bff",
+  "background_color": "#ffffff",
+  "theme_color": "#4CAF50",
   "orientation": "portrait",
+{
   "icons": [
     {
-      "src": "/icons/icon-192x192.png",
+      "src": "icons/Gwallet_icon_192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "/icons/icon-512x512.png",
+      "src": "icons/Gwallet_icon_512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
+    },
+    {
+      "src": "icons/Gwallet_icon_180x180.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/Gwallet_icon_152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
     }
-  ],
+  ]
+}
+
   "screenshots": [
     {
       "src": "/screenshots/1.png",
