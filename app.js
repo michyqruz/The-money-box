@@ -50,25 +50,103 @@ const initApp = () => {
     }
 };
 
-// Android PWA installation
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    if (!isIOS()) {
-        e.preventDefault();
-        deferredPrompt = e;
-        
-        elements.installButton.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                if (outcome === 'accepted') {
-                    window.location.href = '/?installed=true';
-                }
-                deferredPrompt = null;
-            }
-        });
+// Android PWA installation variables
+let deferredPrompt = null;
+let isAndroid = /Android/i.test(navigator.userAgent);
+
+// Initialize the app
+const initApp = () => {
+    if (isStandalone()) {
+        // App is already installed
+        showAppContent();
+        return;
     }
+
+    if (isAndroid) {
+        setupAndroidInstall();
+    } else if (isIOS()) {
+        setupIOSInstall();
+    }
+};
+
+// Android-specific installation setup
+const setupAndroidInstall = () => {
+    // Make sure the install button is visible
+    elements.installButton.style.display = 'block';
+    
+    // Check if we already have the deferred prompt
+    if (deferredPrompt) {
+        return;
+    }
+
+    // Show a message about Android installation
+    console.log('Waiting for beforeinstallprompt event...');
+};
+
+// Handle the beforeinstallprompt event
+window.addEventListener('beforeinstallprompt', (e) => {
+    if (!isAndroid) return;
+    
+    console.log('beforeinstallprompt event fired');
+    
+    // Prevent the default prompt
+    e.preventDefault();
+    
+    // Stash the event so it can be triggered later
+    deferredPrompt = e;
+    
+    // Show the install button
+    elements.installButton.style.display = 'block';
+    
+    // Update button text
+    elements.installButton.textContent = 'Install App';
+    
+    // Remove any existing click handlers
+    elements.installButton.onclick = null;
+    
+    // Add click handler for the button
+    elements.installButton.addEventListener('click', async () => {
+        if (!deferredPrompt) {
+            console.log('No deferred prompt available');
+            return;
+        }
+        
+        console.log('Showing install prompt');
+        
+        // Show the install prompt
+        deferredPrompt.prompt();
+        
+        // Wait for the user to respond to the prompt
+        const { outcome } = await deferredPrompt.userChoice;
+        
+        console.log(`User response: ${outcome}`);
+        
+        if (outcome === 'accepted') {
+            console.log('User accepted the install prompt');
+            window.location.href = 'index.html?installed=true';
+        }
+        
+        // Clear the deferredPrompt variable
+        deferredPrompt = null;
+    });
 });
+
+// Handle app installed event
+window.addEventListener('appinstalled', () => {
+    console.log('PWA was installed');
+    deferredPrompt = null;
+    showAppContent();
+});
+
+// Show the app content
+const showAppContent = () => {
+    document.getElementById('installPrompt').style.display = 'none';
+    document.getElementById('appContent').style.display = 'block';
+};
+
+// Initialize when DOM is loaded
+window.addEventListener('DOMContentLoaded', initApp);
+
 
 // iOS Help Overlay
 elements.showSafariHelp?.addEventListener('click', () => {
