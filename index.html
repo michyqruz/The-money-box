@@ -129,9 +129,12 @@
             <p>To access this service, please install our Progressive Web App.</p>
             
             <div id="androidInstall">
-                <button id="installButton">Install Now</button>
-                <p>After installation, open the app from your home screen.</p>
-            </div>
+    <button id="installButton">Install Now</button>
+    <p id="androidHint" style="font-size: 0.9em; color: #666; display: none;">
+        If the button doesn't work, look for the "Add to Home Screen" option in your browser's menu.
+    </p>
+    <div id="androidError" style="color: #d32f2f; margin-top: 10px; display: none;"></div>
+             </div>
             
             <div id="iosInstall" class="hidden">
                 <ol class="ios-steps">
