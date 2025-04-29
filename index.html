@@ -1,65 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#4a90e2">
-  <meta name="description" content="Weather PWA Application">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Weather PWA">
-  
-  <title>Weather PWA</title>
-  
-  <link rel="manifest" href="manifest.json">
-  <link rel="apple-touch-icon" href="icon-192x192.png">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My PWA-Only App</title>
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4285f4">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        #installContainer {
+            display: block;
+        }
+        #appContent, #postInstallMessage {
+            display: none;
+        }
+        button {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-  <div class="app-container">
-    <header class="app-header">
-      <h1>Weather PWA</h1>
-      <button id="installButton" class="install-button" aria-label="Install app">Install App</button>
-    </header>
-    
-    <main class="weather-container">
-      <div class="location">
-        <h2 id="location">Loading...</h2>
-      </div>
-      
-      <div class="current-weather">
-        <img id="weatherIcon" src="/sunny.png" alt="Weather icon">
-        <div class="weather-info">
-          <span id="temperature">--</span>
-          <span id="weatherDescription">Loading weather...</span>
-        </div>
-      </div>
-      
-      <div class="forecast">
-        <div class="forecast-day">
-          <span>Mon</span>
-          <img src="/sunny.png" alt="Sunny">
-          <span>24°</span>
-        </div>
-        <div class="forecast-day">
-          <span>Tue</span>
-          <img src="/cloudy.png" alt="Cloudy">
-          <span>19°</span>
-        </div>
-        <div class="forecast-day">
-          <span>Wed</span>
-          <img src="/rainy.png" alt="Rainy">
-          <span>16°</span>
-        </div>
-      </div>
-    </main>
-    
-    <footer class="app-footer">
-      <p>Data provided by OpenWeatherMap</p>
-      <p id="offlineStatus" class="offline-status">Online</p>
-    </footer>
-  </div>
-  
-  <script src="app.js"></script>
+    <div id="installContainer">
+        <h1>Install Our App</h1>
+        <p>This website only works as an installed Progressive Web App.</p>
+        <button id="installButton">Install App</button>
+    </div>
+
+    <div id="postInstallMessage">
+        <h1>App Installed Successfully!</h1>
+        <p>Please open the app from your home screen to access the content.</p>
+    </div>
+
+    <div id="appContent">
+        <!-- Your form would go here -->
+        <h1>Welcome to the App</h1>
+        <form>
+            <!-- Your form fields -->
+        </form>
+    </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
