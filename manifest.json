@@ -1,20 +1,31 @@
 {
-  "name": "PWA Only App",
+  "name": "PWA Exclusive App",
   "short_name": "PWAOnly",
-  "description": "An app that only works when installed as a PWA",
+  "description": "This app requires installation to function",
   "start_url": "",
+  "scope": "",
   "display": "standalone",
-  "background_color": "#2d3e50",
-  "theme_color": "#2d3e50",
+  "background_color": "#f8f9fa",
+  "theme_color": "#4a6bff",
+  "orientation": "portrait",
   "icons": [
     {
-      "src": "icon-192.png",
+      "src": "/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
-      "src": "icon-512.png",
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/1.png",
+      "sizes": "750x1334",
       "type": "image/png"
     }
   ]
