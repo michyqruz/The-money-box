@@ -1,14 +1,14 @@
 const CACHE_NAME = 'weather-pwa-v1';
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/app.js',
-  '/icon-192x192.png',
-  '/icon-512x512.png',
-  '/sunny.png',
-  '/cloudy.png',
-  '/rainy.png'
+  '',
+  'index.html',
+  'styles.css',
+  'app.js',
+  'icon-192x192.png',
+  'icon-512x512.png',
+  'sunny.png',
+  'cloudy.png',
+  'rainy.png'
 ];
 
 self.addEventListener('install', event => {
@@ -48,7 +48,7 @@ self.addEventListener('fetch', event => {
           }
         ).catch(() => {
           if (event.request.url.includes('.png')) {
-            return caches.match('/sunny.png');
+            return caches.match('sunny.png');
           }
           return new Response('Offline - Weather data unavailable');
         });
