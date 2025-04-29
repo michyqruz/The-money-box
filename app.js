@@ -1,99 +1,85 @@
-let installPrompt;
-
-// Listen for the browser's "you can install this app" event
-window.addEventListener('beforeinstallprompt', (e) => {
-  // Prevent the automatic prompt
-  e.preventDefault();
-  // Save the event for later
-  installPrompt = e;
-  // Show our install button
-  document.getElementById('installButton').style.display = 'block';
-});
-
-// When install button is clicked
-document.getElementById('installButton').addEventListener('click', async () => {
-  if (!installPrompt) return;
-  
-  // Show the installation prompt
-  installPrompt.prompt();
-  
-  // Wait for user to respond
-  const { outcome } = await installPrompt.userChoice;
-  
-  // Hide our button after install
-  if (outcome === 'accepted') {
-    document.getElementById('installButton').style.display = 'none';
-  }
-  
-  // Clear the saved prompt
-  installPrompt = null;
-});
-
-// Hide button if already installed
-window.addEventListener('appinstalled', () => {
-  document.getElementById('installButton').style.display = 'none';
-});
-
-// Check if the app is running as a PWA
+// Check if running as PWA
 function isRunningAsPWA() {
-    return window.matchMedia('(display-mode: standalone)').matches || 
-           window.navigator.standalone ||
-           document.referrer.includes('android-app://');
+  return window.matchMedia('(display-mode: standalone)').matches || 
+         window.navigator.standalone ||
+         document.referrer.includes('android-app://');
 }
 
-// Check on page load
-window.addEventListener('DOMContentLoaded', () => {
-    const installContainer = document.getElementById('installContainer');
-    const postInstallMessage = document.getElementById('postInstallMessage');
-    const appContent = document.getElementById('appContent');
-    
-    // Check if the page was loaded as a PWA
-    if (isRunningAsPWA()) {
-        // Show the actual app content
-        installContainer.style.display = 'none';
-        postInstallMessage.style.display = 'none';
-        appContent.style.display = 'block';
-    } else if (new URLSearchParams(window.location.search).has('installed')) {
-        // Show post-install message
-        installContainer.style.display = 'none';
-        postInstallMessage.style.display = 'block';
-        appContent.style.display = 'none';
-    } else {
-        // Show install prompt
-        installContainer.style.display = 'block';
-        postInstallMessage.style.display = 'none';
-        appContent.style.display = 'none';
-    }
-});
-
-// Handle the install prompt
+// Install PWA functionality
 let deferredPrompt;
+const installButton = document.getElementById('installButton');
+const pwaWarning = document.getElementById('pwaWarning');
+const appFunctionality = document.getElementById('appFunctionality');
 
+// Check on load
+window.addEventListener('load', () => {
+  if (isRunningAsPWA()) {
+    // Running as PWA - show app content
+    pwaWarning.style.display = 'none';
+    appFunctionality.innerHTML = `
+      <h2>App Content</h2>
+      <p>Welcome to the installed PWA version!</p>
+      <p>This content only appears when installed.</p>
+    `;
+  } else {
+    // Not installed - show warning
+    pwaWarning.style.display = 'block';
+  }
+});
+
+// Listen for beforeinstallprompt event
 window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    deferredPrompt = e;
-    
-    const installButton = document.getElementById('installButton');
-    if (installButton) {
-        installButton.style.display = 'block';
-        
-        installButton.addEventListener('click', async () => {
-            if (deferredPrompt) {
-                deferredPrompt.prompt();
-                const { outcome } = await deferredPrompt.userChoice;
-                
-                if (outcome === 'accepted') {
-                    // Redirect to a special URL after installation
-                    window.location.href = '/?installed=true';
-                }
-                
-                deferredPrompt = null;
-            }
-        });
-    }
+  // Prevent the mini-infobar from appearing on mobile
+  e.preventDefault();
+  // Stash the event so it can be triggered later
+  deferredPrompt = e;
+  // Show the install button
+  installButton.style.display = 'inline-block';
 });
 
-window.addEventListener('appinstalled', () => {
-    console.log('PWA was installed');
-    // You could redirect here if needed
+// Install button click handler
+installButton.addEventListener('click', async () => {
+  if (!deferredPrompt) return;
+  
+  // Show the install prompt
+  deferredPrompt.prompt();
+  
+  // Wait for the user to respond to the prompt
+  const { outcome } = await deferredPrompt.userChoice;
+  
+  if (outcome === 'accepted') {
+    console.log('User accepted the install prompt');
+  } else {
+    console.log('User dismissed the install prompt');
+  }
+  
+  // We've used the prompt, and can't use it again, throw it away
+  deferredPrompt = null;
 });
+
+// Track when PWA is successfully installed
+window.addEventListener('appinstalled', () => {
+  console.log('PWA was installed');
+  // Hide the install button
+  installButton.style.display = 'none';
+  // Show the app content
+  pwaWarning.style.display = 'none';
+  appFunctionality.innerHTML = `
+    <h2>App Content</h2>
+    <p>Thank you for installing!</p>
+    <p>This content only appears when installed.</p>
+  `;
+});
+
+// Register service worker
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(registration => {
+        console.log('ServiceWorker registration successful');
+      })
+      .catch(err => {
+        console.log('ServiceWorker registration failed: ', err);
+      });
+  });
+}
