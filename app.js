@@ -4,6 +4,10 @@ const isIOS = () => {
            (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
 };
 
+const isSafari = () => {
+    return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+};
+
 const isStandalone = () => {
     return window.matchMedia('(display-mode: standalone)').matches || 
            window.navigator.standalone ||
@@ -37,73 +41,45 @@ const initApp = () => {
         if (isIOS()) {
             elements.androidInstall.classList.add('hidden');
             elements.iosInstall.classList.remove('hidden');
-        } else {
-            // Ensure Android UI is visible
-            elements.androidInstall.classList.remove('hidden');
-            elements.iosInstall.classList.add('hidden');
+            
+            // Special handling for Safari
+            if (isSafari()) {
+                // Could add additional Safari-specific instructions
+            }
         }
     }
 };
 
-// Android PWA installation handling
+// Android PWA installation
 let deferredPrompt;
-
 window.addEventListener('beforeinstallprompt', (e) => {
-    // Prevent the mini-infobar from appearing on mobile
-    e.preventDefault();
-    // Stash the event so it can be triggered later
-    deferredPrompt = e;
-    
-    // Only show Android install button if we're not on iOS
     if (!isIOS()) {
-        elements.installButton.style.display = 'block';
+        e.preventDefault();
+        deferredPrompt = e;
         
         elements.installButton.addEventListener('click', async () => {
             if (deferredPrompt) {
-                // Show the install prompt
                 deferredPrompt.prompt();
-                
-                // Wait for the user to respond to the prompt
                 const { outcome } = await deferredPrompt.userChoice;
-                
                 if (outcome === 'accepted') {
-                    console.log('User accepted the install prompt');
-                    // Redirect to post-install message
                     window.location.href = '/?installed=true';
-                } else {
-                    console.log('User dismissed the install prompt');
                 }
-                
-                // Clear the deferredPrompt so it can be garbage collected
                 deferredPrompt = null;
             }
         });
     }
 });
 
-// Listen for app installation
-window.addEventListener('appinstalled', () => {
-    console.log('PWA was installed');
-    // Redirect to post-install message if not already there
-    if (!window.location.href.includes('installed=true')) {
-        window.location.href = '/?installed=true';
-    }
+// iOS Help Overlay
+elements.showSafariHelp?.addEventListener('click', () => {
+    elements.safariOverlay.classList.remove('hidden');
 });
 
-// iOS Help Overlay functionality
-if (elements.showSafariHelp) {
-    elements.showSafariHelp.addEventListener('click', () => {
-        elements.safariOverlay.classList.remove('hidden');
-    });
-}
+document.querySelector('.close-overlay')?.addEventListener('click', () => {
+    elements.safariOverlay.classList.add('hidden');
+});
 
-if (document.querySelector('.close-overlay')) {
-    document.querySelector('.close-overlay').addEventListener('click', () => {
-        elements.safariOverlay.classList.add('hidden');
-    });
-}
-
-// Initialize the app
+// Check for PWA installation on iOS
 window.addEventListener('DOMContentLoaded', initApp);
 
 // Additional check when page is shown from back/forward cache
@@ -116,19 +92,12 @@ window.addEventListener('pageshow', (event) => {
 // Service Worker Registration
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
+        navigator.serviceWorker.register('sw.js')
             .then(registration => {
-                console.log('ServiceWorker registered with scope:', registration.scope);
-                
-                // Check for updates periodically
-                setInterval(() => {
-                    registration.update().then(() => {
-                        console.log('Checked for service worker update');
-                    });
-                }, 60 * 60 * 1000); // Check every hour
+                console.log('ServiceWorker registered');
             })
             .catch(err => {
-                console.log('ServiceWorker registration failed:', err);
+                console.log('ServiceWorker registration failed: ', err);
             });
     });
 }
