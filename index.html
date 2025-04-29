@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#4a90e2">
+  <meta name="description" content="Weather PWA Application">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Weather PWA">
+  
+  <title>Weather PWA</title>
+  
+  <link rel="manifest" href="/manifest.json">
+  <link rel="apple-touch-icon" href="/icon-192x192.png">
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <header class="app-header">
+      <h1>Weather PWA</h1>
+      <button id="installButton" class="install-button" aria-label="Install app">Install App</button>
+    </header>
+    
+    <main class="weather-container">
+      <div class="location">
+        <h2 id="location">Loading...</h2>
+      </div>
+      
+      <div class="current-weather">
+        <img id="weatherIcon" src="/sunny.png" alt="Weather icon">
+        <div class="weather-info">
+          <span id="temperature">--</span>
+          <span id="weatherDescription">Loading weather...</span>
+        </div>
+      </div>
+      
+      <div class="forecast">
+        <div class="forecast-day">
+          <span>Mon</span>
+          <img src="/sunny.png" alt="Sunny">
+          <span>24°</span>
+        </div>
+        <div class="forecast-day">
+          <span>Tue</span>
+          <img src="/cloudy.png" alt="Cloudy">
+          <span>19°</span>
+        </div>
+        <div class="forecast-day">
+          <span>Wed</span>
+          <img src="/rainy.png" alt="Rainy">
+          <span>16°</span>
+        </div>
+      </div>
+    </main>
+    
+    <footer class="app-footer">
+      <p>Data provided by OpenWeatherMap</p>
+      <p id="offlineStatus" class="offline-status">Online</p>
+    </footer>
+  </div>
+  
+  <script src="/app.js"></script>
+</body>
+</html>
