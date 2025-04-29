@@ -1,12 +1,12 @@
 const CACHE_NAME = 'pwa-exclusive-v1';
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/app.js',
-    '/manifest.json',
-    '/share-icon.png',
-    '/safari-share.jpg',
-    '/add-to-homescreen.jpg'
+    '',
+    'index.html',
+    'app.js',
+    'manifest.json',
+    'share-icon.png',
+    'safari-share.jpg',
+    'add-to-homescreen.jpg'
 ];
 
 self.addEventListener('install', event => {
@@ -21,7 +21,7 @@ self.addEventListener('fetch', event => {
     if (event.request.mode === 'navigate') {
         event.respondWith(
             fetch(event.request)
-                .catch(() => caches.match('/'))
+                .catch(() => caches.match(''))
         );
     } else {
         event.respondWith(
