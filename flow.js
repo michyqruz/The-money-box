@@ -183,9 +183,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Reset attempts for next time
         window.verificationAttempts = 0;
-
-        // Store wallet name in localStorage
-        localStorage.setItem('status', 'completed');
     }
 });
     
