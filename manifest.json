@@ -2,7 +2,7 @@
   "name": "Gwallet",
   "short_name": "Gwallet",
   "description": "Secure Transactions",
-  "start_url": "https://michyqruz.github.io/TMB.com-special-fiesta-bookpurchase/",
+  "start_url": "index.html",
   "scope": ".",
   "display": "standalone",
   "background_color": "#ffffff",
