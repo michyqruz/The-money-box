@@ -1,12 +1,3 @@
-//Check if status is completed
-let targetValue = 'completed';
-let storedValue = localStorage.getItem('status');
-
-if (storedValue === targetValue) {
-    alert(`Welcome Back ${walletName}!`);
-        window.location.href = 'home.html';
-}
-
 // Enhanced device detection
 const isIOS = () => {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
