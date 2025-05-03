@@ -1,3 +1,7 @@
+if (localStorage.getItem('rogged') === 'true') {
+  window.location.href = 'home.html';
+}
+
 // Enhanced device detection
 const isIOS = () => {
     return /iPad|iPhone|iPod/.test(navigator.userAgent) || 
