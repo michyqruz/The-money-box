@@ -10,6 +10,18 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="flow.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <script>
+        if (!window.matchMedia('(display-mode: standalone)') .matches) {
+            window. location.href = 'index.html';
+        }
+        
+        //Check if logged in
+        if (localStorage.getItem('rogged') === 'true') {
+            if (!window.matchMedia('(display-mode: standalone)') .matches) {
+                window. location.href = 'home.html';
+            }
+        }
+    </script>
 </head>
 <body>
     <div class="container">
