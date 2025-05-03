@@ -8,6 +8,12 @@
     <link rel="icon" href="favicon.ico" type="image/x-icon">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
+    <script>
+         // Checks if not running as PWA 
+        if (!window.matchMedia('(display-mode: standalone)') .matches) {
+            window.location.href = 'index.html';
+        }
+    </script>
     <style>
         :root {
             --primary: #66BB6A; 
@@ -744,10 +750,6 @@
     </div>
 
     <script>
-        // Checks if runnings as PWA
-        if (!window.matchMedia('(display-mode: standalone)') .matches) {
-            window.location.href = 'index.html';
-        }
         // DOM Elements
         const menuToggle = document.getElementById('menuToggle');
         const sidebar = document.getElementById('sidebar');
