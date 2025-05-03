@@ -815,10 +815,7 @@
             logoutBtn.addEventListener('click', () => {
                 // Add your logout logic here
                 localStorage.removeItem('rogged');
-                setTimeout(function() {
-                    alert('Logging out...');
-                    window.location.href = 'flow.html';
-                }, 2000);
+                setTimeout(() => { alert('Logging out....'); window.location.href = 'flow.html'; }, 2000);
             });
             
             // Modal open buttons
