@@ -182,7 +182,10 @@ document.addEventListener('DOMContentLoaded', function() {
         window.location.href = 'home.html';
         
         // Reset attempts for next time
-        window.verificationAttempts = 0;
+        window.verificationAttempts = 0; 
+        
+        // After login
+        localStorage.setItem('isLoggedIn', 'true');
     }
 });
     
