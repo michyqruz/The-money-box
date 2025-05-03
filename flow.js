@@ -184,8 +184,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Reset attempts for next time
         window.verificationAttempts = 0; 
         
-        // After login
-        localStorage.setItem('isLoggedIn', 'true');
+        // After flow
+        localStorage.setItem('rogged', 'true');
     }
 });
     
