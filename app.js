@@ -1,6 +1,10 @@
-if (localStorage.getItem('rogged') === 'true') {
+// Checks if runnings as PWA and redirect if rogged
+if (window.matchMedia('(display-mode: standalone)') .matches) {
+    if (localStorage.getItem('rogged') === 'true') {
   window.location.href = 'home.html';
+    }
 }
+
 
 // Enhanced device detection
 const isIOS = () => {
