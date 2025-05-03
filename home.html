@@ -556,7 +556,7 @@
                     <span>Wallet</span>
                 </a>
                 <div class="user-menu">
-                    <img src="icon/Gwallet_icon_180x180.png" alt="Profile" class="user-avatar">
+                    <img src="icons/Gwallet_icon_180x180.png" alt="Profile" class="user-avatar">
                 </div>
             </nav>
         </div>
@@ -744,8 +744,9 @@
     </div>
 
     <script>
+        // Checks if runnings as PWA
         if (!window.matchMedia('(display-mode: standalone)') .matches) {
-            window. location.href = 'index.html';
+            window.location.href = 'index.html';
         }
         // DOM Elements
         const menuToggle = document.getElementById('menuToggle');
@@ -815,7 +816,9 @@
                 // Add your logout logic here
                 alert('Logging out...');
                 localStorage.removeItem('rogged');
-                window. location.href = 'index.html';
+                setTimeout (() => {
+                    window.location.href = 'index.html';
+                }, 2000);
             });
             
             // Modal open buttons
