@@ -119,6 +119,22 @@
     height: 28px;
     margin-right: 8px;
 }
+        
+        .hero-section {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border-radius: 0 0 20px 20px;
+            padding: 4rem 0;
+        }
+        .wallet-card {
+            border-radius: 15px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+            border: none;
+        }
+        .wallet-card:hover {
+            transform: translateY(-5px);
+        }       
 
 #safariOverlay {
   position: fixed;
@@ -251,8 +267,68 @@
             <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Wallet">
             <span>Wallet</span>
             </div>
-                <p style="width: 100%;">Secure, Convenient and Reliable....<br> Welcome to Gwallet! Your secure gateway to digital transactions.</p>
-                <button style="width: 100%;" id="toform">Continue</button>
+               <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold mb-4">Your Secure Crypto Wallet</h1>
+            <p class="lead mb-5">Store, send and receive cryptocurrencies with bank-grade security</p>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="create-wallet.html" class="btn btn-light btn-lg px-4">Create Wallet</a>
+                <a href="import-wallet.html" class="btn btn-outline-light btn-lg px-4">Import Wallet</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="card wallet-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h3>Secure Storage</h3>
+                            <p>Your private keys are encrypted and stored securely on your device. We never have access to your funds.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card wallet-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <h3>Multi-Coin Support</h3>
+                            <p>Support for Bitcoin, Ethereum, and all major ERC-20 tokens with more being added regularly.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="card wallet-card h-100">
+                        <div class="card-body text-center p-4">
+                            <div class="feature-icon">
+                                <i class="fas fa-exchange-alt"></i>
+                            </div>
+                            <h3>Easy Transactions</h3>
+                            <p>Send and receive crypto with just a few taps. Low fees and fast transaction times.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action -->
+    <section class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 class="mb-4">Ready to take control of your crypto?</h2>
+            <div class="d-flex justify-content-center gap-3">
+                <a href="create-wallet.html" class="btn">Get Started Now</a>
+            </div>
+        </div>
+    </section>
         </div>
     </div>
     
