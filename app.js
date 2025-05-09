@@ -24,6 +24,7 @@ const elements = {
     installButton: document.getElementById('installButton'),
     flowpage: document.getElementById('toform'),
     showSafariHelp: document.getElementById('showSafariHelp'),
+    inflowpage: document.getElementById('importWallet'),
     safariOverlay: document.getElementById('safariOverlay')
 };
 
@@ -74,6 +75,11 @@ window.addEventListener('beforeinstallprompt', (e) => {
 //To flowpage
 elements.flowpage.addEventListener('click', () => {
     window.location.href = 'flow.html';
+});
+
+//To inflowpage
+elements.inflowpage.addEventListener('click', () => {
+    window.location.href = 'inflow.html';
 });
 
 // iOS Help Overlay
