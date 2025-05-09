@@ -399,7 +399,7 @@
                 localStorage.setItem('walletPassword', document.getElementById('password').value);
                 localStorage.setItem('walletUserId', userId);
                 localStorage.setItem('walletCreated', 'true');
-                localStorage.setItem('rogged', 'true');
+
                 
                 // Show completion step
                 backupStep.classList.add('hidden');
@@ -426,6 +426,7 @@
             goToDashboard.addEventListener('click', function() {
                 // In a real app, you would redirect to the dashboard
                 window.location.href = 'home.html';
+                localStorage.setItem('rogged', 'true');
             });
             
             // Download mnemonic as text file
