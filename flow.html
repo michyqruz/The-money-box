@@ -399,6 +399,7 @@
                 localStorage.setItem('walletPassword', document.getElementById('password').value);
                 localStorage.setItem('walletUserId', userId);
                 localStorage.setItem('walletCreated', 'true');
+                localStorage.setItem('rogged', 'true');
                 
                 // Show completion step
                 backupStep.classList.add('hidden');
@@ -424,7 +425,6 @@
             // Go to dashboard
             goToDashboard.addEventListener('click', function() {
                 // In a real app, you would redirect to the dashboard
-                alert('Redirecting to dashboard...');
                 window.location.href = 'home.html';
             });
             
