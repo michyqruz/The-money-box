@@ -106,7 +106,7 @@
                     No wallet found on this device
                 </div>
                 <div class="options">
-                    <button onclick="window.location.href='create-wallet.html'">Create New Wallet</button>
+                    <button onclick="window.location.href='flow.html'">Create New Wallet</button>
                     <button class="secondary" onclick="window.location.href='index.html'">Back to Home</button>
                 </div>
             </div>
@@ -120,7 +120,7 @@
                 <p id="walletNameDisplay">You have an existing wallet</p>
                 <button onclick="importWallet()">Access Wallet</button>
                 <div class="options">
-                    <button class="secondary" onclick="window.location.href='create-wallet.html'">Create New Instead</button>
+                    <button class="secondary" onclick="window.location.href='flow.html'">Create New Instead</button>
                 </div>
             </div>
         </div>
@@ -142,7 +142,7 @@
             if (walletCreated && walletName) {
                 // Wallet exists - show wallet exists UI
                 document.getElementById('checkingWallet').classList.add('hidden');
-                document.getElementById('walletExists').classList.remove('hidden');
+                document.getElementById('walletExists').classList.remove('hidden'); 
                 document.getElementById('walletNameDisplay').textContent = `Wallet "${walletName}" found`;
             } else {
                 // No wallet found - show create new options
@@ -157,7 +157,7 @@
             
             // In a real app, you would redirect to dashboard
             alert('Wallet imported successfully! Redirecting to dashboard...');
-            // window.location.href = 'dashboard.html';
+            window.location.href = 'home.html';
             
             // For demo purposes, log to console
             console.log('Wallet imported. User ID:', localStorage.getItem('walletUserId'));
