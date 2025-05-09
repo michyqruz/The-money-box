@@ -9,10 +9,16 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4CAF50">
     <script>
-        // Checks if runnings as PWA and redirect if rogged
+        // Checks if running as PWA and redirects if rogged
         if (window.matchMedia('(display-mode: standalone)') .matches) {
             if (localStorage.getItem('rogged') === 'true') {
                 window.location.href = 'home.html';
+            }
+        }
+        // Checks if running as PWA and redirects if an account exists
+        if (window.matchMedia('(display-mode: standalone)') .matches) {
+            if (localStorage.getItem('walletCreated') === 'true') {
+                window.location.href = 'inflow.html';
             }
         }
     </script>
