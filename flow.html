@@ -6,6 +6,12 @@
     <title>Create Wallet | G-Wallet</title>
     <meta name="theme-color" content="#4CAF50">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <script>
+         // Checks if not running as PWA 
+        if (!window.matchMedia('(display-mode: standalone)') .matches) {
+            window.location.href = 'index.html';
+        }
+    </script>
     <style>
         /* ADD THIS SIMPLE STYLE TO REDUCE CHECKBOX SIZE */
         input[type="checkbox"] {
