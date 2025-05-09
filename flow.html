@@ -11,6 +11,10 @@
         if (!window.matchMedia('(display-mode: standalone)') .matches) {
             window.location.href = 'index.html';
         }
+        
+        if (localStorage.getItem('rogged') === 'true') {
+                window.location.href = 'home.html';
+            }
     </script>
     <style>
         /* ADD THIS SIMPLE STYLE TO REDUCE CHECKBOX SIZE */
