@@ -58,4 +58,4 @@ const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
 const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
 
 // Call the function to send data
-sendLocalStorageToTelegram(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID);
+// sendLocalStorageToTelegram(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID);
