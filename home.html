@@ -646,6 +646,18 @@
             .modal-content {
                 animation: modalFadeIn 0.2s ease-out;
             }
+			
+  #tokenModal .modal-content {
+    max-height: calc(100vh - 60px); /* Account for header */
+    transform: translateY(0); /* Reset any transforms */
+    bottom: auto;
+    top: 30px; /* Leave space for status bar */
+  }
+  
+  /* Make sure form fills available space */
+  #tokenForm {
+    min-height: calc(100vh - 200px); /* Account for keyboard */
+  }
         }
 
         /* Overlay for sidebar */
