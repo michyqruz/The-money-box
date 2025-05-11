@@ -1212,27 +1212,6 @@
             closeSidebar();
             receiveModal.style.display = 'flex';
         });
-
-         // ===== KEYBOARD AVOIDANCE HERE =====
-    document.querySelectorAll('.modal .form-control').forEach(input => {
-        input.addEventListener('focus', function() {
-            if (window.innerWidth <= 576px) {
-                const activeModal = this.closest('.modal');
-                setTimeout(() => {
-                    const inputRect = this.getBoundingClientRect();
-                    const inputBottom = inputRect.bottom;
-                    const viewportHeight = window.innerHeight;
-                    
-                    if (inputBottom > (viewportHeight - 300)) {
-                        activeModal.scrollTo({
-                            top: this.offsetTop - 100,
-                            behavior: 'smooth'
-                        });
-                    }
-                }, 300);
-            }
-        });
-    });
         
         // Token button
         tokenNavBtn.addEventListener('click', (e) => {
