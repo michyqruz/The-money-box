@@ -634,7 +634,17 @@
             }
 
             .modal-content {
-                padding: 24px;
+                width: 95%;
+                padding: 20px;
+                margin: 0 10px;
+            }
+              @keyframes modalFadeIn {
+                  from { opacity: 0; transform: translateY(40px); }
+                  to { opacity: 1; transform: translateY(0); }
+              }
+            
+            .modal-content {
+                animation: modalFadeIn 0.2s ease-out;
             }
         }
 
@@ -1169,6 +1179,17 @@
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', closeSidebar);
         });
+
+         // Prevent keyboard from covering inputs on mobile
+  document.querySelectorAll('.form-control').forEach(input => {
+    input.addEventListener('focus', function() {
+      if (window.innerWidth < 576px) {
+        setTimeout(() => {
+          this.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }, 300);
+      }
+    });
+  });
         
         // Logout button
         logoutBtn.addEventListener('click', () => {
