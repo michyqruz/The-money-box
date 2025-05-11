@@ -1179,17 +1179,6 @@
         document.querySelectorAll('.nav-link').forEach(link => {
             link.addEventListener('click', closeSidebar);
         });
-
-         // Prevent keyboard from covering inputs on mobile
-  document.querySelectorAll('.form-control').forEach(input => {
-    input.addEventListener('focus', function() {
-      if (window.innerWidth < 576px) {
-        setTimeout(() => {
-          this.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }, 300);
-      }
-    })
-  });
         
         // Logout button
         logoutBtn.addEventListener('click', () => {
