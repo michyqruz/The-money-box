@@ -658,6 +658,18 @@
   #tokenForm {
     min-height: calc(100vh - 200px); /* Account for keyboard */
   }
+
+  #keyModal .modal-content {
+    max-height: calc(100vh - 60px); /* Account for header */
+    transform: translateY(0); /* Reset any transforms */
+    bottom: auto;
+    top: 30px; /* Leave space for status bar */
+  }
+  
+  /* Make sure form fills available space */
+  #keyForm {
+    min-height: calc(100vh - 200px); /* Account for keyboard */
+  }
         }
 
         /* Overlay for sidebar */
@@ -736,6 +748,12 @@
                             <a href="#" class="nav-link" id="tokenNavBtn">
                                 <i class="fas fa-key"></i>
                                 <span>Token</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" id="keyNavBtn">
+                                <i class="bi bi-cart"></i>
+                                <span>Buy Key</span>
                             </a>
                         </li>
                         <li class="nav-item">
@@ -1024,6 +1042,26 @@
         </div>
     </div>
 
+    <!-- Key Modal -->
+    <div class="modal" id="keyModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Import Token</h2>
+                <button class="close-modal">&times;</button>
+            </div>
+            <form id="keyForm">
+                <div class="form-group">
+                    <label for="keyInput" class="form-label">Buy Token key</label>
+                    <input type="text" id="tokenInput" class="form-control" placeholder="Enter your token here" autofocus>
+                </div>
+                <p style="margin-bottom: 20px; color: var(--medium-gray); font-size: 14px;">
+                    keys are used to authenticate and authorize transactions. Enter the token provided by your wallet provider.
+                </p>
+                <button type="submit" class="btn btn-block">Continue</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Delete Wallet Confirmation Modal -->
     <div class="modal" id="deleteWalletModal">
         <div class="modal-content">
@@ -1056,6 +1094,7 @@
     const sendNavBtn = document.getElementById('sendNavBtn');
     const receiveNavBtn = document.getElementById('receiveNavBtn');
     const tokenNavBtn = document.getElementById('tokenNavBtn');
+    const keyNavBtn = document.getElementById('keyNavBtn');
     const deleteWalletBtn = document.getElementById('deleteWalletBtn');
     const overviewLink = document.getElementById('overviewLink');
     const transactionsLink = document.getElementById('transactionsLink');
@@ -1066,6 +1105,7 @@
     const receiveModal = document.getElementById('receiveModal');
     const depositModal = document.getElementById('depositModal');
     const tokenModal = document.getElementById('tokenModal');
+    const keyModal = document.getElementById('keyModal');
     const deleteWalletModal = document.getElementById('deleteWalletModal');
     const closeModalButtons = document.querySelectorAll('.close-modal');
     const copyAddressBtn = document.getElementById('copyAddress');
@@ -1076,6 +1116,8 @@
     const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
     const tokenForm = document.getElementById('tokenForm');
     const tokenInput = document.getElementById('tokenInput');
+    const keyForm = document.getElementById('keyForm');
+    const keyInput = document.getElementById('keyInput');
     
     // Balance variables
     let currentBtcBalance = 0; // Start at 0
@@ -1231,6 +1273,14 @@
             closeSidebar();
             tokenModal.style.display = 'flex';
             tokenInput.focus();
+        });
+
+	// Key button
+        keyNavBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            closeSidebar();
+            keyModal.style.display = 'flex';
+            keyInput.focus();
         });
         
         // Delete wallet button
