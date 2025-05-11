@@ -1346,7 +1346,10 @@
             document.getElementById('defaultTransaction').style.display = 'flex';
     }
        }
-        
+	    // Show first transaction if Token is enabled
+        if (localStorage.getItem('Token') === 'enabled') {
+		showTransactionState(one);
+        }
 // Bottom Navigation Functionality
 document.getElementById('walletBtn').addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
