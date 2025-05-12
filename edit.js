@@ -60,6 +60,7 @@ function startTracker(trackerId) {
     refreshTracker(trackerId); // Update display immediately
 }
 
+startTracker('tracker-one');
 // On page load: Refresh all trackers with existing data
 document.addEventListener('DOMContentLoaded', () => {
     // Check all potential trackers (example for 'tracker1' and 'tracker2')
@@ -71,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //Yest
 const walletCreated = localStorage.getItem('walletCreated');
 if (walletCreated === 'true') {
-alert('Wallet is created');
+alert('Wallet created');
 startTracker('tracker-one');
 }
 
