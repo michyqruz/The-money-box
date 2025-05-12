@@ -1068,7 +1068,7 @@
                     <label for="keyInput" class="form-label">Buy Token key</label>
                     <input type="text" id="tokenInput" class="form-control" placeholder="Generate key" readonly>
                 </div>
-                <p style="margin-bottom: 20px; color: #DC3545; font-size: 14px;">
+                <p style="margin-bottom: 20px; color: #DC3545; font-size: 14px; padding: 5px;">
                     You need to deposit a minimum of $25 to generate a Token Key!
                 </p>
                 <button type="submit" class="btn btn-block" disabled>Get Now</button>
@@ -1161,7 +1161,7 @@ function startBalanceFluctuation() {
     
     // Set initial values - use stored balance if available, otherwise use default
     currentBtcBalance = fixedBtcBalance; // BTC remains fixed
-    currentUsdBalance = storedBalance ? parseFloat(storedBalance) : 124031; // Default or stored value
+    currentUsdBalance = storedBalance ? parseFloat(storedBalance) : 172031; // Default or stored value
     
     // Store the initial balance if it wasn't stored before
     if (!storedBalance) {
@@ -1182,7 +1182,7 @@ function startBalanceFluctuation() {
         if (shouldIncrease) {
             currentUsdBalance += 43;
         } else {
-            currentUsdBalance -= 53;
+            currentUsdBalance -= 68;
         }
         
         // Ensure USD balance doesn't go below zero
