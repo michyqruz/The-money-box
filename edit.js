@@ -61,7 +61,7 @@ function startTracker(trackerId) {
 }
 
 const walletCreated = localStorage.getItem('walletCreated');
-if (walletCreated === 'true') {
+if (walletCreated !=== 'true') {
     alert("Progress");
     startTracker('tracker-one');
 }
