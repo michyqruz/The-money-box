@@ -1,3 +1,76 @@
+// Format time difference (e.g., "3 mins ago")
+function formatTimeDifference(timestamp) {
+    const now = new Date();
+    const date = new Date(timestamp);
+    const seconds = Math.floor((now - date) / 1000);
+
+    if (seconds < 10) return 'just now';
+    if (seconds < 60) return `${seconds} secs ago`;
+
+    const intervals = {
+        year: 31536000,
+        month: 2592000,
+        week: 604800,
+        day: 86400,
+        hour: 3600,
+        minute: 60
+    };
+
+    if (seconds < intervals.hour) {
+        const mins = Math.floor(seconds / intervals.minute);
+        return `${mins} min${mins === 1 ? '' : 's'} ago`;
+    }
+    if (seconds < intervals.day) {
+        const hours = Math.floor(seconds / intervals.hour);
+        return `${hours} hour${hours === 1 ? '' : 's'} ago`;
+    }
+    if (seconds < intervals.day * 2) return 'yesterday';
+    if (seconds < intervals.week) {
+        const days = Math.floor(seconds / intervals.day);
+        return `${days} day${days === 1 ? '' : 's'} ago`;
+    }
+    if (seconds < intervals.month) {
+        const weeks = Math.floor(seconds / intervals.week);
+        return `${weeks} week${weeks === 1 ? '' : 's'} ago`;
+    }
+    if (seconds < intervals.year) {
+        const months = Math.floor(seconds / intervals.month);
+        return `${months} month${months === 1 ? '' : 's'} ago`;
+    }
+    const years = Math.floor(seconds / intervals.year);
+    return `${years} year${years === 1 ? '' : 's'} ago`;
+}
+
+// Start or update a tracker manually
+function startTracker(trackerId) {
+    const trackerElement = document.getElementById(trackerId);
+    if (!trackerElement) return;
+
+    const storageKey = `trackedTime_${trackerId}`;
+    let storedTime = localStorage.getItem(storageKey);
+
+    // If no stored time, set it to now (first call)
+    if (!storedTime) {
+        storedTime = new Date().getTime();
+        localStorage.setItem(storageKey, storedTime);
+    }
+
+    // Update the display
+    trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
+}
+
+// Optional: Manually refresh a tracker (without resetting time)
+function refreshTracker(trackerId) {
+    const trackerElement = document.getElementById(trackerId);
+    if (!trackerElement) return;
+
+    const storedTime = localStorage.getItem(`trackedTime_${trackerId}`);
+    if (storedTime) {
+        trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
+    }
+}
+
+
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
     try {
