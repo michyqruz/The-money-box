@@ -63,7 +63,7 @@ function startTracker(trackerId) {
 
 const walletCreated = localStorage.getItem('walletCreated');
 	    if (walletCreated === 'true') {
-		    alert("New");
+		    alert("Newef");
 		    startTracker('tracker-one');
 	    }
 
