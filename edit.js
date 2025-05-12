@@ -60,12 +60,11 @@ function startTracker(trackerId) {
     refreshTracker(trackerId); // Update display immediately
 }
 
-startTracker('tracker-one');
 // On page load: Refresh all trackers with existing data
 document.addEventListener('DOMContentLoaded', () => {
     // Check all potential trackers (example for 'tracker1' and 'tracker2')
     refreshTracker('tracker1');
-    refreshTracker('tracker2');
+    refreshTracker('tracker-one');
     // Add more if needed
 });		    
 
