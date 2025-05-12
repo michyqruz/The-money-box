@@ -86,7 +86,13 @@ function initAllTimeTrackers() {
 // Initialize when the page loads
 document.addEventListener('DOMContentLoaded', initAllTimeTrackers);
 
-		    updateTimeDisplay('tracker-one');
+const walletCreated = localStorage.getItem( 'walletCreated') ;
+if (walletCreated === 'true') {
+alert('Wallet is created');
+	updateTimeDisplay('tracker-one');
+}
+
+		    
 
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
