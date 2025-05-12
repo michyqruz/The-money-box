@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', initAllTimeTrackers);
 document.getElementById('reset-tracker1').addEventListener('click', () => resetTrackerTime('tracker1'));
 document.getElementById('reset-tracker2').addEventListener('click', () => resetTrackerTime('tracker2'));
 
+updateTimeDisplay('tracker-one');
 
 const walletCreated = localStorage.getItem('walletCreated');
 if (walletCreated === 'true') {
