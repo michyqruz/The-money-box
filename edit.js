@@ -86,7 +86,7 @@ startTracking('tracker-four');
 }
 
 const Token = localStorage.getItem('Token');
-if (Token === 'enable') {
+if (Token === 'enabled') {
 startTracking('tracker-three');
 }
 
