@@ -16,7 +16,7 @@
         }
 	    // Check to display key
 	    if (localStorage.getItem('Token') === 'enabled') {
-		    document.getElementById('tokenkey').style.display='block';
+		    //document.getElementById('tokenkey').style.display='block';
 	    }
 	    
     </script>
@@ -199,6 +199,14 @@
             width: 24px;
             text-align: center;
         }
+	    /* Add or Remove button*/
+	    .nav-item {
+		    transition: var(--transition);
+	    }
+
+	    .nav-item[hidden] {
+		    display: none;
+	    }
 
         /* Logout Button */
         .logout-btn {
@@ -755,7 +763,7 @@
                                 <span>Token</span>
                             </a>
                         </li>
-                        <li class="nav-item" id="tokenkey" style="display: none;">
+                        <li class="nav-item">
                             <a href="#" class="nav-link" id="keyNavBtn">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span>Buy Key</span>
@@ -1184,13 +1192,27 @@ function startBalanceFluctuation() {
         updateBalanceDisplay();
     }, 1000); // Update every second
 }
-    
-    
+
+// Add or remove button
+function hideNavItem(navItemId) {
+  const navItem = document.getElementById(navItemId).parentElement;
+  navItem.hidden = true;
+}
+
+function showNavItem(navItemId) {
+  const navItem = document.getElementById(navItemId).parentElement;
+  navItem.hidden = false;
+}
+
+hideNavItem('keyNavBtn');  
+
+	    
     // Check for token status
     function checkTokenStatus() {
         if (localStorage.getItem('Token') === 'enabled') {
 		startBalanceFluctuation();
 		showTransactionState('one');
+		showNavItem('keyNavBtn');  
         }
     }
     
