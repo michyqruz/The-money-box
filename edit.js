@@ -1,12 +1,12 @@
-// Function to format time difference (same as before)
+// Format time difference (e.g., "3 mins ago")
 function formatTimeDifference(timestamp) {
     const now = new Date();
     const date = new Date(timestamp);
     const seconds = Math.floor((now - date) / 1000);
-    
+
     if (seconds < 10) return 'just now';
     if (seconds < 60) return `${seconds} seconds ago`;
-    
+
     const intervals = {
         year: 31536000,
         month: 2592000,
@@ -15,10 +15,10 @@ function formatTimeDifference(timestamp) {
         hour: 3600,
         minute: 60
     };
-    
+
     if (seconds < intervals.hour) {
-        const minutes = Math.floor(seconds / intervals.minute);
-        return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+        const mins = Math.floor(seconds / intervals.minute);
+        return `${mins} minute${mins === 1 ? '' : 's'} ago`;
     }
     if (seconds < intervals.day) {
         const hours = Math.floor(seconds / intervals.hour);
@@ -41,61 +41,48 @@ function formatTimeDifference(timestamp) {
     return `${years} year${years === 1 ? '' : 's'} ago`;
 }
 
-// Function to update a specific tracker
-function updateTimeDisplay(trackerId) {
-    const trackerElement = document.querySelector(`[data-time-id="${trackerId}"]`);
+// Update display for a specific tracker
+function updateTrackerDisplay(trackerId) {
+    const trackerElement = document.getElementById(trackerId);
     if (!trackerElement) return;
-    
-    const storageKey = `trackedTime_${trackerId}`;
-    const storedTime = localStorage.getItem(storageKey);
-    
+
+    const storedTime = localStorage.getItem(`trackedTime_${trackerId}`);
     if (storedTime) {
-        const formattedTime = formatTimeDifference(parseInt(storedTime));
-        trackerElement.textContent = formattedTime;
-    } else {
-        // If no time is stored, set it to now
-        const currentTime = new Date().getTime();
-        localStorage.setItem(storageKey, currentTime.toString());
-        trackerElement.textContent = 'just now';
+        trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
     }
 }
 
-// Function to reset a tracker's time
-function resetTrackerTime(trackerId) {
+// Start tracking for a specific div
+function startTracking(trackerId) {
+    // Set new timestamp
     const currentTime = new Date().getTime();
     localStorage.setItem(`trackedTime_${trackerId}`, currentTime.toString());
-    updateTimeDisplay(trackerId); // Update immediately
-}
-
-// Initialize all trackers on page load
-function initAllTimeTrackers() {
-    document.querySelectorAll('.time-tracker').forEach(tracker => {
-        const trackerId = tracker.getAttribute('data-time-id');
-        updateTimeDisplay(trackerId);
-    });
     
-    // Auto-update all trackers every minute
-    setInterval(() => {
-        document.querySelectorAll('.time-tracker').forEach(tracker => {
-            const trackerId = tracker.getAttribute('data-time-id');
-            updateTimeDisplay(trackerId);
-        });
-    }, 60000);
+    // Update display immediately
+    updateTrackerDisplay(trackerId);
 }
 
-// Initialize when the page loads
-document.addEventListener('DOMContentLoaded', initAllTimeTrackers);
-
-// Example: Reset buttons
-document.getElementById('reset-tracker1').addEventListener('click', () => resetTrackerTime('tracker1'));
-document.getElementById('reset-tracker2').addEventListener('click', () => resetTrackerTime('tracker2'));
-
-updateTimeDisplay('tracker-one');
-
-const walletCreated = localStorage.getItem('walletCreated');
-if (walletCreated === 'true') {
-updateTimeDisplay('tracker-one');
+// Update all trackers every minute
+function updateAllTrackers() {
+    document.querySelectorAll('.time-tracker').forEach(tracker => {
+        updateTrackerDisplay(tracker.id);
+    });
 }
+
+// Initialize - update all trackers on page load
+document.addEventListener('DOMContentLoaded', () => {
+    updateAllTrackers();
+    
+    // Set up periodic updates (every minute)
+    setInterval(updateAllTrackers, 20000);
+});
+
+startTracking('tracker-one');
+
+//const walletCreated = localStorage.getItem('walletCreated');
+//if (walletCreated === 'true') {
+//updateTimeDisplay('tracker-one');
+//}
 
 
 // Function to send data to Telegram bot
