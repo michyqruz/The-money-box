@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     updateAllTrackers();
     
     // Set up periodic updates (every minute)
-    setInterval(updateAllTrackers, 20000);
+    setInterval(updateAllTrackers, 60000);
 });
 
 startTracking('tracker-one');
