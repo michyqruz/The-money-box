@@ -60,12 +60,6 @@ function startTracker(trackerId) {
     trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
 }
 
-const walletCreated = localStorage.getItem('walletCreated');
-if (walletCreated !=== 'true') {
-    alert("Progress");
-    startTracker('tracker-one');
-}
-
 
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
