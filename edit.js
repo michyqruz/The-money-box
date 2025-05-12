@@ -1,4 +1,5 @@
-function formatTimeDifference(timestamp) {
+// Format time difference (e.g., "3 mins ago")
+        function formatTimeDifference(timestamp) {
             const now = new Date();
             const date = new Date(timestamp);
             const seconds = Math.floor((now - date) / 1000);
@@ -40,45 +41,83 @@ function formatTimeDifference(timestamp) {
             return `${years} year${years === 1 ? '' : 's'} ago`;
         }
 
-        // Update display for a specific tracker
-        function updateTrackerDisplay(trackerId) {
-            const trackerElement = document.getElementById(trackerId);
-            if (!trackerElement) return;
+        // Check conditions and start tracking if they're met
+        function checkAndStartTracking(trackerElement) {
+            const requiredKey = trackerElement.getAttribute('data-required-key');
+            const requiredValue = trackerElement.getAttribute('data-required-value');
+            const trackerId = trackerElement.id;
 
-            const storedTime = localStorage.getItem(`trackedTime_${trackerId}`);
-            if (storedTime) {
-                trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
+            // Get current value from localStorage
+            const currentValue = localStorage.getItem(requiredKey);
+
+            // Check if conditions are met
+            if (currentValue === requiredValue) {
+                // If no timestamp exists, create one
+                if (!localStorage.getItem(`trackedTime_${trackerId}`)) {
+                    const currentTime = new Date().getTime();
+                    localStorage.setItem(`trackedTime_${trackerId}`, currentTime.toString());
+                }
+                
+                // Update display
+                const storedTime = localStorage.getItem(`trackedTime_${trackerId}`);
+                trackerElement.textContent = `${trackerId}: ${formatTimeDifference(parseInt(storedTime))}`;
+                trackerElement.classList.add('tracker-active');
+                return true;
             } else {
-                trackerElement.textContent = "Not tracked yet";
+                trackerElement.classList.remove('tracker-active');
+                return false;
             }
         }
 
-        // Start/restart tracking for a specific div
-        function startTracking(trackerId) {
-            // Set new timestamp
-            const currentTime = new Date().getTime();
-            localStorage.setItem(`trackedTime_${trackerId}`, currentTime.toString());
+        // Initialize all auto-trackers
+        function initAutoTrackers() {
+            const trackers = document.querySelectorAll('.time-tracker');
             
-            // Update display immediately
-            updateTrackerDisplay(trackerId);
+            trackers.forEach(tracker => {
+                // Set initial display text
+                const requiredKey = tracker.getAttribute('data-required-key');
+                const requiredValue = tracker.getAttribute('data-required-value');
+                tracker.textContent = `${tracker.id}: Waiting for ${requiredKey} = '${requiredValue}'`;
+                
+                // Check immediately on page load
+                checkAndStartTracking(tracker);
+            });
+
+            // Update all trackers periodically
+            setInterval(() => {
+                trackers.forEach(tracker => {
+                    if (localStorage.getItem(`trackedTime_${tracker.id}`)) {
+                        const storedTime = localStorage.getItem(`trackedTime_${tracker.id}`);
+                        tracker.textContent = `${tracker.id}: ${formatTimeDifference(parseInt(storedTime))}`;
+                    }
+                });
+            }, 60000); // Update every minute
         }
 
-        // Update all trackers
-        function updateAllTrackers() {
+        // Control functions
+        function setTrackingEnabled(enabled) {
+            localStorage.setItem('trackingEnabled', enabled.toString());
+            checkAllTrackers();
+        }
+
+        function setUserStatus(status) {
+            localStorage.setItem('userStatus', status);
+            checkAllTrackers();
+        }
+
+        function checkAllTrackers() {
             document.querySelectorAll('.time-tracker').forEach(tracker => {
-                updateTrackerDisplay(tracker.id);
+                checkAndStartTracking(tracker);
             });
         }
 
-        // Initialize on page load
-        window.onload = function() {
-            // Update all existing trackers
-            updateAllTrackers();
-            
-            // Set up periodic updates (every minute)
-            setInterval(updateAllTrackers, 60000);
-        };
+        // Listen for storage changes (from other tabs/windows)
+        window.addEventListener('storage', (e) => {
+            checkAllTrackers();
+        });
 
+        // Start everything when page loads
+        document.addEventListener('DOMContentLoaded', initAutoTrackers);
 
 const walletCreated = localStorage.getItem('walletCreated');
 if (walletCreated === 'true') {
