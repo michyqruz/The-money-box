@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 startTracking('tracker-one');
 
 const walletCreated = localStorage.getItem('walletCreated');
-if (walletCreated !=== 'true') {
+if ('true' === 'true') {
     alert('progress')
 startTracking('tracker-one');
 }
