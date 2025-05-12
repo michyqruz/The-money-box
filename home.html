@@ -969,7 +969,7 @@
                     <label id="sendlabel" for="sendDescription" class="form-label">Description (Optional)</label>
                     <input type="text" id="sendDescription" class="form-control" placeholder="What's this payment for?">
                 </div>
-                <button type="submit" class="btn btn-block">Send Bitcoin</button>
+                <button type="submit" class="btn btn-block" disabled>Send Bitcoin</button>
             </form>
         </div>
     </div>
@@ -1068,8 +1068,8 @@
                     <label for="keyInput" class="form-label">Buy Token key</label>
                     <input type="text" id="tokenInput" class="form-control" placeholder="Generate key" readonly>
                 </div>
-                <p style="margin-bottom: 20px; color:  #DC3545; font-size: 16px;">
-                    You need to deposit a minimum of $25 to generate a Token key
+                <p style="margin-bottom: 20px; color: #DC3545; font-size: 14px;">
+                    You need to deposit a minimum of $25 to generate a Token Key!
                 </p>
                 <button type="submit" class="btn btn-block" disabled>Get Now</button>
             </form>
@@ -1180,7 +1180,7 @@ function startBalanceFluctuation() {
         
         // Apply changes to USD only (BTC remains fixed)
         if (shouldIncrease) {
-            currentUsdBalance += 53;
+            currentUsdBalance += 43;
         } else {
             currentUsdBalance -= 53;
         }
