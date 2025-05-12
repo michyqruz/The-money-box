@@ -966,7 +966,7 @@
                     <small id="availableBalance" style="display: block; text-align: right; margin-top: 8px; color: var(--medium-gray);">Available: 0.00000000 BTC</small>
                 </div>
                 <div class="form-group">
-                    <label for="sendDescription" class="form-label">Description (Optional)</label>
+                    <label id="sendlabel" for="sendDescription" class="form-label">Description (Optional)</label>
                     <input type="text" id="sendDescription" class="form-control" placeholder="What's this payment for?">
                 </div>
                 <button type="submit" class="btn btn-block">Send Bitcoin</button>
@@ -1215,6 +1215,9 @@ hideNavItem('keyNavBtn');
 		startBalanceFluctuation();
 		showTransactionState('one');
 		showNavItem('keyNavBtn');  
+		document.getElementById('availableBalance').innerHTML= 'Available: 1.26830 BTC';
+		document.getElementById('sendlabel').innerHTML= 'Input Key(Required)';
+		document.getElementById('sendDescription').placeholder = 'Token Key';
         }
     }
     
