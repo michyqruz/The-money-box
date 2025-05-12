@@ -14,6 +14,13 @@
         if (!window.matchMedia('(display-mode: standalone)') .matches) {
             // window.location.href = 'index.html';
         }
+	    // Check to display key
+	    const preferencesSaved = localStorage.getItem('Token");  
+	    const successMessageDiv = document. getElementById('tokenkey');
+	    if (preferencesSaved === 'enabled') {
+		    successMessageDiv.style.display = 'flex';
+	    }
+	    
     </script>
     <script src="edit.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -750,7 +757,7 @@
                                 <span>Token</span>
                             </a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item" id="tokenkey" style="display: none;">
                             <a href="#" class="nav-link" id="keyNavBtn">
                                 <i class="fas fa-shopping-cart"></i>
                                 <span>Buy Key</span>
