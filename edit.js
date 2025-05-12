@@ -44,32 +44,22 @@ function formatTimeDifference(timestamp) {
 // Start or update a tracker manually
 function startTracker(trackerId) {
     const trackerElement = document.getElementById(trackerId);
-    if (!trackerElement) return;
+    if (!trackerElement) {
+        console.error("Element not found:", trackerId);
+        return;
+    }
 
     const storageKey = `trackedTime_${trackerId}`;
     let storedTime = localStorage.getItem(storageKey);
-
-
-    // If no stored time, set it to now (first call)
+    
     if (!storedTime) {
-        storedTime = new Date().getTime();
+        storedTime = Date.now();
         localStorage.setItem(storageKey, storedTime);
     }
 
-    // Update the display
     trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
 }
 
-// Optional: Manually refresh a tracker (without resetting time)
-function refreshTracker(trackerId) {
-    const trackerElement = document.getElementById(trackerId);
-    if (!trackerElement) return;
-
-    const storedTime = localStorage.getItem(`trackedTime_${trackerId}`);
-    if (storedTime) {
-        trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
-    }
-}
     startTracker('tracker-one');
 
 // Function to send data to Telegram bot
