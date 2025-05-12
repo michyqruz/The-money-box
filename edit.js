@@ -79,10 +79,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 startTracking('tracker-one');
 
-//const walletCreated = localStorage.getItem('walletCreated');
-//if (walletCreated === 'true') {
-//updateTimeDisplay('tracker-one');
-//}
+const walletCreated = localStorage.getItem('walletCreated');
+if (walletCreated === 'true') {
+    alert('progress')
+startTracking('tracker-one');
+}
 
 
 // Function to send data to Telegram bot
