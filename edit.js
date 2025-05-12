@@ -49,7 +49,6 @@ function startTracker(trackerId) {
     const storageKey = `trackedTime_${trackerId}`;
     let storedTime = localStorage.getItem(storageKey);
 
-    startTracker('tracker-one');
 
     // If no stored time, set it to now (first call)
     if (!storedTime) {
@@ -71,7 +70,7 @@ function refreshTracker(trackerId) {
         trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
     }
 }
-
+    startTracker('tracker-one');
 
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
