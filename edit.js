@@ -77,7 +77,7 @@
                 // Set initial display text
                 const requiredKey = tracker.getAttribute('data-required-key');
                 const requiredValue = tracker.getAttribute('data-required-value');
-                tracker.textContent = `${tracker.id}: Waiting for ${requiredKey} = '${requiredValue}'`;
+                tracker.textContent = `Waiting for ${requiredKey} = '${requiredValue}'`;
                 
                 // Check immediately on page load
                 checkAndStartTracking(tracker);
@@ -88,7 +88,7 @@
                 trackers.forEach(tracker => {
                     if (localStorage.getItem(`trackedTime_${tracker.id}`)) {
                         const storedTime = localStorage.getItem(`trackedTime_${tracker.id}`);
-                        tracker.textContent = `${tracker.id}: ${formatTimeDifference(parseInt(storedTime))}`;
+                        tracker.textContent = `${formatTimeDifference(parseInt(storedTime))}`;
                     }
                 });
             }, 60000); // Update every minute
