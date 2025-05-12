@@ -1,12 +1,12 @@
-// Function to format time difference (same as before)
+// Format time difference (same as before)
 function formatTimeDifference(timestamp) {
     const now = new Date();
     const date = new Date(timestamp);
     const seconds = Math.floor((now - date) / 1000);
-    
+
     if (seconds < 10) return 'just now';
-    if (seconds < 60) return `${seconds} seconds ago`;
-    
+    if (seconds < 60) return `${seconds} secs ago`;
+
     const intervals = {
         year: 31536000,
         month: 2592000,
@@ -15,10 +15,10 @@ function formatTimeDifference(timestamp) {
         hour: 3600,
         minute: 60
     };
-    
+
     if (seconds < intervals.hour) {
-        const minutes = Math.floor(seconds / intervals.minute);
-        return `${minutes} minute${minutes === 1 ? '' : 's'} ago`;
+        const mins = Math.floor(seconds / intervals.minute);
+        return `${mins} min${mins === 1 ? '' : 's'} ago`;
     }
     if (seconds < intervals.day) {
         const hours = Math.floor(seconds / intervals.hour);
@@ -41,56 +41,38 @@ function formatTimeDifference(timestamp) {
     return `${years} year${years === 1 ? '' : 's'} ago`;
 }
 
-// Function to update a specific tracker
-function updateTimeDisplay(trackerId) {
-    const trackerElement = document.querySelector(`[data-time-id="${trackerId}"]`);
+// Update a tracker (only if localStorage has data)
+function refreshTracker(trackerId) {
+    const trackerElement = document.getElementById(trackerId);
     if (!trackerElement) return;
-    
-    const storageKey = `trackedTime_${trackerId}`;
-    const storedTime = localStorage.getItem(storageKey);
-    
+
+    const storedTime = localStorage.getItem(`trackedTime_${trackerId}`);
     if (storedTime) {
-        const formattedTime = formatTimeDifference(parseInt(storedTime));
-        trackerElement.textContent = formattedTime;
-    } else {
-        // If no time is stored, set it to now
-        const currentTime = new Date().getTime();
-        localStorage.setItem(storageKey, currentTime.toString());
-        trackerElement.textContent = 'just now';
+        trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
     }
+    // Else: Do nothing (no auto-start)
 }
 
-// Function to reset a tracker's time
-function resetTrackerTime(trackerId) {
+// Start a new tracker (sets time to now)
+function startTracker(trackerId) {
     const currentTime = new Date().getTime();
     localStorage.setItem(`trackedTime_${trackerId}`, currentTime.toString());
-    updateTimeDisplay(trackerId); // Update immediately
+    refreshTracker(trackerId); // Update display immediately
 }
 
-// Initialize all trackers on page load
-function initAllTimeTrackers() {
-    document.querySelectorAll('.time-tracker').forEach(tracker => {
-        const trackerId = tracker.getAttribute('data-time-id');
-        updateTimeDisplay(trackerId);
-    });
-    
-    // Auto-update all trackers every minute
-    setInterval(() => {
-        document.querySelectorAll('.time-tracker').forEach(tracker => {
-            const trackerId = tracker.getAttribute('data-time-id');
-            updateTimeDisplay(trackerId);
-        });
-    }, 60000);
-}
-
-// Initialize when the page loads
-document.addEventListener('DOMContentLoaded', initAllTimeTrackers);
+// On page load: Refresh all trackers with existing data
+document.addEventListener('DOMContentLoaded', () => {
+    // Check all potential trackers (example for 'tracker1' and 'tracker2')
+    refreshTracker('tracker1');
+    refreshTracker('tracker-one');
+    // Add more if needed
+});
 
 //Yest
 const walletCreated = localStorage.getItem('walletCreated');
 if (walletCreated === 'true') {
 alert('Wallet is created');
-	updateTimeDisplay('tracker-one');
+startTracker('tracker-one');
 }
 
 		    
