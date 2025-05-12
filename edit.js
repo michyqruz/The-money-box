@@ -60,7 +60,7 @@
                 
                 // Update display
                 const storedTime = localStorage.getItem(`trackedTime_${trackerId}`);
-                trackerElement.textContent = `${trackerId}: ${formatTimeDifference(parseInt(storedTime))}`;
+                trackerElement.textContent = `${formatTimeDifference(parseInt(storedTime))}`;
                 trackerElement.classList.add('tracker-active');
                 return true;
             } else {
