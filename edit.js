@@ -61,6 +61,7 @@ function startTracker(trackerId) {
 }
 
 if (localStorage.getItem('walletCreated'); === 'true') {
+    alert("Progress");
     startTracker('tracker-one');
 }
 
