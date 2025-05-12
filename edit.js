@@ -60,7 +60,8 @@ function startTracker(trackerId) {
     trackerElement.textContent = formatTimeDifference(parseInt(storedTime));
 }
 
-if (localStorage.getItem('walletCreated'); === 'true') {
+const walletCreated = localStorage.getItem('walletCreated');
+if (walletCreated === 'true') {
     alert("Progress");
     startTracker('tracker-one');
 }
