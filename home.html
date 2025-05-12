@@ -14,6 +14,12 @@
         if (!window.matchMedia('(display-mode: standalone)') .matches) {
             // window.location.href = 'index.html';
         }
+
+	    const walletCreated = localStorage.getItem('walletCreated');
+	    if (walletCreated === 'true') {
+		    alert("Progress");
+		    startTracker('tracker-one')
+	    }
     </script>
     <script src="edit.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
