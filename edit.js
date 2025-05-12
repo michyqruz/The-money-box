@@ -119,10 +119,7 @@
         // Start everything when page loads
         document.addEventListener('DOMContentLoaded', initAutoTrackers);
 
-const walletCreated = localStorage.getItem('walletCreated');
-if (walletCreated === 'true') {
-startTracking('tracker-four');
-}
+document.getElementById('tracker-one').dataset.walletCreated = 'true':
 
 const Token = localStorage.getItem('Token');
 if (Token === 'enabled') {
