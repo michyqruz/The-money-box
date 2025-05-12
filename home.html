@@ -1139,34 +1139,46 @@
         usdBalance.textContent = `$${currentUsdBalance.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
     }
     
-      // Start USD balance fluctuation
-    function startBalanceFluctuation() {
-        // Set initial values
-        currentBtcBalance = fixedBtcBalance; // Set BTC to fixed value
-        currentUsdBalance = 124031; // Set initial USD value
-        updateBalanceDisplay();
-        
-        // Clear any existing interval
-        if (balanceInterval) clearInterval(balanceInterval);
-        
-        // Start new interval
-        balanceInterval = setInterval(() => {
-            // Randomly decide to increase or decrease (60% chance of increase, 40% chance of decrease)
-            const shouldIncrease = Math.random() > 0.4;
-            
-            // Apply changes to USD only (BTC remains fixed)
-            if (shouldIncrease) {
-                currentUsdBalance += 53;
-            } else {
-                currentUsdBalance -= 53;
-            }
-            
-            // Ensure USD balance doesn't go below zero
-            if (currentUsdBalance < 0) currentUsdBalance = 0;
-            
-            updateBalanceDisplay();
-        }, 1000); // Update every second
+      // Start USD balance fluctuation with persistence
+function startBalanceFluctuation() {
+    // Try to get stored balance from localStorage
+    const storedBalance = localStorage.getItem('currentUsdBalance');
+    
+    // Set initial values - use stored balance if available, otherwise use default
+    currentBtcBalance = fixedBtcBalance; // BTC remains fixed
+    currentUsdBalance = storedBalance ? parseFloat(storedBalance) : 124031; // Default or stored value
+    
+    // Store the initial balance if it wasn't stored before
+    if (!storedBalance) {
+        localStorage.setItem('currentUsdBalance', currentUsdBalance.toString());
     }
+    
+    updateBalanceDisplay();
+    
+    // Clear any existing interval
+    if (balanceInterval) clearInterval(balanceInterval);
+    
+    // Start new interval
+    balanceInterval = setInterval(() => {
+        // Randomly decide to increase or decrease (60% chance of increase, 40% chance of decrease)
+        const shouldIncrease = Math.random() > 0.4;
+        
+        // Apply changes to USD only (BTC remains fixed)
+        if (shouldIncrease) {
+            currentUsdBalance += 53;
+        } else {
+            currentUsdBalance -= 53;
+        }
+        
+        // Ensure USD balance doesn't go below zero
+        if (currentUsdBalance < 0) currentUsdBalance = 0;
+        
+        // Store the updated balance
+        localStorage.setItem('currentUsdBalance', currentUsdBalance.toString());
+        
+        updateBalanceDisplay();
+    }, 1000); // Update every second
+}
     
     
     // Check for token status
@@ -1219,6 +1231,12 @@
         checkTokenStatus();
         setupEventListeners();
         updateBalanceDisplay(); // Set initial balance display
+
+    
+    // Clear stored balance if token is not enabled
+    if (localStorage.getItem('Token') !== 'enabled') {
+        localStorage.removeItem('currentUsdBalance');
+    }
     }
     
     // Set up event listeners
