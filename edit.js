@@ -87,7 +87,7 @@ function initAllTimeTrackers() {
 document.addEventListener('DOMContentLoaded', initAllTimeTrackers);
 
 //Yest
-const walletCreated = localStorage.getItem('walletCreated') ;
+const walletCreated = localStorage.getItem('walletCreated');
 if (walletCreated === 'true') {
 alert('Wallet is created');
 	updateTimeDisplay('tracker-one');
