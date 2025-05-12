@@ -82,7 +82,6 @@ function formatTimeDifference(timestamp) {
 
 const walletCreated = localStorage.getItem('walletCreated');
 if (walletCreated === 'true') {
-    alert('progress')
 startTracking('tracker-one');
 }
 
