@@ -82,7 +82,12 @@ function formatTimeDifference(timestamp) {
 
 const walletCreated = localStorage.getItem('walletCreated');
 if (walletCreated === 'true') {
-startTracking('tracker-one');
+startTracking('tracker-four');
+}
+
+const Token = localStorage.getItem('Token');
+if (Token === 'enable') {
+startTracking('tracker-three');
 }
 
 
