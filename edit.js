@@ -1,4 +1,37 @@
-// Format time difference (e.g., "3 mins ago")
+// Array of user IDs and names to check
+const usersToCheck = [
+  { id: "12345", name: "John Doe" },
+  { id: "67890", name: "Jane Doe" },
+  { id: "11111", name: "Unknown User" },
+];
+
+// Function to check if users exist in local storage
+function checkUsersInLocalStorage(users) {
+  // Get stored wallet name and user ID from local storage
+  const storedWalletName = localStorage.getItem("walletName");
+  const storedWalletUserId = localStorage.getItem("WalletUserId");
+
+  // Iterate through the users to check
+  users.forEach((user) => {
+    // Check if the user ID and name exist in local storage
+    if (storedWalletName === user.name && storedWalletUserId === user.id) {
+      alert(`User ${user.name} (${user.id}) exists in local storage`);
+      // Call another function if a match is found
+      anotherFunction(user.id, user.name);
+    } else {
+      console.log(`User ${user.name} (${user.id}) does not exist in local storage`);
+    }
+  });
+}
+
+// Another function to call when a match is found
+function anotherFunction(id, name) {
+  //(`Hello, ${name} (${id})!`);
+  // Add specific functionality here
+}
+
+// Call the function to check users
+checkUsersInLocalStorage(usersToCheck);// Format time difference (e.g., "3 mins ago")
         function formatTimeDifference(timestamp) {
             const now = new Date();
             const date = new Date(timestamp);
