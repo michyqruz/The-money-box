@@ -1466,6 +1466,7 @@ function checkNameAndIDInLocalStorage(userDataArray) {
     });
 
     if (matchFound) {
+showTransactionState('one');
       showTransactionState('two');
       return true;
     }
@@ -1488,6 +1489,8 @@ function checkTwoNameAndIDInLocalStorage(userDataArray) {
     });
 
     if (matchFound) {
+	    showTransactionState('one');
+	    showTransactionState('two');
       showTransactionState('three');
       return true;
     }
