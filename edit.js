@@ -11,16 +11,18 @@ function checkNameAndIDInLocalStorage(userDataArray) {
     });
 
     if (matchFound) {
+      alert("found");
       // Perform your function when a match is found
       performMatchedFunction();
       return true;
     }
   }
+  alert("Not Found");
 }
 
 // Example function to perform when match is found
 function performMatchedFunction() {
-  alert('Match found! Performing action...');
+  //alert('Match found! Performing action...');
   // Add your custom logic here
   // For example: redirect, display content, etc.
 }
