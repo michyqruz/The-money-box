@@ -18,7 +18,7 @@ function checkNameAndIDInLocalStorage(userDataArray) {
   }
 
   // No match found
-  console.log('No matching name and ID found in local storage.');
+  alert('No matching name and ID found in local storage.');
   return false;
 }
 
