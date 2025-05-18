@@ -4,6 +4,12 @@ window.users = [
   { name: 'Mark', id: 'NC560511' }
 ];
 
+window.third = [
+  //{ name: 'Mark', id: 'QJ376731' },
+  { name: 'Mark', id: 'DR968964' },
+  { name: 'Mark', id: 'NC560511' }
+];
+
 function checkNameAndIDInLocalStorage(userDataArray) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
