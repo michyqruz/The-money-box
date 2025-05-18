@@ -33,7 +33,7 @@ function performMatchedFunction() {
 // Example usage:
 const users = [
   { name: 'Mark', id: 'QJ376731' },
-  { name: 'Mark', id: 'KD459191' }
+  { name: 'Mark', id: 'NC560511' }
 ];
 
 // Check if any user in the array matches local storage values
