@@ -1,5 +1,5 @@
 
-function checkNameAndIDInLocalStorage(userDataArray) {
+document.addEventListener("DOMContentLoaded", function checkNameAndIDInLocalStorage(userDataArray) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
   const storedID = localStorage.getItem('walletUserId');
