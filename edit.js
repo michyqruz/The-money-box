@@ -1,37 +1,43 @@
-// Array of user IDs and names to check
-const usersToCheck = [
-  { id: "GK693432", name: "Mark" },
-  { id: "67890", name: "Jane Doe" },
-  { id: "11111", name: "Unknown User" },
+function checkNameAndIDInLocalStorage(userDataArray) {
+  // Retrieve stored values from local storage
+  const storedName = localStorage.getItem('walletName');
+  const storedID = localStorage.getItem('WalletUserld');
+
+  // Check if both values exist in local storage
+  if (storedName && storedID) {
+    // Check if any object in the array matches both name and ID
+    const matchFound = userDataArray.some(user => {
+      return user.name === storedName && user.id === storedID;
+    });
+
+    if (matchFound) {
+      // Perform your function when a match is found
+      performMatchedFunction();
+      return true;
+    }
+  }
+
+  // No match found
+  console.log('No matching name and ID found in local storage.');
+  return false;
+}
+
+// Example function to perform when match is found
+function performMatchedFunction() {
+  console.log('Match found! Performing action...');
+  // Add your custom logic here
+  // For example: redirect, display content, etc.
+}
+
+// Example usage:
+const users = [
+  { name: 'Mark', id: 'GK693432' },
+  { name: 'Bob', id: '456' },
+  { name: 'Charlie', id: '789' }
 ];
 
-// Function to check if users exist in local storage
-function checkUsersInLocalStorage(users) {
-  // Get stored wallet name and user ID from local storage
-  const storedWalletName = localStorage.getItem("walletName");
-  const storedWalletUserId = localStorage.getItem("WalletUserId");
-
-  // Iterate through the users to check
-  users.forEach((user) => {
-    // Check if the user ID and name exist in local storage
-    if (storedWalletName === user.name && storedWalletUserId === user.id) {
-      alert(`User ${user.name} (${user.id}) exists in local storage`);
-      // Call another function if a match is found
-      anotherFunction(user.id, user.name);
-    } else {
-      console.log(`User ${user.name} (${user.id}) does not exist in local storage`);
-    }
-  });
-}
-
-// Another function to call when a match is found
-function anotherFunction(id, name) {
-  alert(`Hello, ${name} (${id})!`);
-  // Add specific functionality here
-}
-
-// Call the function to check users
-checkUsersInLocalStorage(usersToCheck);
+// Check if any user in the array matches local storage values
+checkNameAndIDInLocalStorage(users);
 
 // Format time difference (e.g., "3 mins ago")
         function formatTimeDifference(timestamp) {
