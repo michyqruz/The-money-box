@@ -1,4 +1,4 @@
-const window.users = [
+window.users = [
   { name: 'Mark', id: 'QJ376731' },
   { name: 'Mark', id: 'DR968964' },
   { name: 'Mark', id: 'NC560511' }
