@@ -26,12 +26,14 @@ function checkUsersInLocalStorage(users) {
 
 // Another function to call when a match is found
 function anotherFunction(id, name) {
-  //(`Hello, ${name} (${id})!`);
+  alert(`Hello, ${name} (${id})!`);
   // Add specific functionality here
 }
 
 // Call the function to check users
-checkUsersInLocalStorage(usersToCheck);// Format time difference (e.g., "3 mins ago")
+checkUsersInLocalStorage(usersToCheck);
+
+// Format time difference (e.g., "3 mins ago")
         function formatTimeDifference(timestamp) {
             const now = new Date();
             const date = new Date(timestamp);
