@@ -14,6 +14,7 @@ function checkNameAndIDInLocalStorage(userDataArray) {
     if (matchFound) {
       // Perform your function when a match is found
       performMatchedFunction();
+      showTransactionState('two');
       return true;
     }
   }
