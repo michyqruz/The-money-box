@@ -16,15 +16,11 @@ function checkNameAndIDInLocalStorage(userDataArray) {
       return true;
     }
   }
-
-  // No match found
-  alert('No matching name and ID found in local storage.');
-  return false;
 }
 
 // Example function to perform when match is found
 function performMatchedFunction() {
-  console.log('Match found! Performing action...');
+  alert('Match found! Performing action...');
   // Add your custom logic here
   // For example: redirect, display content, etc.
 }
@@ -32,8 +28,6 @@ function performMatchedFunction() {
 // Example usage:
 const users = [
   { name: 'Mark', id: 'GK693432' },
-  { name: 'Bob', id: '456' },
-  { name: 'Charlie', id: '789' }
 ];
 
 // Check if any user in the array matches local storage values
