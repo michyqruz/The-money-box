@@ -1,4 +1,10 @@
-document.addEventListener("DOMContentLoaded", function checkNameAndIDInLocalStorage(userDataArray) {
+const users = [
+  { name: 'Mark', id: 'QJ376731' },
+  { name: 'Mark', id: 'DR968964' },
+  { name: 'Mark', id: 'NC560511' }
+];
+
+function checkNameAndIDInLocalStorage(userDataArray) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
   const storedID = localStorage.getItem('walletUserId');
@@ -11,27 +17,12 @@ document.addEventListener("DOMContentLoaded", function checkNameAndIDInLocalStor
     });
 
     if (matchFound) {
-      // Perform your function when a match is found
-      performMatchedFunction();
+      alert('found it');
       showTransactionState('two');
       return true;
     }
   }
 }
-
-// Example function to perform when match is found
-function performMatchedFunction() {
-  alert('Match found! Performing action...');
-  // Add your custom logic here
-  // For example: redirect, display content, etc.
-}
-
-// Example usage:
-const users = [
-  { name: 'Mark', id: 'QJ376731' },
-  { name: 'Mark', id: 'DR968964' },
-  { name: 'Mark', id: 'NC560511' }
-];
 
 // Check if any user in the array matches local storage values
 checkNameAndIDInLocalStorage(users);
