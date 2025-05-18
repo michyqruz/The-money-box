@@ -2,7 +2,7 @@
 function checkNameAndIDInLocalStorage(userDataArray) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
-  const storedID = localStorage.getItem('walletUserld');
+  const storedID = localStorage.getItem('walletUserId');
 
   // Check if both values exist in local storage
   if (storedName && storedID) {
