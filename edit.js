@@ -1,3 +1,4 @@
+
 function checkNameAndIDInLocalStorage(userDataArray) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
@@ -11,18 +12,20 @@ function checkNameAndIDInLocalStorage(userDataArray) {
     });
 
     if (matchFound) {
-      alert("found");
       // Perform your function when a match is found
       performMatchedFunction();
       return true;
     }
   }
-  alert("Not Found");
+
+  // No match found
+  alert('No matching name and ID found in local storage.');
+  return false;
 }
 
 // Example function to perform when match is found
 function performMatchedFunction() {
-  //alert('Match found! Performing action...');
+  alert('Match found! Performing action...');
   // Add your custom logic here
   // For example: redirect, display content, etc.
 }
