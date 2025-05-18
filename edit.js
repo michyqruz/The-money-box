@@ -17,10 +17,6 @@ function checkNameAndIDInLocalStorage(userDataArray) {
       return true;
     }
   }
-
-  // No match found
-  alert('No matching name and ID found in local storage.');
-  return false;
 }
 
 // Example function to perform when match is found
