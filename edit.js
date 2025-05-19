@@ -25,7 +25,7 @@ function checkNameAndIDInLocalStorage(userDataArray) {
 
     if (matchFound) {
 	    localStorage.setItem('Transactions', 'Three');
-      alert('Did it');
+      alert('Did fine');
     }
   }
 }
