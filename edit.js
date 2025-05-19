@@ -10,28 +10,6 @@ window.third = [
   { name: 'Mark', id: 'KV434660' }
 ];
 
-function checkNameAndIDInLocalStorage(userDataArray) {
-  // Retrieve stored values from local storage
-  const storedName = localStorage.getItem('walletName');
-  const storedID = localStorage.getItem('walletUserId');
-
-  // Check if both values exist in local storage
-  if (storedName && storedID) {
-    // Check if any object in the array matches both name and ID
-    const matchFound = userDataArray.some(user => {
-      return user.name === storedName && user.id === storedID;
-    });
-
-    if (matchFound) {
-      alert('found it');
-      showTransactionState('two');
-      return true;
-    }
-  }
-}
-
-// Check if any user in the array matches local storage values
-checkNameAndIDInLocalStorage(users);
 
 // Format time difference (e.g., "3 mins ago")
         function formatTimeDifference(timestamp) {
