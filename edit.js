@@ -43,6 +43,7 @@ function checkTwoNameAndIDInLocalStorage(userDataArray) {
     });
 
     if (matchFound) {
+	    alert('AGAIN');
 	    localStorage.setItem('Lastdiv', 'Four');
     }
   }
