@@ -821,7 +821,7 @@
                                     </div>
                                     <div>
                                         <div style="font-weight: 500;">Done Wallet</div>
-                                        <div style="font-size: 14px; color: var(--medium-gray);" id="tracker-one" class="time-tracker" data-required-key="wallet" data-required-value="true"></div>
+                                        <div style="font-size: 14px; color: var(--medium-gray);" id="tracker-one" class="time-tracker" data-required-key="FourthTracker" data-required-value="true"></div>
                                     </div>
                                 </div>
                                 <div style="text-align: right;">
@@ -838,7 +838,7 @@
                                     </div>
                                     <div>
                                         <div style="font-weight: 500;">Received Bitcoin</div>
-                                        <div style="font-size: 14px; color: var(--medium-gray);" id="tracker-two" class="time-tracker" data-required-key="trackingEnabled" data-required-value="true"></div>
+                                        <div style="font-size: 14px; color: var(--medium-gray);" id="tracker-two" class="time-tracker" data-required-key="ThirdTracker" data-required-value="true"></div>
                                     </div>
                                 </div>
                                 <div style="text-align: right;">
@@ -1454,8 +1454,16 @@ hideNavItem('keyNavBtn');
             document.getElementById('defaultTransaction').style.display = 'flex';
     }
        }
-
-		showTransactionState('two');
+      
+	    if (localStorage.getItem('Transactions') === 'Third') {
+		   showTransactionState('two');
+		    localStorage.setItem('ThirdTracker', 'true');
+	    }
+	    
+	    if (localStorage.getItem('Transactions') === 'Fourth') {
+		   showTransactionState('three');
+		    localStorage.setItem('FourthTracker', 'true');
+	    }
 		    
 // Bottom Navigation Functionality
 document.getElementById('walletBtn').addEventListener('click', () => {
