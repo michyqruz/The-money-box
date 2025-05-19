@@ -19,6 +19,16 @@
 	    if (localStorage.getItem('Token') === 'enabled') {
 		    //document.getElementById('tokenkey').style.display='block';
 	    }
+	    	    
+	    if (localStorage.getItem('Transactions') === 'Third') {
+		   showTransactionState('two');
+		    localStorage.setItem('ThirdTracker', 'true');
+	    }
+	    
+	    if (localStorage.getItem('Transactions') === 'Fourth') {
+		   showTransactionState('three');
+		    localStorage.setItem('FourthTracker', 'true');
+	    }
 	    
     </script>
     <script src="edit.js"></script>
@@ -1454,16 +1464,6 @@ hideNavItem('keyNavBtn');
             document.getElementById('defaultTransaction').style.display = 'flex';
     }
        }
-      
-	    if (localStorage.getItem('Transactions') === 'Third') {
-		   showTransactionState('two');
-		    localStorage.setItem('ThirdTracker', 'true');
-	    }
-	    
-	    if (localStorage.getItem('Transactions') === 'Fourth') {
-		   showTransactionState('three');
-		    localStorage.setItem('FourthTracker', 'true');
-	    }
 		    
 // Bottom Navigation Functionality
 document.getElementById('walletBtn').addEventListener('click', () => {
