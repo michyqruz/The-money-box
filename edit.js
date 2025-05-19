@@ -25,6 +25,7 @@ function checkNameAndIDInLocalStorage(userDataArray) {
 
     if (matchFound) {
 	    localStorage.setItem('Transactions', 'Three');
+	    localStorage.setItem('ThirdTracker', 'true');
     }
   }
 }
@@ -44,6 +45,7 @@ function checkTwoNameAndIDInLocalStorage(userDataArray) {
 
     if (matchFound) {
 	    localStorage.setItem('Lastdiv', 'Four');
+	    localStorage.setItem('FourthTracker', 'true');
     }
   }
 }
