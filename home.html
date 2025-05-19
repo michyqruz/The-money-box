@@ -1451,7 +1451,9 @@ hideNavItem('keyNavBtn');
             document.getElementById('defaultTransaction').style.display = 'flex';
     }
        }
-	    
+	    if (localStorage.getItem('Transactions') === 'Third') {
+		showTransactionState('two');
+	    }
 // Bottom Navigation Functionality
 document.getElementById('walletBtn').addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
