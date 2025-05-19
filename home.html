@@ -1225,16 +1225,15 @@ hideNavItem('keyNavBtn');
 
 	   function checkthird() {
 		   if (localStorage.getItem('Transactions') === 'Three') {
-		    alert('Micky u really try');
+		   localStorage.setItem('ThirdTracker', 'true');
 		   showTransactionState('two');
-		    localStorage.setItem('ThirdTracker', 'true');
 		   }
 	   }
 
 	    function checkfourth() {
 		    if (localStorage.getItem('Transactions') === 'Four') {
+		   localStorage.setItem('FourthTracker', 'true');
 		   showTransactionState('three');
-		    localStorage.setItem('FourthTracker', 'true');
 		    }
 	    }
 
