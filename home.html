@@ -1225,19 +1225,15 @@ hideNavItem('keyNavBtn');
 
 	   function checkthird() {
 		   if (localStorage.getItem('Transactions') === 'Three') {
-		   localStorage.setItem('ThirdTracker', 'true');
 		   showTransactionState('two');
 		   }
 	   }
 
 	    function checkfourth() {
 		    if (localStorage.getItem('Lastdiv') === 'Four') {
-		   localStorage.setItem('FourthTracker', 'true');
 		   showTransactionState('three');
 		    }
-	    }
-
-	     
+	    }     
     
     // Handle token form submission
     function handleTokenSubmit(e) {
