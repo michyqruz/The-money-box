@@ -20,17 +20,6 @@
 		    //document.getElementById('tokenkey').style.display='block';
 	    }
 	    	    
-	    if (localStorage.getItem('Transactions') === 'Three') {
-		    alert('Micky u try');
-		   showTransactionState('two');
-		    localStorage.setItem('ThirdTracker', 'true');
-	    }
-	    
-	    if (localStorage.getItem('Transactions') === 'Four') {
-		   showTransactionState('three');
-		    localStorage.setItem('FourthTracker', 'true');
-	    }
-	    
     </script>
     <script src="edit.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -1233,6 +1222,23 @@ hideNavItem('keyNavBtn');
 		document.getElementById('sendDescription').required = true;
         }
     }
+
+	   function checkthird() {
+		   if (localStorage.getItem('Transactions') === 'Three') {
+		    alert('Micky u really try');
+		   showTransactionState('two');
+		    localStorage.setItem('ThirdTracker', 'true');
+		   }
+	   }
+
+	    function checkfourth() {
+		    if (localStorage.getItem('Transactions') === 'Four') {
+		   showTransactionState('three');
+		    localStorage.setItem('FourthTracker', 'true');
+		    }
+	    }
+
+	     
     
     // Handle token form submission
     function handleTokenSubmit(e) {
@@ -1275,7 +1281,9 @@ hideNavItem('keyNavBtn');
         checkUserName();
         checkTokenStatus();
         setupEventListeners();
-        updateBalanceDisplay(); // Set initial balance display
+        updateBalanceDisplay();
+        checkthird();
+        checkfourth();// Set initial balance display
 
     
     // Clear stored balance if token is not enabled
@@ -1465,7 +1473,8 @@ hideNavItem('keyNavBtn');
             document.getElementById('defaultTransaction').style.display = 'flex';
     }
        }
-		    
+
+	    
 // Bottom Navigation Functionality
 document.getElementById('walletBtn').addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
