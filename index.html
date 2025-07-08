@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Install Guard</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512x512.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .install-screen {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-content {
+            min-height: 100vh;
+            background: #f5f5f5;
+            display: none;
+        }
+
+        .wallet-container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            background: white;
+            min-height: 100vh;
+        }
+
+        .wallet-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .wallet-header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #333;
+            line-height: 1.3;
+            margin-bottom: 20px;
+        }
+
+        .feature-card {
+            background: #f8f9fa;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .feature-icon {
+            width: 40px;
+            height: 40px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .feature-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+        }
+
+        .feature-content h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+        }
+
+        .feature-content p {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        .wallet-buttons {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .btn-primary {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-primary:hover {
+            background: #45a049;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #4CAF50;
+            border: 2px solid #4CAF50;
+            border-radius: 12px;
+            padding: 14px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .home-indicator {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 134px;
+            height: 5px;
+            background: #333;
+            border-radius: 3px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .icon-container {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+        }
+
+        .ios-icon { background: #dbeafe; color: #2563eb; }
+        .android-icon { background: #dcfce7; color: #4CAF50; }
+        .desktop-icon { background: #f3e8ff; color: #9333ea; }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .install-steps {
+            margin: 20px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .step-number {
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .android .step-number { background: #4CAF50; }
+        .desktop .step-number { background: #9333ea; }
+
+        .step-content h3 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .step-icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .note {
+            background: #f0f8ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 20px;
+        }
+
+        .android .note { background: #f0fdf4; border-color: #bbf7d0; }
+        .desktop .note { background: #faf5ff; border-color: #e9d5ff; }
+
+        .note p {
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .android .note p { color: #2e7d32; }
+        .desktop .note p { color: #7c3aed; }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .intro-text h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .intro-text p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: block !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Installation Required Screen -->
+    <div id="installScreen" class="install-screen">
+        <div class="container">
+            <div class="intro-text">
+                <h1>App Installation Required</h1>
+                <p>This content is only available as an installed app. Please follow the instructions below to install.</p>
+            </div>
+
+            <!-- iOS Installation Guide -->
+            <div id="iosGuide" class="card ios hidden">
+                <div class="card-header">
+                    <div class="icon-container ios-icon">📱</div>
+                    <h2 class="card-title">Install on iOS</h2>
+                </div>
+                <div class="install-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Tap the Share button</h3>
+                            <p><span class="step-icon">↗️</span>Usually at the bottom of Safari</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Select "Add to Home Screen"</h3>
+                            <p><span class="step-icon">🏠</span>Scroll down to find this option</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Tap "Add" to install</h3>
+                            <p>The app will appear on your home screen</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <p><strong>Note:</strong> This only works in Safari browser. If you're using Chrome or another browser, please open this page in Safari first.</p>
+                </div>
+            </div>
+
+            <!-- Android Installation Guide -->
+            <div id="androidGuide" class="card android hidden">
+                <div class="card-header">
+                    <div class="icon-container android-icon">📱</div>
+                    <h2 class="card-title">Install on Android</h2>
+                </div>
+                <div class="install-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Tap the menu button</h3>
+                            <p><span class="step-icon">⋮</span>Three dots in the top right corner</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Select "Add to Home screen"</h3>
+                            <p><span class="step-icon">🏠</span>Or "Install app" if available</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Confirm installation</h3>
+                            <p>Tap "Add" or "Install" to complete</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <p><strong>Tip:</strong> You might see an "Install" banner at the bottom of the screen. You can tap that instead!</p>
+                </div>
+            </div>
+
+            <!-- Desktop Installation Guide -->
+            <div id="desktopGuide" class="card desktop hidden">
+                <div class="card-header">
+                    <div class="icon-container desktop-icon">💻</div>
+                    <h2 class="card-title">Install on Desktop</h2>
+                </div>
+                <div class="install-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Look for the install icon</h3>
+                            <p><span class="step-icon">⬇️</span>In the address bar (Chrome/Edge)</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Click "Install"</h3>
+                            <p>Or use the browser menu → "Install app"</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Confirm installation</h3>
+                            <p>The app will open in its own window</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <p><strong>Note:</strong> Installation is supported in Chrome, Edge, and other Chromium-based browsers.</p>
+                </div>
+            </div>
+
+            <!-- Generic Installation Guide -->
+            <div id="genericGuide" class="card hidden">
+                <div class="card-header">
+                    <h2 class="card-title">Install Required</h2>
+                </div>
+                <p class="text-center" style="color: #666;">
+                    Please install this app to access the content. Look for the install option in your browser menu.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Crypto Wallet App Content (shown only when installed) -->
+    <div id="appContent" class="app-content">
+        <div class="wallet-container">
+            <div class="wallet-header">
+                <h1>Store, send and receive cryptocurrencies with bank-grade security</h1>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12 1L3 5V11C3 16.55 6.84 21.74 12 23C17.16 21.74 21 16.55 21 11V5L12 1M12 7C13.4 7 14.8 8.6 14.8 10V11.5C15.4 11.5 16 12.4 16 13V16C16 17.4 15.4 18 14.8 18H9.2C8.6 18 8 17.4 8 16V13C8 12.4 8.6 11.5 9.2 11.5V10C9.2 8.6 10.6 7 12 7M12 8.2C11.2 8.2 10.5 8.7 10.5 10V11.5H13.5V10C13.5 8.7 12.8 8.2 12 8.2Z"/>
+                    </svg>
+                </div>
+                <div class="feature-content">
+                    <h3>Secure Storage</h3>
+                    <p>Your private keys are encrypted and stored securely on your device.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M7,15H9C9,16.08 10.37,17 12,17C13.63,17 15,16.08 15,15C15,13.9 13.96,13.5 11.76,12.97C9.64,12.44 7,11.78 7,9C7,7.21 8.47,5.69 10.5,5.18V3H13.5V5.18C15.53,5.69 17,7.21 17,9H15C15,7.92 13.63,7 12,7C10.37,7 9,7.92 9,9C9,10.1 10.04,10.5 12.24,11.03C14.36,11.56 17,12.22 17,15C17,16.79 15.53,18.31 13.5,18.82V21H10.5V18.82C8.47,18.31 7,16.79 7,15Z"/>
+                    </svg>
+                </div>
+                <div class="feature-content">
+                    <h3>Very Low charges</h3>
+                    <p>Lowest transaction fees wallet for Bitcoin.</p>
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9,11H15L13,9L15,7H9V9H11L9,11M7,5H17A2,2 0 0,1 19,7V17A2,2 0 0,1 17,19H7A2,2 0 0,1 5,17V7A2,2 0 0,1 7,5M7,7V17H17V7H7Z"/>
+                    </svg>
+                </div>
+                <div class="feature-content">
+                    <h3>Easy Transactions</h3>
+                    <p>Send and receive crypto with just a few taps.</p>
+                </div>
+            </div>
+
+            <div class="wallet-buttons">
+                <button class="btn-primary">Create Wallet</button>
+                <button class="btn-secondary">Import Wallet</button>
+            </div>
+        </div>
+
+        <div class="home-indicator"></div>
+    </div>
+
+    <script>
+        class PWAInstallGuard {
+            constructor() {
+                this.deviceType = 'unknown';
+                this.isStandalone = false;
+                this.init();
+            }
+
+            init() {
+                this.detectDevice();
+                this.checkStandalone();
+                this.showAppropriateContent();
+                this.setupEventListeners();
+            }
+
+            detectDevice() {
+                const userAgent = navigator.userAgent;
+                const platform = navigator.platform;
+                
+                // More comprehensive iOS detection
+                const isIOS = /iPad|iPhone|iPod/.test(userAgent) || 
+                             (platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+                             /iPad/.test(userAgent) ||
+                             /iPhone/.test(userAgent) ||
+                             /iPod/.test(userAgent);
+
+                // Android detection
+                const isAndroid = /Android/.test(userAgent);
+
+                // Desktop detection (but not iOS masquerading as desktop)
+                const isDesktop = !isIOS && !isAndroid && 
+                                 (/Windows|Mac|Linux/.test(userAgent) || 
+                                  /Windows|Mac|Linux/.test(platform));
+
+                if (isIOS) {
+                    this.deviceType = 'ios';
+                } else if (isAndroid) {
+                    this.deviceType = 'android';
+                } else if (isDesktop) {
+                    this.deviceType = 'desktop';
+                } else {
+                    this.deviceType = 'unknown';
+                }
+            }
+
+            checkStandalone() {
+                // Multiple ways to check if app is installed/standalone
+                const isStandaloneDisplay = window.matchMedia('(display-mode: standalone)').matches;
+                const isStandaloneNavigator = window.navigator.standalone === true;
+                const isStandaloneReferrer = document.referrer.includes('android-app://');
+                
+                this.isStandalone = isStandaloneDisplay || isStandaloneNavigator || isStandaloneReferrer;
+            }
+
+            showAppropriateContent() {
+                const installScreen = document.getElementById('installScreen');
+                const appContent = document.getElementById('appContent');
+
+                if (this.isStandalone) {
+                    // Show app content if installed
+                    installScreen.style.display = 'none';
+                    appContent.style.display = 'block';
+                } else {
+                    // Show installation guide
+                    installScreen.style.display = 'flex';
+                    appContent.style.display = 'none';
+                    this.showInstallGuide();
+                }
+            }
+
+            showInstallGuide() {
+                // Hide all guides first
+                document.getElementById('iosGuide').classList.add('hidden');
+                document.getElementById('androidGuide').classList.add('hidden');
+                document.getElementById('desktopGuide').classList.add('hidden');
+                document.getElementById('genericGuide').classList.add('hidden');
+
+                // Show appropriate guide based on device
+                switch (this.deviceType) {
+                    case 'ios':
+                        document.getElementById('iosGuide').classList.remove('hidden');
+                        break;
+                    case 'android':
+                        document.getElementById('androidGuide').classList.remove('hidden');
+                        break;
+                    case 'desktop':
+                        document.getElementById('desktopGuide').classList.remove('hidden');
+                        break;
+                    default:
+                        document.getElementById('genericGuide').classList.remove('hidden');
+                        break;
+                }
+            }
+
+            setupEventListeners() {
+                // Listen for display mode changes
+                const mediaQuery = window.matchMedia('(display-mode: standalone)');
+                mediaQuery.addEventListener('change', () => {
+                    this.checkStandalone();
+                    this.showAppropriateContent();
+                });
+
+                // Listen for beforeinstallprompt event (for supported browsers)
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                });
+
+                // Listen for appinstalled event
+                window.addEventListener('appinstalled', () => {
+                    setTimeout(() => {
+                        this.checkStandalone();
+                        this.showAppropriateContent();
+                    }, 1000);
+                });
+            }
+        }
+
+        // Initialize the PWA Install Guard when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new PWAInstallGuard();
+        });
+
+        // Also check when the page becomes visible (in case user switches back after installing)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                setTimeout(() => {
+                    new PWAInstallGuard();
+                }, 500);
+            }
+        });
+
+        // Check when window regains focus
+        window.addEventListener('focus', () => {
+            setTimeout(() => {
+                new PWAInstallGuard();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
