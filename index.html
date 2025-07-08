@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PWA Install Guard</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="icon-512x512.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .install-screen {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f1f8e9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .app-content {
+            min-height: 100vh;
+            background: white;
+            display: none;
+        }
+
+        .header {
+            background: #4CAF50;
+            color: white;
+            padding: 20px;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .main-content {
+            padding: 24px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .icon-container {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 24px;
+        }
+
+        .ios-icon { background: #dbeafe; color: #2563eb; }
+        .android-icon { background: #dcfce7; color: #4CAF50; }
+        .desktop-icon { background: #f3e8ff; color: #9333ea; }
+
+        .card-title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .install-steps {
+            margin: 20px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .step-number {
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .android .step-number { background: #4CAF50; }
+        .desktop .step-number { background: #9333ea; }
+
+        .step-content h3 {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .step-content p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        .step-icon {
+            display: inline-block;
+            margin-right: 8px;
+            font-size: 16px;
+        }
+
+        .note {
+            background: #f0f8ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 20px;
+        }
+
+        .android .note { background: #f0fdf4; border-color: #bbf7d0; }
+        .desktop .note { background: #faf5ff; border-color: #e9d5ff; }
+
+        .note p {
+            font-size: 14px;
+            color: #1e40af;
+        }
+
+        .android .note p { color: #2e7d32; }
+        .desktop .note p { color: #7c3aed; }
+
+        .btn {
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn:hover {
+            background: #e5e7eb;
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .intro-text {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .intro-text h1 {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+
+        .intro-text p {
+            color: #6b7280;
+            font-size: 16px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .visible {
+            display: block !important;
+        }
+
+        .debug-info {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Debug info (remove in production) -->
+    <div id="debugInfo" class="debug-info" style="display: none;">
+        <div>Device: <span id="deviceType"></span></div>
+        <div>User Agent: <span id="userAgent"></span></div>
+        <div>Standalone: <span id="standaloneStatus"></span></div>
+    </div>
+
+    <!-- Installation Required Screen -->
+    <div id="installScreen" class="install-screen">
+        <div class="container">
+            <div class="intro-text">
+                <h1>App Installation Required</h1>
+                <p>This content is only available as an installed app. Please follow the instructions below to install.</p>
+            </div>
+
+            <!-- iOS Installation Guide -->
+            <div id="iosGuide" class="card ios hidden">
+                <div class="card-header">
+                    <div class="icon-container ios-icon">📱</div>
+                    <h2 class="card-title">Install on iOS</h2>
+                </div>
+                <div class="install-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Tap the Share button</h3>
+                            <p><span class="step-icon">↗️</span>Usually at the bottom of Safari</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Select "Add to Home Screen"</h3>
+                            <p><span class="step-icon">🏠</span>Scroll down to find this option</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Tap "Add" to install</h3>
+                            <p>The app will appear on your home screen</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <p><strong>Note:</strong> This only works in Safari browser. If you're using Chrome or another browser, please open this page in Safari first.</p>
+                </div>
+            </div>
+
+            <!-- Android Installation Guide -->
+            <div id="androidGuide" class="card android hidden">
+                <div class="card-header">
+                    <div class="icon-container android-icon">📱</div>
+                    <h2 class="card-title">Install on Android</h2>
+                </div>
+                <div class="install-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Tap the menu button</h3>
+                            <p><span class="step-icon">⋮</span>Three dots in the top right corner</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Select "Add to Home screen"</h3>
+                            <p><span class="step-icon">🏠</span>Or "Install app" if available</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Confirm installation</h3>
+                            <p>Tap "Add" or "Install" to complete</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <p><strong>Tip:</strong> You might see an "Install" banner at the bottom of the screen. You can tap that instead!</p>
+                </div>
+            </div>
+
+            <!-- Desktop Installation Guide -->
+            <div id="desktopGuide" class="card desktop hidden">
+                <div class="card-header">
+                    <div class="icon-container desktop-icon">💻</div>
+                    <h2 class="card-title">Install on Desktop</h2>
+                </div>
+                <div class="install-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Look for the install icon</h3>
+                            <p><span class="step-icon">⬇️</span>In the address bar (Chrome/Edge)</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Click "Install"</h3>
+                            <p>Or use the browser menu → "Install app"</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Confirm installation</h3>
+                            <p>The app will open in its own window</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="note">
+                    <p><strong>Note:</strong> Installation is supported in Chrome, Edge, and other Chromium-based browsers.</p>
+                </div>
+            </div>
+
+            <!-- Generic Installation Guide -->
+            <div id="genericGuide" class="card hidden">
+                <div class="card-header">
+                    <h2 class="card-title">Install Required</h2>
+                </div>
+                <p class="text-center" style="color: #666;">
+                    Please install this app to access the content. Look for the install option in your browser menu.
+                </p>
+            </div>
+
+            <div class="text-center" style="margin-top: 24px;">
+                <button class="btn" onclick="window.location.reload()">
+                    Refresh after installation
+                </button>
+                <button class="btn" onclick="toggleDebug()" style="margin-left: 10px;">
+                    Debug Info
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- App Content (shown only when installed) - Empty for you to customize -->
+    <div id="appContent" class="app-content">
+        <header class="header">
+            <h1>Your PWA App</h1>
+        </header>
+
+        <main class="main-content">
+            <!-- Add your app content here -->
+            <div class="card">
+                <h2>Welcome!</h2>
+                <p>Your app content goes here. This area is completely empty and ready for your customization.</p>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function toggleDebug() {
+            const debugInfo = document.getElementById('debugInfo');
+            debugInfo.style.display = debugInfo.style.display === 'none' ? 'block' : 'none';
+        }
+
+        class PWAInstallGuard {
+            constructor() {
+                this.deviceType = 'unknown';
+                this.isStandalone = false;
+                this.init();
+            }
+
+            init() {
+                this.detectDevice();
+                this.checkStandalone();
+                this.updateDebugInfo();
+                this.showAppropriateContent();
+                this.setupEventListeners();
+            }
+
+            detectDevice() {
+                const userAgent = navigator.userAgent;
+                const platform = navigator.platform;
+                
+                // More comprehensive iOS detection
+                const isIOS = /iPad|iPhone|iPod/.test(userAgent) || 
+                             (platform === 'MacIntel' && navigator.maxTouchPoints > 1) ||
+                             /iPad/.test(userAgent) ||
+                             /iPhone/.test(userAgent) ||
+                             /iPod/.test(userAgent);
+
+                // Android detection
+                const isAndroid = /Android/.test(userAgent);
+
+                // Desktop detection (but not iOS masquerading as desktop)
+                const isDesktop = !isIOS && !isAndroid && 
+                                 (/Windows|Mac|Linux/.test(userAgent) || 
+                                  /Windows|Mac|Linux/.test(platform));
+
+                if (isIOS) {
+                    this.deviceType = 'ios';
+                } else if (isAndroid) {
+                    this.deviceType = 'android';
+                } else if (isDesktop) {
+                    this.deviceType = 'desktop';
+                } else {
+                    this.deviceType = 'unknown';
+                }
+
+                console.log('Device detection:', {
+                    userAgent: userAgent,
+                    platform: platform,
+                    isIOS: isIOS,
+                    isAndroid: isAndroid,
+                    isDesktop: isDesktop,
+                    deviceType: this.deviceType,
+                    maxTouchPoints: navigator.maxTouchPoints
+                });
+            }
+
+            checkStandalone() {
+                // Multiple ways to check if app is installed/standalone
+                const isStandaloneDisplay = window.matchMedia('(display-mode: standalone)').matches;
+                const isStandaloneNavigator = window.navigator.standalone === true;
+                const isStandaloneReferrer = document.referrer.includes('android-app://');
+                
+                this.isStandalone = isStandaloneDisplay || isStandaloneNavigator || isStandaloneReferrer;
+
+                console.log('Standalone detection:', {
+                    displayMode: isStandaloneDisplay,
+                    navigatorStandalone: isStandaloneNavigator,
+                    referrer: isStandaloneReferrer,
+                    finalResult: this.isStandalone
+                });
+            }
+
+            updateDebugInfo() {
+                document.getElementById('deviceType').textContent = this.deviceType;
+                document.getElementById('userAgent').textContent = navigator.userAgent.substring(0, 50) + '...';
+                document.getElementById('standaloneStatus').textContent = this.isStandalone ? 'Yes' : 'No';
+            }
+
+            showAppropriateContent() {
+                const installScreen = document.getElementById('installScreen');
+                const appContent = document.getElementById('appContent');
+
+                if (this.isStandalone) {
+                    // Show app content if installed
+                    installScreen.style.display = 'none';
+                    appContent.style.display = 'block';
+                } else {
+                    // Show installation guide
+                    installScreen.style.display = 'flex';
+                    appContent.style.display = 'none';
+                    this.showInstallGuide();
+                }
+            }
+
+            showInstallGuide() {
+                // Hide all guides first
+                document.getElementById('iosGuide').classList.add('hidden');
+                document.getElementById('androidGuide').classList.add('hidden');
+                document.getElementById('desktopGuide').classList.add('hidden');
+                document.getElementById('genericGuide').classList.add('hidden');
+
+                // Show appropriate guide based on device
+                switch (this.deviceType) {
+                    case 'ios':
+                        document.getElementById('iosGuide').classList.remove('hidden');
+                        break;
+                    case 'android':
+                        document.getElementById('androidGuide').classList.remove('hidden');
+                        break;
+                    case 'desktop':
+                        document.getElementById('desktopGuide').classList.remove('hidden');
+                        break;
+                    default:
+                        document.getElementById('genericGuide').classList.remove('hidden');
+                        break;
+                }
+            }
+
+            setupEventListeners() {
+                // Listen for display mode changes
+                const mediaQuery = window.matchMedia('(display-mode: standalone)');
+                mediaQuery.addEventListener('change', () => {
+                    this.checkStandalone();
+                    this.updateDebugInfo();
+                    this.showAppropriateContent();
+                });
+
+                // Listen for beforeinstallprompt event (for supported browsers)
+                window.addEventListener('beforeinstallprompt', (e) => {
+                    e.preventDefault();
+                    console.log('Install prompt available');
+                });
+
+                // Listen for appinstalled event
+                window.addEventListener('appinstalled', () => {
+                    console.log('App was installed');
+                    setTimeout(() => {
+                        this.checkStandalone();
+                        this.updateDebugInfo();
+                        this.showAppropriateContent();
+                    }, 1000);
+                });
+            }
+        }
+
+        // Initialize the PWA Install Guard when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new PWAInstallGuard();
+        });
+
+        // Also check when the page becomes visible (in case user switches back after installing)
+        document.addEventListener('visibilitychange', () => {
+            if (!document.hidden) {
+                setTimeout(() => {
+                    new PWAInstallGuard();
+                }, 500);
+            }
+        });
+
+        // Check when window regains focus
+        window.addEventListener('focus', () => {
+            setTimeout(() => {
+                new PWAInstallGuard();
+            }, 500);
+        });
+    </script>
+</body>
+</html>
