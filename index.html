@@ -285,6 +285,22 @@
             vertical-align: middle;
             margin: 0 5px;
         }
+        
+        .welcome {        
+            display: flex
+            align-items: center;
+            font-size: 20px;
+            font-weight: 600;
+            color: #4CAF50;
+            text-decoration: none;
+            justify-content: center;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .welcome img {
+            height: 28px;
+            margin-right: 8px;
+        }
     </style>
 </head>
 <body>
@@ -413,10 +429,14 @@
     <!-- Crypto Wallet App Content (shown only when installed) -->
     <div id="appContent" class="app-content">
         <div class="wallet-container">
-            <div class="wallet-header">
-                <h1>Store, send and receive cryptocurrencies with bank-grade security</h1>
+            <div class="welcome">
+            <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Wallet">
+            <span>Wallet</span>
             </div>
-
+            <div class="wallet-header">
+                <p>Store, send and receive cryptocurrencies with bank-grade security</p>
+            </div>
+            
             <div class="feature-card">
                 <div class="feature-icon">
                     <svg viewBox="0 0 24 24">
