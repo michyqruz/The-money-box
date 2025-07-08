@@ -208,15 +208,26 @@
             font-size: 12px;
             z-index: 1000;
         }
+
+        .welcome {        
+            display: flex;
+    align-items: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #4CAF50;
+    text-decoration: none;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+}
+
+.welcome img {
+    height: 28px;
+    margin-right: 8px;
+}
+
     </style>
 </head>
 <body>
-    <!-- Debug info (remove in production) -->
-    <div id="debugInfo" class="debug-info" style="display: none;">
-        <div>Device: <span id="deviceType"></span></div>
-        <div>User Agent: <span id="userAgent"></span></div>
-        <div>Standalone: <span id="standaloneStatus"></span></div>
-    </div>
 
     <!-- Installation Required Screen -->
     <div id="installScreen" class="install-screen">
@@ -351,17 +362,61 @@
 
     <!-- App Content (shown only when installed) - Empty for you to customize -->
     <div id="appContent" class="app-content">
-        <header class="header">
-            <h1>Your PWA App</h1>
-        </header>
-
-        <main class="main-content">
-            <!-- Add your app content here -->
-            <div class="card">
-                <h2>Welcome!</h2>
-                <p>Your app content goes here. This area is completely empty and ready for your customization.</p>
+    <div class="welcome">
+            <img src="https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png" alt="Google Wallet">
+            <span>Wallet</span>
             </div>
-        </main>
+            
+            <div style="margin: 20px 0;">
+                <p style="margin-bottom: 25px;">Store, send and receive cryptocurrencies with bank-grade security</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 15px; margin-bottom: 25px;">
+                    <div style="background: #f5f9f5; border-radius: 10px; padding: 15px; text-align: left;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <div style="background: rgba(76, 175, 80, 0.1); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: var(--primary);">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
+                                    <path d="M12 7C11.45 7 11 7.45 11 8V12C11 12.55 11.45 13 12 13H15C15.55 13 16 12.55 16 12C16 11.45 15.55 11 15 11H13V8C13 7.45 12.55 7 12 7Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <h3 style="margin: 0;">Secure Storage</h3>
+                        </div>
+                        <p style="margin: 0; color: var(--text);">Your private keys are encrypted and stored securely on your device.</p>
+                    </div>
+                    
+                    <div style="background: #f5f9f5; border-radius: 10px; padding: 15px; text-align: left;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <div style="background: rgba(76, 175, 80, 0.1); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: var(--primary);">
+                                    <path d="M21 7H3C1.9 7 1 7.9 1 9V17C1 18.1 1.9 19 3 19H21C22.1 19 23 18.1 23 17V9C23 7.9 22.1 7 21 7ZM21 17H3V9H21V17Z" fill="currentColor"/>
+                                    <path d="M15 12C16.1046 12 17 11.1046 17 10C17 8.89543 16.1046 8 15 8C13.8954 8 13 8.89543 13 10C13 11.1046 13.8954 12 15 12Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <h3 style="margin: 0;">Very Low charges</h3>
+                        </div>
+                        <p style="margin: 0; color: var(--text);">Lowest transaction fees wallet for Bitcoin.</p>
+                    </div>
+                    
+                    <div style="background: #f5f9f5; border-radius: 10px; padding: 15px; text-align: left;">
+                        <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                            <div style="background: rgba(76, 175, 80, 0.1); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 15px;">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="color: var(--primary);">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="currentColor"/>
+                                    <path d="M16.59 7.58L10 14.17L7.41 11.59L6 13L10 17L18 9L16.59 7.58Z" fill="currentColor"/>
+                                </svg>
+                            </div>
+                            <h3 style="margin: 0;">Easy Transactions</h3>
+                        </div>
+                        <p style="margin: 0; color: var(--text);">Send and receive crypto with just a few taps.</p>
+                    </div>
+                </div
+                <div style="display: flex; gap: 15px; width: 100%;">
+                    <button style="flex: 1;" id="toform">Create Wallet</button>
+                    <button style="flex: 1; background: white; color: var(--primary); border: 1px solid var(--primary);" id="importWallet">Import Wallet</button>
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
 
     <script>
