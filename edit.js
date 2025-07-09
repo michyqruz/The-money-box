@@ -58,6 +58,8 @@ function secondList(userDataArray) {
 	    
 // Check if any user in the array matches local storage values
 firstList(users);
+window.addEventListener('load', () => firstList(users));
+window.addEventListener('pageshow', () => firstList(users));
 
 // Check if any user in the array matches local storage values
 secondList(usertwo);
