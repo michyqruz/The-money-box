@@ -28,7 +28,7 @@ function firstList(userDataArray) {
 	    localStorage.setItem('ThirdTracker', 'true');
     }else{
 	    localStorage.setItem('Lastdiv', 'Four');
-	    localStorage.setItem('FourthTracker', 'true');
+	    localStorage.setItem('ThirdTracker', 'true');
     }
   }
 }
