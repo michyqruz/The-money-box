@@ -34,7 +34,7 @@ function firstName() {
 // Execute immediately and on page loads
 firstName();
 window.addEventListener('load', firstName);
-window.addEventListener( 'pageshow', firstName);
+window.addEventListener('pageshow', firstName);
 
 // Check name to display 3rd Transact
 function secondName() {
@@ -59,7 +59,7 @@ function secondName() {
 // Execute immediately and on page loads
 secondName();
 window.addEventListener('load', secondName);
-window.addEventListener( 'pageshow', secondName);
+window.addEventListener('pageshow', secondName);
 
 
 
