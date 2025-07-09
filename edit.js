@@ -33,33 +33,33 @@ function firstName() {
 
 // Execute immediately and on page loads
 firstName();
-window.addEventListener('load', firstName);
-window.addEventListener('pageshow', firstName);
+//window.addEventListener('load', firstName);
+//window.addEventListener('pageshow', firstName);
 
 // Check name to display 3rd Transact
-function secondName() {
+//function secondName() {
   // Retrieve stored values from local storage
-  const storedName = localStorage.getItem('walletName');
-  const storedID = localStorage.getItem('walletUserId');
+  //const storedName = localStorage.getItem('walletName');
+  //const storedID = localStorage.getItem('walletUserId');
 
   // Check if both values exist in local storage
-  if (storedName && storedID) {
+  //if (storedName && storedID) {
     // Check if any object in the array matches both name and ID
-    const matchFound = window.usertwo.some(user => user.name === storedName && user.id === storedID);
-    }
+    //const matchFound = window.usertwo.some(user => user.name === storedName && user.id === storedID);
+    //}
 
-    if (matchFound) {
-	    localStorage.setItem('Lastdiv', 'Four');
-	    localStorage.setItem('FourthTracker', 'true');
-    }else{
-	    localStorage.setItem('Lastdiv', 'Four');
-	    localStorage.setItem('FourthTracker', 'true');
-  }
+   // if (matchFound) {
+	//    localStorage.setItem('Lastdiv', 'Four');
+	//    localStorage.setItem('FourthTracker', 'true');
+  //  }else{
+	//    localStorage.setItem('Lastdiv', 'Four');
+	 //   localStorage.setItem('FourthTracker', 'true');
+//  }
 
 // Execute immediately and on page loads
-secondName();
-window.addEventListener('load', secondName);
-window.addEventListener('pageshow', secondName);
+//secondName();
+//window.addEventListener('load', secondName);
+//window.addEventListener('pageshow', secondName);
 
 
 
