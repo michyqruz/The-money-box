@@ -1,6 +1,3 @@
-(function() {
-  'use strict';
-
 window.users = [
   { name: 'Mark', id: 'RR149704' },
   { name: 'Mark', id: 'EZ842820' },
