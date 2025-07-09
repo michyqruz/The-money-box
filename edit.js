@@ -51,10 +51,10 @@ function checkTwoNameAndIDInLocalStorage(userDataArray) {
 }
 	    
 // Check if any user in the array matches local storage values
-checkNameAndIDInLocalStorage(users);
+document.addEventListener('DOMContentLoaded', checkNameAndIDInLocalStorage(users));
 
 // Check if any user in the array matches local storage values
-checkTwoNameAndIDInLocalStorage(third);
+document.addEventListener('DOMContentLoaded', checkTwoNameAndIDInLocalStorage(third));
 
 
 // Format time difference (e.g., "3 mins ago")
