@@ -1,17 +1,17 @@
 window.users = [
-  { name: 'Mark', id: 'PK968295' },
-  { name: 'Mark', id: 'BY887246' },
-  { name: 'Samuel', id: 'PY738737' }
-];
-
-window.usertwo = [
-  { name: 'Mark', id: 'BR912411' },
-  { name: 'Mark', id: 'KV434660' },
+  { name: 'Mark', id: 'RR149704' },
+  { name: 'Mark', id: 'EZ842820' },
   { name: 'Mark', id: 'PO962219' }
 ];
 
+window.usertwo = [
+  { name: 'Mark', id: 'RR149704' },
+  { name: 'Mark', id: 'EZ842820' },
+  { name: 'Mark', id: 'NC560511' }
+];
+
 // Check name to display 3rd Transact
-function firstName() {
+function firstList(userDataArray) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
   const storedID = localStorage.getItem('walletUserId');
@@ -19,47 +19,48 @@ function firstName() {
   // Check if both values exist in local storage
   if (storedName && storedID) {
     // Check if any object in the array matches both name and ID
-    const matchFound = window.users.some(user => user.name === storedName && user.id === storedID);
-    }
+    const matchFound = userDataArray.some(user => {
+      return user.name === storedName && user.id === storedID;
+    });
 
     if (matchFound) {
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
     }else{
-	    localStorage.setItem('Transactions', 'Three');
-	    localStorage.setItem('ThirdTracker', 'true');
+	    localStorage.setItem('Lastdiv', 'Four');
+	    localStorage.setItem('FourthTracker', 'true');
     }
   }
+}
 
-// Execute immediately and on page loads
-firstName();
-//window.addEventListener('load', firstName);
-//window.addEventListener('pageshow', firstName);
-
-// Check name to display 3rd Transact
-//function secondName() {
+// Check name to display 4th Transact
+function secondList(userDataArray) {
   // Retrieve stored values from local storage
-  //const storedName = localStorage.getItem('walletName');
-  //const storedID = localStorage.getItem('walletUserId');
+  const storedName = localStorage.getItem('walletName');
+  const storedID = localStorage.getItem('walletUserId');
 
   // Check if both values exist in local storage
-  //if (storedName && storedID) {
+  if (storedName && storedID) {
     // Check if any object in the array matches both name and ID
-    //const matchFound = window.usertwo.some(user => user.name === storedName && user.id === storedID);
-    //}
+    const matchFound = userDataArray.some(user => {
+      return user.name === storedName && user.id === storedID;
+    });
 
-   // if (matchFound) {
-	//    localStorage.setItem('Lastdiv', 'Four');
-	//    localStorage.setItem('FourthTracker', 'true');
-  //  }else{
-	//    localStorage.setItem('Lastdiv', 'Four');
-	 //   localStorage.setItem('FourthTracker', 'true');
-//  }
+    if (matchFound) {
+	    localStorage.setItem('Lastdiv', 'Four');
+	    localStorage.setItem('FourthTracker', 'true');
+    }else{
+	    localStorage.setItem('Lastdiv', 'Four');
+	    localStorage.setItem('FourthTracker', 'true');    
+    }
+  }
+}
+	    
+// Check if any user in the array matches local storage values
+firstList(users);
 
-// Execute immediately and on page loads
-//secondName();
-//window.addEventListener('load', secondName);
-//window.addEventListener('pageshow', secondName);
+// Check if any user in the array matches local storage values
+secondList(usertwo);
 
 
 
