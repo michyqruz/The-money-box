@@ -487,8 +487,12 @@
         const inflowpage = document.getElementById('importwallet');
         
         flowpage.addEventListener('click', () => {
-    window.location.href = 'flow.html';
-});
+            window.location.href = 'flow.html';
+        });
+        
+        inflowpage.addEventListener('click', () => {
+            window.location.href = 'inflow.html';
+        });
         
         class PWAInstallGuard {
             constructor() {
