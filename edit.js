@@ -12,7 +12,7 @@ window.usertwo = [
 
 const test = window.usertwo.some(user => user.name === 'Samuel' && user.id === 'PY918186');
 
-    if (text) {
+    if (test) {
 	    alert('test');
     }
 	
