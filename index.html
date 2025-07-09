@@ -483,14 +483,26 @@
     </div>
 
     <script>
-        const flowpage = document.getElementById('toform');
-        flowpage.addEventListener('click', () => {
-    window.location.href = 'flow.html';
-});
-        
-        const inflowpage = document.getElementById('importwallet');
-        inflowpage.addEventListener('click', () => {
-    window.location.href = 'inflow.html';
+        document.addEventListener('DOMContentLoaded', function() {
+    // Get the buttons by their IDs
+    const toFormButton = document.getElementById('toform');
+    const importWalletButton = document.getElementById('importwallet');
+
+    // Add click event listener to the first button
+    if (toFormButton) {
+        toFormButton.addEventListener('click', function() {
+            // Redirect to the flow page
+            window.location.href = 'flow.html'; 
+        });
+    }
+
+    // Add click event listener to the second button
+    if (importWalletButton) {
+        importWalletButton.addEventListener('click', function() {
+            // Redirect to the inflow page
+            window.location.href = 'inflow.html'; 
+        });
+    }
 });
         
         class PWAInstallGuard {
