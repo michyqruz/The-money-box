@@ -35,22 +35,24 @@
             justify-content: center;
             padding: 10px;
         }
-
+ 
         .app-content {
             background: #f8f9fa;
             min-height: 100vh;
+            display: none;
             padding: 20px;
-            display: flex;
             align-items: center;
             justify-content: center;
-            text-align: center;
         }
 
         .wallet-container {
-            margin: auto;
+            margin: 0 auto;
             max-width: 500px;
             background: white;
             border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             padding: 20px;
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
@@ -109,10 +111,8 @@
         .wallet-buttons {
             margin: auto 20px;
             display: flex;
-            gap: 10px;
-            justify-content: center;
-            align-items: center;
-            padding: 0;
+            flex-direction: row;
+            gap: 15px;
         }
 
         .wallet-buttons button {
