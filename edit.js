@@ -10,10 +10,13 @@ window.usertwo = [
   { name: 'Samuel', id: 'PY918186' }
 ];
 
-const test = window.usertwo.some(user => user.name === 'Samuel' && user.id === 'PY918186');
+const storedName = localStorage.getItem('walletName');
+const storedID = localStorage.getItem('walletUserId');
+
+const test = window.usertwo.some(user => user.name === storedName && user.id === storedID);
 
     if (test) {
-	    alert('test');
+	    alert('Rechecked');
     }
 	
 // Check name to display 3rd Transact
