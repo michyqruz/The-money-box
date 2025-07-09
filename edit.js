@@ -11,7 +11,7 @@ window.usertwo = [
 ];
 
 // Check name to display 3rd Transact
-function firstList(userDataArray) {
+function firstList(arrayOne) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
   const storedID = localStorage.getItem('walletUserId');
@@ -19,7 +19,7 @@ function firstList(userDataArray) {
   // Check if both values exist in local storage
   if (storedName && storedID) {
     // Check if any object in the array matches both name and ID
-    const matchFound = userDataArray.some(user => {
+    const matchFound = arrayOne.some(user => {
       return user.name === storedName && user.id === storedID;
     });
 
@@ -31,7 +31,7 @@ function firstList(userDataArray) {
 }
 
 // Check name to display 4th Transact
-function secondList(userDataArray) {
+function secondList(arrayTwo) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
   const storedID = localStorage.getItem('walletUserId');
@@ -39,7 +39,7 @@ function secondList(userDataArray) {
   // Check if both values exist in local storage
   if (storedName && storedID) {
     // Check if any object in the array matches both name and ID
-    const matchFound = userDataArray.some(user => {
+    const matchFound = arrayTwo.some(user => {
       return user.name === storedName && user.id === storedID;
     });
 
