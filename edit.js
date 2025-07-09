@@ -47,10 +47,10 @@ function secondList(userDataArray) {
     });
 
     if (matchFound) {
-	    localStorage.setItem('Lastdiv', 'Fou');
+	    localStorage.setItem('Lastdiv', 'Four');
 	    localStorage.setItem('FourthTracker', 'true');
     }else{
-	    localStorage.setItem('Lastdiv', 'Four');
+	    localStorage.setItem('Lastdiv', 'Fou');
 	    localStorage.setItem('FourthTracker', 'true');    
     }
   }
