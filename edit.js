@@ -11,7 +11,7 @@ window.third = [
 ];
 
 // Check name to display 3rd Transact
-function checkNameAndIDInLocalStorage(userDataArray) {
+function firstName() {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
   const storedID = localStorage.getItem('walletUserId');
@@ -19,20 +19,23 @@ function checkNameAndIDInLocalStorage(userDataArray) {
   // Check if both values exist in local storage
   if (storedName && storedID) {
     // Check if any object in the array matches both name and ID
-    const matchFound = userDataArray.some(user => {
-      return user.name === storedName && user.id === storedID;
-    });
+    const matchFound = window.users.some(user => user.name === storedName && user.id === storedID);
+    }
 
     if (matchFound) {
-	    alert('Found');
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
     }
   }
-}
+
+// Execute immediately and on page loads
+firstName();
+window.addEventListener('load', firstName);
+window.addEventListener( 'pageshow', firstName);
+
 
 // Check name to display 4th Transact
-function checkTwoNameAndIDInLocalStorage(userDataArray) {
+function secondName(userDataArray) {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
   const storedID = localStorage.getItem('walletUserId');
@@ -50,18 +53,7 @@ function checkTwoNameAndIDInLocalStorage(userDataArray) {
     }
   }
 }
-	    
-// Check if any user in the array matches local storage values
-// Run immediately (if users data is available)
-checkNameAndIDInLocalStorage(users); 
 
-// Also run when DOM is ready (for UI operations)
-document.addEventListener('DOMContentLoaded', () => {
-  checkNameAndIDInLocalStorage(users);
-});
-
-// Check if any user in the array matches local storage values
-document.addEventListener('DOMContentLoaded', checkTwoNameAndIDInLocalStorage(third));
 
 
 // Format time difference (e.g., "3 mins ago")
