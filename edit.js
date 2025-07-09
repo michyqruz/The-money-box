@@ -1,3 +1,6 @@
+(function() {
+  'use strict';
+
 window.users = [
   { name: 'Mark', id: 'RR149704' },
   { name: 'Mark', id: 'EZ842820' },
@@ -33,6 +36,45 @@ function firstList(userDataArray) {
     }
   }
 }
+  // Execute function
+  function executeFirstList() {
+    try {
+      firstList(users);
+    } catch (error) {
+      console.error('Error executing firstList:', error);
+    }
+  }
+
+  // Execute immediately (synchronous)
+  executeFirstList();
+
+  // Execute on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', executeFirstList);
+  } else {
+    executeFirstList();
+  }
+
+  // Execute on window load
+  window.addEventListener('load', executeFirstList);
+
+  // Execute on page show (important for PWAs and back/forward navigation)
+  window.addEventListener('pageshow', executeFirstList);
+
+  // Execute when page becomes visible (PWA specific)
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+      executeFirstList();
+    }
+  });
+
+  // Execute on focus (when user returns to the app)
+  window.addEventListener('focus', executeFirstList);
+
+})();
+
+
+
 
 // Check name to display 4th Transact
 function secondList(userDataArray) {
