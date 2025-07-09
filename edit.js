@@ -24,7 +24,6 @@ function checkNameAndIDInLocalStorage(userDataArray) {
     });
 
     if (matchFound) {
-	    alert('found');
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
     }
