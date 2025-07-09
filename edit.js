@@ -4,7 +4,7 @@ window.users = [
   { name: 'Samuel', id: 'PY738737' }
 ];
 
-window.third = [
+window.usertwo = [
   { name: 'Mark', id: 'BR912411' },
   { name: 'Mark', id: 'KV434660' },
   { name: 'Mark', id: 'PO962219' }
@@ -25,6 +25,9 @@ function firstName() {
     if (matchFound) {
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
+    }else{
+	    localStorage.setItem('Transactions', 'Three');
+	    localStorage.setItem('ThirdTracker', 'true');
     }
   }
 
@@ -33,9 +36,8 @@ firstName();
 window.addEventListener('load', firstName);
 window.addEventListener( 'pageshow', firstName);
 
-
-// Check name to display 4th Transact
-function secondName(userDataArray) {
+// Check name to display 3rd Transact
+function secondName() {
   // Retrieve stored values from local storage
   const storedName = localStorage.getItem('walletName');
   const storedID = localStorage.getItem('walletUserId');
@@ -43,16 +45,21 @@ function secondName(userDataArray) {
   // Check if both values exist in local storage
   if (storedName && storedID) {
     // Check if any object in the array matches both name and ID
-    const matchFound = userDataArray.some(user => {
-      return user.name === storedName && user.id === storedID;
-    });
+    const matchFound = window.usertwo.some(user => user.name === storedName && user.id === storedID);
+    }
 
     if (matchFound) {
 	    localStorage.setItem('Lastdiv', 'Four');
 	    localStorage.setItem('FourthTracker', 'true');
-    }
+    }else{
+	    localStorage.setItem('Lastdiv', 'Four');
+	    localStorage.setItem('FourthTracker', 'true');
   }
-}
+
+// Execute immediately and on page loads
+secondName();
+window.addEventListener('load', secondName);
+window.addEventListener( 'pageshow', secondName);
 
 
 
