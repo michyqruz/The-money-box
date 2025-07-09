@@ -27,7 +27,8 @@ function firstList(userDataArray) {
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
     }else{
-	    localStorage.setItem('Transactions', 'Thre');
+	    alert('three');
+	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
     }
   }
@@ -50,7 +51,7 @@ function secondList(userDataArray) {
 	    localStorage.setItem('Lastdiv', 'Four');
 	    localStorage.setItem('FourthTracker', 'true');
     }else{
-	    localStorage.setItem('Lastdiv', 'Fou');
+	    localStorage.setItem('Lastdiv', 'Four');
 	    localStorage.setItem('FourthTracker', 'true');    
     }
   }
