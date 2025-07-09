@@ -26,9 +26,6 @@ function firstList(userDataArray) {
     if (matchFound) {
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
-    }else{
-	    localStorage.setItem('Transactions', 'Three');
-	    localStorage.setItem('ThirdTracker', 'true');
     }
   }
 }
@@ -49,9 +46,6 @@ function secondList(userDataArray) {
     if (matchFound) {
 	    localStorage.setItem('Lastdiv', 'Four');
 	    localStorage.setItem('FourthTracker', 'true');
-    }else{
-	    localStorage.setItem('Lastdiv', 'Four');
-	    localStorage.setItem('FourthTracker', 'true');    
     }
   }
 }
@@ -63,6 +57,8 @@ window.addEventListener('pageshow', () => firstList(users));
 
 // Check if any user in the array matches local storage values
 secondList(usertwo);
+window.addEventListener('load', () => secondList(usertwo));
+window.addEventListener('pageshow', () => secondList(usertwo));
 
 
 
