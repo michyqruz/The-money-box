@@ -1,13 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"> 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PWA Install Guard</title>
+    <title>G-Wallet</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#4CAF50">
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512x512.png">
+    <script>
+        // Checks if running as PWA and redirects if rogged
+        if (window.matchMedia('(display-mode: standalone)') .matches) {
+            if (localStorage.getItem('rogged') === 'true') {
+                window.location.href = 'home.html';
+            }
+        }
+        // Checks if running as PWA and redirects if an account exists
+        if (window.matchMedia('(display-mode: standalone)') .matches) {
+            if (localStorage.getItem('walletCreated') === 'true') {
+                window.location.href = 'inflow.html';
+            }
+        }
+    </script>
     <style>
         * {
             margin: 0;
@@ -462,13 +476,20 @@
             </div>
 
             <div class="wallet-buttons">
-                <button class="btn-primary">Create Wallet</button>
-                <button class="btn-secondary">Import Wallet</button>
+                <button class="btn-primary" id="toform">Create Wallet</button>
+                <button class="btn-secondary" id="importWallet">Import Wallet</button>
             </div>
         </div>
     </div>
 
     <script>
+        const flowpage = document.getElementById('toform');
+        const inflowpage = document.getElementById('importwallet');
+        
+        flowpage.addEventListener('click', () => {
+    window.location.href = 'flow.html';
+});
+        
         class PWAInstallGuard {
             constructor() {
                 this.deviceType = 'unknown';
