@@ -55,10 +55,10 @@ function firstList(userDataArray) {
   }
 
   // Execute on window load
-  window.addEventListener('load', executeFirstList());
+  //window.addEventListener('load', executeFirstList());
 
   // Execute on page show (important for PWAs and back/forward navigation)
-  window.addEventListener('pageshow', executeFirstList());
+  //window.addEventListener('pageshow', executeFirstList());
 
   // Execute when page becomes visible (PWA specific)
   document.addEventListener('visibilitychange', function() {
@@ -68,7 +68,7 @@ function firstList(userDataArray) {
   });
 
   // Execute on focus (when user returns to the app)
-  window.addEventListener('focus', executeFirstList());
+  //window.addEventListener('focus', executeFirstList());
 
 })();
 
