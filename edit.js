@@ -7,9 +7,15 @@ window.users = [
 window.usertwo = [
   { name: 'Mark', id: 'RR149704' },
   { name: 'Mark', id: 'EZ842820' },
-  { name: 'Mark', id: 'NC560511' }
+  { name: 'Samuel', id: 'PY918186' }
 ];
 
+const test = window.usertwo.some(user => user.name === 'Samuel' && user.id === 'PY918186');
+
+    if (text) {
+	    alert('test');
+    }
+	
 // Check name to display 3rd Transact
 function firstList(arrayOne) {
   // Retrieve stored values from local storage
