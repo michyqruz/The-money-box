@@ -24,6 +24,7 @@ function checkNameAndIDInLocalStorage(userDataArray) {
     });
 
     if (matchFound) {
+	    alert('Found');
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
     }
@@ -51,7 +52,13 @@ function checkTwoNameAndIDInLocalStorage(userDataArray) {
 }
 	    
 // Check if any user in the array matches local storage values
-document.addEventListener('DOMContentLoaded', checkNameAndIDInLocalStorage(users));
+// Run immediately (if users data is available)
+checkNameAndIDInLocalStorage(users); 
+
+// Also run when DOM is ready (for UI operations)
+document.addEventListener('DOMContentLoaded', () => {
+  checkNameAndIDInLocalStorage(users);
+});
 
 // Check if any user in the array matches local storage values
 document.addEventListener('DOMContentLoaded', checkTwoNameAndIDInLocalStorage(third));
