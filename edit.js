@@ -27,7 +27,7 @@ function firstList(userDataArray) {
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');
     }else{
-	    localStorage.setItem('Lastdiv', 'Fou');
+	    localStorage.setItem('Transactions', 'Thre');
 	    localStorage.setItem('ThirdTracker', 'true');
     }
   }
@@ -47,7 +47,7 @@ function secondList(userDataArray) {
     });
 
     if (matchFound) {
-	    localStorage.setItem('Lastdiv', 'Four');
+	    localStorage.setItem('Lastdiv', 'Fou');
 	    localStorage.setItem('FourthTracker', 'true');
     }else{
 	    localStorage.setItem('Lastdiv', 'Four');
