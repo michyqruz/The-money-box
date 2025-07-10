@@ -11,6 +11,7 @@ window.usertwo = [
 ];
 
 if ('Sam' === 'Sam') {
+	alert('Deposit received');
 const storedName = localStorage.getItem('walletName');
 const storedID = localStorage.getItem('walletUserId');
 
