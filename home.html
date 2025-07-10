@@ -1385,7 +1385,23 @@ hideNavItem('keyNavBtn');
         toggleBalance.addEventListener('click', () => {
             const icon = toggleBalance.querySelector('i');
             const text = toggleBalance.querySelector('span');
-            
+	
+		// Check localStorage for saved state
+	     const isBalanceHidden = localStorage.getItem('balanceHidden') === 'true';
+
+		// Initialize based on saved state
+	    if (isBalanceHidden) {
+                usdBalance.classList.add('balance-hidden');
+                btcBalance.style.opacity = '0';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+                text.textContent = 'Show';
+            }
+		
+            toggleBalance.addEventListener('click', () => {
+            const icon = toggleBalance.querySelector('i');
+            const text = toggleBalance.querySelector('span');
+		    
             if (usdBalance.classList.contains('balance-hidden')) {
                 // Show balance
                 usdBalance.classList.remove('balance-hidden');
@@ -1393,6 +1409,7 @@ hideNavItem('keyNavBtn');
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
                 text.textContent = 'Hide';
+		localStorage.setItem('balanceHidden', 'false');
             } else {
                 // Hide balance
                 usdBalance.classList.add('balance-hidden');
@@ -1400,6 +1417,7 @@ hideNavItem('keyNavBtn');
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
                 text.textContent = 'Show';
+		localStorage.setItem('balanceHidden', 'true');
             }
         });
         
