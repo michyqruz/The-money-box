@@ -7,7 +7,7 @@ window.users = [
 window.usertwo = [
   { name: 'Mark', id: 'RR149704' },
   { name: 'Mark', id: 'EZ842820' },
-  { name: 'Samuel', id: 'PY918186' }
+  { name: 'Samuel', id: 'FZ451699' }
 ];
 
 const storedName = localStorage.getItem('walletName');
