@@ -1192,6 +1192,7 @@
     const depositModal = document.getElementById('depositModal');
     const tokenModal = document.getElementById('tokenModal');
     const keyModal = document.getElementById('keyModal');
+    const confirmModal = document.getElementById('confirmModal');
     const deleteWalletModal = document.getElementById('deleteWalletModal');
     const closeModalButtons = document.querySelectorAll('.close-modal');
     const copyAddressBtn = document.getElementById('copyAddress');
@@ -1297,6 +1298,8 @@ hideNavItem('keyNavBtn');
 	   function checkthird() {
 		   if (localStorage.getItem('Transactions') === 'Three') {
 		   showTransactionState('two');
+		closeSidebar();
+            confirmModal.style.display = 'flex';
 		   }
 	   }
 
