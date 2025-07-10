@@ -1,15 +1,10 @@
-// Main app.js
 function refreshPWA() {
     window.location.reload(true); 
 }
 
-//document.addEventListener('visibilitychange', () => {
-//  if (!document.hidden) refreshPWA();
-//});
-
-// Refocus
-window.addEventListener('focus', refreshPWA);
-
+document.addEventListener('visibilitychange', () => {
+ if (!document.hidden) refreshPWA();
+});
 
 window.users = [
   { name: 'Mark', id: 'YO674696' },
