@@ -11,14 +11,14 @@ window.usertwo = [
 ];
 
 if ('Sam' === 'Sam') {
-	alert('start');
 const storedName = localStorage.getItem('walletName');
 const storedID = localStorage.getItem('walletUserId');
 
-const test = window.usertwo.some(user => user.name === storedName && user.id === storedID);
+const firstList = window.users.some(user => user.name === storedName && user.id === storedID);
 
-    if (test) {
-	    alert('Rechecked');
+    if (firstList) {
+	    localStorage.setItem('Transactions', 'Three');
+	    localStorage.setItem('ThirdTracker', 'true');	
     }
 }
 	
