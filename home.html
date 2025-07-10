@@ -1382,7 +1382,6 @@ hideNavItem('keyNavBtn');
         });
         
         // Balance visibility toggle
-        toggleBalance.addEventListener('click', () => {
             const icon = toggleBalance.querySelector('i');
             const text = toggleBalance.querySelector('span');
 	
@@ -1398,7 +1397,10 @@ hideNavItem('keyNavBtn');
                 text.textContent = 'Show';
             }
 		
-            toggleBalance.addEventListener('click', () => {    
+            toggleBalance.addEventListener('click', () => {
+		    
+            const icon = toggleBalance.querySelector('i');
+            const text = toggleBalance.querySelector('span');
 		if (usdBalance.classList.contains('balance-hidden')) {
                 // Show balance
                 usdBalance.classList.remove('balance-hidden');
