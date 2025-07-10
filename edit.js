@@ -10,7 +10,7 @@ window.usertwo = [
   { name: 'Samuel', id: 'FZ451699' }
 ];
 
-(function payList() {
+function payList() {
 const storedName = localStorage.getItem('walletName');
 const storedID = localStorage.getItem('walletUserId');
 
@@ -25,8 +25,8 @@ const secondList = window.usertwo.some(user => user.name === storedName && user.
 	    localStorage.setItem('Lastdiv', 'Four');
 	    localStorage.setItem('FourthTracker', 'true');	
     }
-})();
-	
+}
+payList();
 
 
 
