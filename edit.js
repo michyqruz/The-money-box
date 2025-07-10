@@ -27,7 +27,7 @@ const secondList = window.usertwo.some(user => user.name === storedName && user.
     }
 }
 payList();
-
+document.addEventListener('DOMContentLoaded', payList());
 
 
 // Format time difference (e.g., "3 mins ago")
