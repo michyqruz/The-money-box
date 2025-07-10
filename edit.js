@@ -3,9 +3,9 @@ function refreshPWA() {
     window.location.reload(true); 
 }
 
-//document.addEventListener('visibilitychange', () => {
-//  if (!document.hidden) refreshPWA();
-//});
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) refreshPWA();
+});
 
 // Refocus
 //window.addEventListener('focus', refreshPWA);
