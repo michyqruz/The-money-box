@@ -36,8 +36,8 @@ function firstList(arrayOne) {
     });
 
     if (matchFound) {
-	    localStorage.setItem('Transactions', 'Three');
-	    localStorage.setItem('ThirdTracker', 'true');
+	   // localStorage.setItem('Transactions', 'Three');
+	  //  localStorage.setItem('ThirdTracker', 'true');
     }
   }
 }
