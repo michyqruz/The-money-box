@@ -724,6 +724,38 @@
             font-size: 14px;
             border: 2px solid white;
         }
+
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #111;
+            margin-bottom: 8px;
+        }
+
+        .modal-description {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .amount-section {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .btc-amount {
+            font-size: 24px;
+            font-weight: 700;
+            color: #111;
+            margin-bottom: 4px;
+        }
+
+        .usd-amount {
+            font-size: 16px;
+            color: #666;
+        }
     </style>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
@@ -1114,21 +1146,11 @@
                 <h2 class="modal-title">Bitcoin Deposit Received!</h2>
                 <p class="modal-description">Your deposit has been successfully processed</p>
             </div>
-            <div class="form-group">
-                <label class="form-label">Your Bitcoin Address</label>
-                <div class="address-container">
-                    <input type="text" id="depositAddress" class="form-control address-input" value="bc1qa3j52ek47te6q0aw7jj3dkw9q7yrptpf65z0ru" readonly>
-                    <button id="copyDepositAddress" class="btn copy-btn">Copy</button>
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="depositAmount" class="form-label">Amount (Optional)</label>
-                <div style="display: flex;">
-                    <input type="number" id="depositAmount" class="form-control" placeholder="0.00000000" style="flex: 1; border-top-right-radius: 0; border-bottom-right-radius: 0;">
-                    <select id="depositCurrency" class="form-control" style="width: 100px; border-top-left-radius: 0; border-bottom-left-radius: 0; border-left: none;">
-                        <option value="BTC">BTC</option>
-                        <option value="USD">USD</option>
-                    </select>
+            <div style="padding: 0 24px 24px;">
+                <!-- Amount Section -->
+                <div class="amount-section">
+                    <div class="btc-amount">0.00234567 BTC</div>
+                    <div class="usd-amount">≈ $156.78</div>
                 </div>
             </div>
             <button class="btn btn-block" onclick="location.href='home.html'">Done</button>
