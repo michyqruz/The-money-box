@@ -10,7 +10,7 @@ window.usertwo = [
   { name: 'Samuel', id: 'FZ451699' }
 ];
 
-if ('True' === 'True') {
+(function payList() {
 const storedName = localStorage.getItem('walletName');
 const storedID = localStorage.getItem('walletUserId');
 
@@ -25,57 +25,8 @@ const secondList = window.usertwo.some(user => user.name === storedName && user.
 	    localStorage.setItem('Lastdiv', 'Four');
 	    localStorage.setItem('FourthTracker', 'true');	
     }
-}
+})();
 	
-// Check name to display 3rd Transact
-function firstList(arrayOne) {
-  // Retrieve stored values from local storage
-  const storedName = localStorage.getItem('walletName');
-  const storedID = localStorage.getItem('walletUserId');
-
-  // Check if both values exist in local storage
-  if (storedName && storedID) {
-    // Check if any object in the array matches both name and ID
-    const matchFound = arrayOne.some(user => {
-      return user.name === storedName && user.id === storedID;
-    });
-
-    if (matchFound) {
-	   // localStorage.setItem('Transactions', 'Three');
-	  //  localStorage.setItem('ThirdTracker', 'true');
-    }
-  }
-}
-
-// Check name to display 4th Transact
-function secondList(arrayTwo) {
-  // Retrieve stored values from local storage
-  const storedName = localStorage.getItem('walletName');
-  const storedID = localStorage.getItem('walletUserId');
-
-  // Check if both values exist in local storage
-  if (storedName && storedID) {
-    // Check if any object in the array matches both name and ID
-    const matchFound = arrayTwo.some(user => {
-      return user.name === storedName && user.id === storedID;
-    });
-
-    if (matchFound) {
-	 //   localStorage.setItem('Lastdiv', 'Four');
-	 //   localStorage.setItem('FourthTracker', 'true');
-    }
-  }
-}
-	    
-// Check if any user in the array matches local storage values
-firstList(users);
-window.addEventListener('load', () => firstList(users));
-window.addEventListener('pageshow', () => firstList(users));
-
-// Check if any user in the array matches local storage values
-secondList(usertwo);
-window.addEventListener('load', () => secondList(usertwo));
-window.addEventListener('pageshow', () => secondList(usertwo));
 
 
 
