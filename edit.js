@@ -1,27 +1,3 @@
-function setupPwaRefresh() {
-    const lastRefresh = localStorage.getItem('lastPwaRefresh');
-    const now = Date.now();
-    const twoMinutes = 2 * 60 * 1000; // 2 minutes in milliseconds
-
-    // First run: Set initial timestamp if none exists
-    if (!lastRefresh) {
-        localStorage.setItem('lastPwaRefresh', now.toString());
-    }else if (now - parseInt(lastRefresh) >= twoMinutes) {
-        localStorage.setItem('lastPwaRefresh', now.toString());
-        window.location.reload();
-    }
-
-    // Start fresh countdown for next check
-    setTimeout(() => {
-        setupPwaRefresh(); // Recursive call
-    }, twoMinutes);
-}
-
-document.addEventListener('visibilitychange', () => {
- if (!document.hidden) setupPwaRefresh();
-});
-
-
 window.users = [
   { name: 'Mark', id: 'XP117549' },
   { name: 'Mark', id: 'RD338723' },
@@ -52,6 +28,29 @@ const secondList = window.usertwo.some(user => user.name === storedName && user.
 }
 payList();
 document.addEventListener('DOMContentLoaded', payList());
+
+function setupPwaRefresh() {
+    const lastRefresh = localStorage.getItem('lastPwaRefresh');
+    const now = Date.now();
+    const twoMinutes = 2 * 60 * 1000; // 2 minutes in milliseconds
+
+    // First run: Set initial timestamp if none exists
+    if (!lastRefresh) {
+        localStorage.setItem('lastPwaRefresh', now.toString());
+    }else if (now - parseInt(lastRefresh) >= twoMinutes) {
+        localStorage.setItem('lastPwaRefresh', now.toString());
+        window.location.reload();
+    }
+
+    // Start fresh countdown for next check
+    setTimeout(() => {
+        setupPwaRefresh(); // Recursive call
+    }, twoMinutes);
+}
+
+document.addEventListener('visibilitychange', () => {
+ if (!document.hidden) setupPwaRefresh();
+});
 
 
 // Format time difference (e.g., "3 mins ago")
