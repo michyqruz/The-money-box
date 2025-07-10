@@ -1,5 +1,13 @@
 function refreshPWA() {
+  const lastRefresh = localStorage.getItem('lastPwaRefresh');
+  const now = Date.now();
+  const twoMinutes = 2 * 60 * 1000; // 2 minutes in milliseconds
+
+  // Only refresh if never refreshed before OR 5+ minutes have passed
+  if (!lastRefresh || (now - parseInt(lastRefresh) > twoMinutes)) {
+    localStorage.setItem('lastPwaRefresh', now.toString());
     window.location.reload(true); 
+  }
 }
 
 document.addEventListener('visibilitychange', () => {
