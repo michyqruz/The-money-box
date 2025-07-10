@@ -1,3 +1,30 @@
+// Main app.js
+function refreshPWA() {
+  // Skip refresh if it already happened recently
+  if (sessionStorage.getItem('lastRefresh') !== String(Date.now())) {
+    sessionStorage.setItem('lastRefresh', Date.now());
+    window.location.reload(true); // Force reload from server
+  }
+}
+
+// ===== Triggers =====
+// 1. On initial PWA launch (including standalone)
+window.addEventListener('load', refreshPWA);
+
+// 2. When returning to the PWA (visibility change)
+document.addEventListener('visibilitychange', () => {
+  if (!document.hidden) refreshPWA();
+});
+
+// 3. When regaining focus (extra reliability)
+window.addEventListener('focus', refreshPWA);
+
+// 4. Special handling for installed PWAs
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  setTimeout(refreshPWA, 300); // Small delay for standalone apps
+}
+
+
 window.users = [
   { name: 'Mark', id: 'YO674696' },
   { name: 'Mark', id: 'RD338723' },
