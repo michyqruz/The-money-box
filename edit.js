@@ -3,16 +3,16 @@ function refreshPWA() {
     window.location.reload(true); 
 }
 
-document.addEventListener('visibilitychange', () => {
-  if (!document.hidden) refreshPWA();
-});
+//document.addEventListener('visibilitychange', () => {
+//  if (!document.hidden) refreshPWA();
+//});
 
 // Refocus
 //window.addEventListener('focus', refreshPWA);
 
-//if (window.matchMedia('(display-mode: standalone)').matches) {
-//  setTimeout(refreshPWA, 300);
-//}
+if (window.matchMedia('(display-mode: standalone)').matches) {
+  setTimeout(refreshPWA, 300);
+}
 
 
 window.users = [
