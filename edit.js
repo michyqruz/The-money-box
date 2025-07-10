@@ -8,11 +8,7 @@ function refreshPWA() {
 //});
 
 // Refocus
-//window.addEventListener('focus', refreshPWA);
-
-if (window.matchMedia('(display-mode: standalone)').matches) {
-  setTimeout(refreshPWA, 300);
-}
+window.addEventListener('focus', refreshPWA);
 
 
 window.users = [
