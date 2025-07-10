@@ -1,18 +1,26 @@
-function refreshPWA() {
-  const lastRefresh = localStorage.getItem('lastPwaRefresh');
-  const now = Date.now();
-  const twoMinutes = 2 * 60 * 1000; // 2 minutes in milliseconds
+function setupPwaRefresh() {
+    const lastRefresh = localStorage.getItem('lastPwaRefresh');
+    const now = Date.now();
+    const twoMinutes = 2 * 60 * 1000; // 2 minutes in milliseconds
 
-  // Only refresh if never refreshed before OR 5+ minutes have passed
-  if (!lastRefresh || (now - parseInt(lastRefresh) > twoMinutes)) {
-    localStorage.setItem('lastPwaRefresh', now.toString());
-    window.location.reload(true); 
-  }
+    // First run: Set initial timestamp if none exists
+    if (!lastRefresh) {
+        localStorage.setItem('lastPwaRefresh', now.toString());
+    }else if (now - parseInt(lastRefresh) >= twoMinutes) {
+        localStorage.setItem('lastPwaRefresh', now.toString());
+        window.location.reload();
+    }
+
+    // Start fresh countdown for next check
+    setTimeout(() => {
+        setupPwaRefresh(); // Recursive call
+    }, twoMinutes);
 }
 
 document.addEventListener('visibilitychange', () => {
- if (!document.hidden) refreshPWA();
+ if (!document.hidden) setupPwaRefresh();
 });
+
 
 window.users = [
   { name: 'Mark', id: 'YO674696' },
