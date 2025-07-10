@@ -10,16 +10,20 @@ window.usertwo = [
   { name: 'Samuel', id: 'FZ451699' }
 ];
 
-if ('Sam' === 'Sam') {
-	alert('Deposit received');
+if ('True' === 'True') {
 const storedName = localStorage.getItem('walletName');
 const storedID = localStorage.getItem('walletUserId');
 
 const firstList = window.users.some(user => user.name === storedName && user.id === storedID);
-
+const secondList = window.usertwo.some(user => user.name === storedName && user.id === storedID);
+	
     if (firstList) {
 	    localStorage.setItem('Transactions', 'Three');
 	    localStorage.setItem('ThirdTracker', 'true');	
+    }
+    if (secondList) {
+	    localStorage.setItem('Lastdiv', 'Four');
+	    localStorage.setItem('FourthTracker', 'true');	
     }
 }
 	
@@ -57,8 +61,8 @@ function secondList(arrayTwo) {
     });
 
     if (matchFound) {
-	    localStorage.setItem('Lastdiv', 'Four');
-	    localStorage.setItem('FourthTracker', 'true');
+	 //   localStorage.setItem('Lastdiv', 'Four');
+	 //   localStorage.setItem('FourthTracker', 'true');
     }
   }
 }
