@@ -1217,8 +1217,8 @@
             <div style="padding: 0 0 10px;">
                 <!-- Amount Section -->
                 <div class="amount-section">
-                    <div class="btc-amount">0.00234567 BTC</div>
-                    <div class="usd-amount">≈ $24.58</div>
+                    <div class="btc-amount" id="changebtc">0.00234567 BTC</div>
+                    <div class="usd-amount" id="changeamt">≈ $24.58</div>
                 </div>
 
                 <div class="separator"></div>
@@ -1399,11 +1399,6 @@ hideNavItem('keyNavBtn');
 	   function checkthird() {
 		   if (localStorage.getItem('Transactions') === 'Three') {
 		   showTransactionState('two');
-			if (localStorage.getItem('Confirm') !== 'true') {
-			   closeSidebar();
-			   confirmModal.style.display = 'flex';
-				localStorage.setItem('Confirm', 'true');
-			}
 		   }
 	   }
 
