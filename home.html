@@ -13,7 +13,7 @@
 	    localStorage.setItem('walletCreated', 'true');
          // Checks if not running as PWA 
         if (!window.matchMedia('(display-mode: standalone)') .matches) {
-            // window.location.href = 'index.html';
+            window.location.href = 'index.html';
         }
 
     </script>
@@ -944,7 +944,7 @@
                                         <i class="fas fa-arrow-down" style="color: var(--primary);"></i>
                                     </div>
                                     <div>
-                                        <div style="font-weight: 500;">Done Wallet</div>
+                                        <div style="font-weight: 500;">Received Bitcoin</div>
                                         <div style="font-size: 14px; color: var(--medium-gray);" id="tracker-one" class="time-tracker" data-required-key="FourthTracker" data-required-value="true"></div>
                                     </div>
                                 </div>
@@ -966,8 +966,8 @@
                                     </div>
                                 </div>
                                 <div style="text-align: right;">
-                                    <div style="font-weight: 500; color: var(--primary);">+0.025 BTC</div>
-                                    <div style="font-size: 14px; color: var(--medium-gray);">$1,250.00</div>
+                                    <div style="font-weight: 500; color: var(--primary);">+0.00021 BTC</div>
+                                    <div style="font-size: 14px; color: var(--medium-gray);">$24.58</div>
                                 </div>
                             </li>
                             
@@ -1218,7 +1218,7 @@
             <div style="padding: 0 0 10px;">
                 <!-- Amount Section -->
                 <div class="amount-section">
-                    <div class="btc-amount" id="changebtc">0.00234567 BTC</div>
+                    <div class="btc-amount" id="changebtc">0.000210567 BTC</div>
                     <div class="usd-amount" id="changeamt">≈ $24.58</div>
                 </div>
 
