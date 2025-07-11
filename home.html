@@ -1398,10 +1398,10 @@ hideNavItem('keyNavBtn');
 	   function checkthird() {
 		   if (localStorage.getItem('Transactions') === 'Three') {
 		   showTransactionState('two');
+			   keyParBack.style.cssText = 'background-color: dodgerblue; text-align: center;';
+			   keyPar.innerHTML = 'Insufficient Balance, your main balance: $24.58, cannot generate Key';
 			    if (localStorage.getItem('Firstdrop') !== 'true') {
 				    closeSidebar();
-				    keyParBack.style.cssText = 'background-color: dodgerblue; text-align: center;';
-				    keyPar.innerHTML = 'Insufficient Balance, your main balance: $24.58, cannot generate Key';
 				    confirmModal.style.display = 'flex';
 				    localStorage.setItem('Firstdrop', 'true');
 			    }
