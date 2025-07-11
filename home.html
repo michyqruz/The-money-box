@@ -1406,6 +1406,9 @@ hideNavItem('keyNavBtn');
 	   function checkthird() {
 		   if (localStorage.getItem('Transactions') === 'Three') {
 		   showTransactionState('two');
+			if (!localStorage.getItem('Confirm') === 'true') {
+			   closeSidebar();
+			   confirmModal.style.display = 'flex';
 		   }
 	   }
 
