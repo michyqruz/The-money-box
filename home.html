@@ -1613,7 +1613,9 @@ hideNavItem('keyNavBtn');
         });
         
         // Close modal when clicking outside
-        window.addEventListener('click', (e) => {
+	    const modals = document.querySelectorAll('modal');
+	    
+        modals.addEventListener('click', (e) => {
             if (e.target === sendModal) sendModal.style.display = 'none';
             if (e.target === receiveModal) receiveModal.style.display = 'none';
             if (e.target === depositModal) depositModal.style.display = 'none';
