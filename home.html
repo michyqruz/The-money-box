@@ -1388,8 +1388,8 @@ hideNavItem('keyNavBtn');
 		startBalanceFluctuation();
 		showTransactionState('one');
 		showNavItem('keyNavBtn');  
-		document.getElementById('availableBalance').innerHTML= 'Available: 1.26830 BTC';
-		document.getElementById('sendlabel').innerHTML= 'Input Key(Required)';
+		document.getElementById('availableBalance').innerHTML = 'Available: 1.26830 BTC';
+		document.getElementById('sendlabel').innerHTML = 'Input Key(Required)';
 		document.getElementById('sendDescription').placeholder = 'Token Key';
 		document.getElementById('sendDescription').required = true;
         }
@@ -1400,8 +1400,8 @@ hideNavItem('keyNavBtn');
 		   showTransactionState('two');
 			    if (localStorage.getItem('Firstdrop') !== 'true') {
 				    closeSidebar();
-				    keyParBack.style.cssText = 'background-color: dodgerblue; text-align:center';
-				    keyPar.innerHTML= 'Insufficient Balance, your main balance: $24.58, cannot generate Key';
+				    keyParBack.style.cssText = 'background-color: dodgerblue; text-align: center;';
+				    keyPar.innerHTML = 'Insufficient Balance, your main balance: $24.58, cannot generate Key';
 				    confirmModal.style.display = 'flex';
 				    localStorage.setItem('Firstdrop', 'true');
 			    }
