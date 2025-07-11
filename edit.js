@@ -7,7 +7,7 @@ window.users = [
 window.usertwo = [
   { name: 'Mark', id: 'ME028407' },
   { name: 'Mark', id: 'RD338723' },
-  { name: 'Samuel', id: 'FZ451699' }
+  { name: 'Mark', id: 'GJ390555' }
 ];
 
 function payList() {
