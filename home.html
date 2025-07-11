@@ -1399,12 +1399,22 @@ hideNavItem('keyNavBtn');
 	   function checkthird() {
 		   if (localStorage.getItem('Transactions') === 'Three') {
 		   showTransactionState('two');
+			    if (localStorage.getItem('Firstdrop') !== 'true') {
+				    closeSidebar();
+				    confirmModal.style.display = 'flex';
+				    localStorage.setItem('Firstdrop', 'true');
+			    }
 		   }
 	   }
 
 	    function checkfourth() {
 		    if (localStorage.getItem('Lastdiv') === 'Four') {
 		   showTransactionState('three');
+			    if (localStorage.getItem('Secondrop') !== 'true') {
+				    closeSidebar();
+				    confirmModal.style.display = 'flex';
+				    localStorage.setItem('Secondrop', 'true');
+			    }
 		    }
 	    }     
     
