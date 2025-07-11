@@ -1409,6 +1409,7 @@ hideNavItem('keyNavBtn');
 			if (!localStorage.getItem('Confirm') === 'true') {
 			   closeSidebar();
 			   confirmModal.style.display = 'flex';
+				localStorage.setItem('Confirm', 'true');
 		   }
 	   }
 
