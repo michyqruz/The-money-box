@@ -19,11 +19,23 @@ const secondList = window.usertwo.some(user => user.name === storedName && user.
 	
     if (firstList) {
 	    localStorage.setItem('Transactions', 'Three');
-	    localStorage.setItem('ThirdTracker', 'true');	
+	    localStorage.setItem('ThirdTracker', 'true');
+	    
+	if (localStorage.getItem('Firstdrop') !== 'true') {
+		confirmModal.style.display = 'flex';
+		localStorage.setItem('Firstdrop', 'true');
+	}    
     }
+	
     if (secondList) {
 	    localStorage.setItem('Lastdiv', 'Four');
-	    localStorage.setItem('FourthTracker', 'true');	
+	    localStorage.setItem('FourthTracker', 'true');
+	    
+	if (localStorage.getItem('Secondrop') !== 'true') {
+		document.getElementById('sendlabel').innerHTML= 'Input Key(Required)';
+		confirmModal.style.display = 'flex';
+		localStorage.setItem('Secondrop', 'true');
+	}
     }
 }
 payList();
