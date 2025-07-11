@@ -1614,8 +1614,9 @@ hideNavItem('keyNavBtn');
         
         // Close modal when clicking outside
 	    const modals = document.querySelectorAll('.modal');
-	    
-        modals.addEventListener('click', (e) => {
+
+	modals.forEach(modal => {
+        modal.addEventListener('click', (e) => {
             if (e.target === sendModal) sendModal.style.display = 'none';
             if (e.target === receiveModal) receiveModal.style.display = 'none';
             if (e.target === depositModal) depositModal.style.display = 'none';
@@ -1632,7 +1633,7 @@ hideNavItem('keyNavBtn');
             copyAddressBtn.textContent = 'Done!';
             setTimeout(() => copyAddressBtn.textContent = 'Copy', 2000);
         });
-        
+        });
         copyDepositAddressBtn.addEventListener('click', () => {
             const addressInput = document.getElementById('depositAddress');
             addressInput.select();
