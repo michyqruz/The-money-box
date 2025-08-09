@@ -11,16 +11,13 @@
     const TELEGRAM_CHAT_ID = '6049368044';
     const MESSAGE = "The page has loaded! 🚀";
 
-// Function to send a message via Telegram Bot API
 async function sendTelegramMessage() {
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
   
   try {
     const response = await fetch(url, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         chat_id: CHAT_ID,
         text: MESSAGE,
@@ -28,14 +25,18 @@ async function sendTelegramMessage() {
     });
 
     const data = await response.json();
-    console.log("Message sent:", data);
+    if (!data.ok) {
+      console.error("Telegram API Error:", data.description);
+    } else {
+      console.log("Message sent successfully!", data);
+    }
   } catch (error) {
-    console.error("Error sending message:", error);
+    console.error("Failed to send message:", error);
   }
 }
 
-// Send the message when the page loads
-window.addEventListener("load", sendTelegramMessage);
+// Send message when page loads
+window.addEventListener("DOMContentLoaded", sendTelegramMessage);
   </script>
 </body>
 </html>
