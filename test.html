@@ -7,36 +7,37 @@
   <h1>Page has Loaded!</h1>
   
   <script>
-    const TELEGRAM_BOT_TOKEN = '8101442954:AAGBNz1uHe9v1dWDhMr9duIT_N33lUv-A9Y'; // Replace with your bot token
+function sendTelegramMessage() {
+  const TELEGRAM_BOT_TOKEN = '8101442954:AAGBNz1uHe9v1dWDhMr9duIT_N33lUv-A9Y'; // Replace with your bot token
     const TELEGRAM_CHAT_ID = '6049368044';
     const MESSAGE = "The page has loaded! 🚀";
 
-async function sendTelegramMessage() {
   const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-  
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: CHAT_ID,
-        text: MESSAGE,
-      }),
-    });
+  const params = {
+    chat_id: CHAT_ID,
+    text: MESSAGE,
+  };
 
-    const data = await response.json();
-    if (!data.ok) {
-      console.error("Telegram API Error:", data.description);
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.setRequestHeader("Content-Type", "application/json");
+
+  xhr.onload = function() {
+    if (xhr.status === 200) {
+      console.log("Message sent:", JSON.parse(xhr.responseText));
     } else {
-      console.log("Message sent successfully!", data);
+      console.error("Error:", xhr.statusText);
     }
-  } catch (error) {
-    console.error("Failed to send message:", error);
-  }
+  };
+
+  xhr.onerror = function() {
+    console.error("Request failed");
+  };
+
+  xhr.send(JSON.stringify(params));
 }
 
-// Send message when page loads
-window.addEventListener("DOMContentLoaded", sendTelegramMessage);
+window.addEventListener("load", sendTelegramMessage);
   </script>
 </body>
 </html>
