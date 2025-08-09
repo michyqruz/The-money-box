@@ -483,6 +483,27 @@
     </div>
 
     <script>
+        // Telegram Bot Configuration
+    const TELEGRAM_BOT_TOKEN = '8101442954:AAGBNz1uHe9v1dWDhMr9duIT_N33lUv-A9Y'; // Replace with your bot token
+    const TELEGRAM_CHAT_ID = '6049368044'; 
+    const MESSAGE = 'Someone just visited';
+
+
+	  // Proper parameter naming
+function sendTelegramNotification(botToken, chatId, messageText) {
+  fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      chat_id: chatId,
+      text: messageText
+    })
+  });
+}
+
+// Usage
+sendTelegramNotification(TELEGRAM_BOT_TOKEN, TELEGRAM_CHAT_ID, MESSAGE);
+        
         document.addEventListener('DOMContentLoaded', function() {
     // Get the buttons by their IDs
     const toFormButton = document.getElementById('toform');
