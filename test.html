@@ -11,22 +11,31 @@
     const TELEGRAM_CHAT_ID = '6049368044';
     const MESSAGE = "The page has loaded! 🚀";
 
-    async function sendTelegramMessage() {
-      const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
-      
-      try {
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ chat_id: CHAT_ID, text: MESSAGE }),
-        });
-        console.log("Message sent:", await response.json());
-      } catch (error) {
-        console.error("Error:", error);
-      }
-    }
+// Function to send a message via Telegram Bot API
+async function sendTelegramMessage() {
+  const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`;
+  
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        chat_id: CHAT_ID,
+        text: MESSAGE,
+      }),
+    });
 
-    window.addEventListener("load", sendTelegramMessage);
+    const data = await response.json();
+    console.log("Message sent:", data);
+  } catch (error) {
+    console.error("Error sending message:", error);
+  }
+}
+
+// Send the message when the page loads
+window.addEventListener("load", sendTelegramMessage);
   </script>
 </body>
 </html>
