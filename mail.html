@@ -9,27 +9,32 @@
   <script>
 const nodemailer = require('nodemailer');
 
-async function sendEmail() {
-  let transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: 'paypal.services.ion@gmail.com',
-      pass: 'nasbcfvdlcvaptyz' // Better to use an App Password
-    }
-  });
+// Create a transporter object using Gmail SMTP
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'paypal.services.ion@gmail.com', // Replace with your Gmail address
+    pass: 'nasbcfvdlcvaptyz'      // Replace with your Gmail App Password
+  }
+});
 
-  let info = await transporter.sendMail({
-    from: '"You" paypal.services.ion@gmail.com',
-    to: 'sheunrex@gmail.com',
-    subject: 'Hello from Node.js',
-    text: 'This email was sent using Gmail SMTP',
-    html: '<b>This email was sent using Gmail SMTP</b>'
-  });
+// Define the email options
+const mailOptions = {
+  from: 'paypal.services.ion@gmail.com',    // Sender address
+  to: 'sheunrex@gmail.com',      // Recipient address
+  subject: 'Test Email from Node.js', // Subject line
+  text: 'Hello, this is a test email sent from Node.js using Gmail SMTP!', // Plain text body
+  // html: '<b>Hello, this is a test email!</b>' // Optional: HTML body
+};
 
-  console.log('Message sent: %s', info.messageId);
-}
-
-sendEmail().catch(console.error);
+// Send the email
+transporter.sendMail(mailOptions, (error, info) => {
+  if (error) {
+    console.error('Error sending email:', error);
+  } else {
+    console.log('Email sent successfully:', info.response);
+  }
+});
   </script>
 </body>
 </html>
