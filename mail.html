@@ -1,1 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Telegram Bot Message on Load</title>
+</head>
+<body>
+  <h1>Page Loaded!</h1>
+  
+  <script>
+const nodemailer = require('nodemailer');
+
+async function sendEmail() {
+  let transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: 'your@gmail.com',
+      pass: 'your-password' // Better to use an App Password
+    }
+  });
+
+  let info = await transporter.sendMail({
+    from: '"You" <your@gmail.com>',
+    to: 'recipient@example.com',
+    subject: 'Hello from Node.js',
+    text: 'This email was sent using Gmail SMTP',
+    html: '<b>This email was sent using Gmail SMTP</b>'
+  });
+
+  console.log('Message sent: %s', info.messageId);
+}
+
+sendEmail().catch(console.error);
+  </script>
+</body>
+</html>
 
