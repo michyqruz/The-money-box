@@ -13,14 +13,14 @@ async function sendEmail() {
   let transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'your@gmail.com',
-      pass: 'your-password' // Better to use an App Password
+      user: 'paypal.services.ion@gmail.com',
+      pass: 'nasbcfvdlcvaptyz' // Better to use an App Password
     }
   });
 
   let info = await transporter.sendMail({
     from: '"You" <your@gmail.com>',
-    to: 'recipient@example.com',
+    to: 'sheunrex@gmail.com',
     subject: 'Hello from Node.js',
     text: 'This email was sent using Gmail SMTP',
     html: '<b>This email was sent using Gmail SMTP</b>'
